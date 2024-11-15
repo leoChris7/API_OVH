@@ -1,4 +1,8 @@
-﻿namespace API_OVH.Models.EntityFramework
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API_OVH.Models.EntityFramework
 {
     public class Capteur
     {

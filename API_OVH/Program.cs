@@ -1,6 +1,13 @@
+using API_OVH.Models.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<SAE5_BD_OVH_DbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionLocale")));
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
