@@ -239,3 +239,4 @@ C:\Users\christle\Desktop\S5\API_OVH\API_OVH\obj\Debug\net8.0\refint\API_OVH.dll
 C:\Users\christle\Desktop\S5\API_OVH\API_OVH\obj\Debug\net8.0\API_OVH.pdb
 C:\Users\christle\Desktop\S5\API_OVH\API_OVH\obj\Debug\net8.0\API_OVH.genruntimeconfig.cache
 C:\Users\christle\Desktop\S5\API_OVH\API_OVH\obj\Debug\net8.0\ref\API_OVH.dll
+C:\Users\christle\Desktop\S5\API_OVH\API_OVH\bin\Debug\net8.0\AutoMapper.dll

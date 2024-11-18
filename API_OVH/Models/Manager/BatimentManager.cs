@@ -9,22 +9,17 @@ using AutoMapper;
 namespace API_OVH.Models.Manager
 {
     /// <summary>
-    /// Manager pour gérer les opérations liées aux produits, en utilisant les DTOs pour la manipulation des données.
+    /// Manager pour gérer les opérations liées aux batiments
     /// </summary>
     public class BatimentManager : IDataRepository<Batiment>
     {
         private readonly SAE5_BD_OVH_DbContext dbContext;
         private readonly IMapper mapper;
 
-        [ActivatorUtilitiesConstructor]
         public BatimentManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
             mapper = mapper;
-        }
-
-        public BatimentManager()
-        {
         }
 
         /// <summary>
