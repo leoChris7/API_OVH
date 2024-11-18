@@ -24,14 +24,14 @@ namespace API_OVH.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Batiment>>> GetBatiment()
         {
-            return await _context.Batiment.ToListAsync();
+            return await _context.Batiments.ToListAsync();
         }
 
         // GET: api/Batiments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Batiment>> GetBatiment(int id)
         {
-            var batiment = await _context.Batiment.FindAsync(id);
+            var batiment = await _context.Batiments.FindAsync(id);
 
             if (batiment == null)
             {
@@ -77,7 +77,7 @@ namespace API_OVH.Controllers
         [HttpPost]
         public async Task<ActionResult<Batiment>> PostBatiment(Batiment batiment)
         {
-            _context.Batiment.Add(batiment);
+            _context.Batiments.Add(batiment);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBatiment", new { id = batiment.Idbatiment }, batiment);
@@ -87,13 +87,13 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBatiment(int id)
         {
-            var batiment = await _context.Batiment.FindAsync(id);
+            var batiment = await _context.Batiments.FindAsync(id);
             if (batiment == null)
             {
                 return NotFound();
             }
 
-            _context.Batiment.Remove(batiment);
+            _context.Batiments.Remove(batiment);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -101,7 +101,7 @@ namespace API_OVH.Controllers
 
         private bool BatimentExists(int id)
         {
-            return _context.Batiment.Any(e => e.Idbatiment == id);
+            return _context.Batiments.Any(e => e.Idbatiment == id);
         }
     }
 }

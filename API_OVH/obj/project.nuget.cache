@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5uA+7ZzhEWI=",
+  "dgSpecHash": "hiVff38THv0=",
   "success": true,
   "projectFilePath": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\API_OVH.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\christle\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\christle\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\christle\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\christle\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",

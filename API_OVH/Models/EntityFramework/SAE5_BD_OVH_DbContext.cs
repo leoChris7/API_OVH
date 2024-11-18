@@ -7,7 +7,7 @@ namespace API_OVH.Models.EntityFramework
         public SAE5_BD_OVH_DbContext() { }
         public SAE5_BD_OVH_DbContext(DbContextOptions<SAE5_BD_OVH_DbContext> options) : base(options) { }
 
-        public virtual DbSet<Batiment> Batiment { get; set; }
+        public virtual DbSet<Batiment> Batiments { get; set; }
         public virtual DbSet<Salle> Salles { get; set; }
         public virtual DbSet<Capteur> Capteurs { get; set; }
         public virtual DbSet<Equipement> Equipements { get; set; }

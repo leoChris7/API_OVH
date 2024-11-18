@@ -4,12 +4,12 @@ namespace GestionProduit_API.Models.Repository
 {
     public interface IDataRepository<TEntity>
     {
-        public Task<ActionResult<IEnumerable<TEntity>>> GetAllAsync();
-        public Task<ActionResult<TEntity>> GetByIdAsync(int id);
-        public Task<ActionResult<TEntity>> GetByStringAsync(string str);
-        public Task PostAsync(TEntity entity);
-        public Task PutAsync(TEntity entityToUpdate, TEntity entity);
-        public Task DeleteAsync(TEntity entity);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAllAsync();
+        Task<ActionResult<TEntity>> GetByIdAsync(int id);
+        Task<ActionResult<TEntity>> GetByStringAsync(string str);
+        Task AddAsync(TEntity entity);
+        Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
+        Task DeleteAsync(TEntity entity);
     }
 
 }
