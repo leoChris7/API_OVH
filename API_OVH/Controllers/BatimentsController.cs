@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.EntityFramework;
+using GestionProduit_API.Models.Repository;
+using AutoMapper;
+using API_OVH.Models.Manager;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace API_OVH.Controllers
 {
@@ -13,32 +17,49 @@ namespace API_OVH.Controllers
     [ApiController]
     public class BatimentsController : ControllerBase
     {
-        private readonly SAE5_BD_OVH_DbContext _context;
+        private readonly IDataRepository<Batiment> batimentManager;
+        private readonly IMapper _mapper;
 
-        public BatimentsController(SAE5_BD_OVH_DbContext context)
+        [ActivatorUtilitiesConstructor]
+        public BatimentsController(BatimentManager manager, IMapper mapper)
         {
-            _context = context;
+            batimentManager = manager;
+            _mapper = mapper;
         }
 
         // GET: api/Batiments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Batiment>>> GetBatiment()
         {
-            return await _context.Batiments.ToListAsync();
+            return await batimentManager.GetAllAsync();
         }
 
         // GET: api/Batiments/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Batiment>> GetBatiment(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<ActionResult<Batiment>> GetBatimentById(int id)
         {
-            var batiment = await _context.Batiments.FindAsync(id);
+            var leBatiment = await batimentManager.GetByIdAsync(id);
 
-            if (batiment == null)
+            if (leBatiment == null)
             {
-                return NotFound();
+                return NotFound("getbatimentbyid: le batiment n'a pas été trouvé.");
             }
 
-            return batiment;
+            return leBatiment;
+        }
+
+        // GET: api/Batiments/5
+        [HttpGet("GetByString/{str}")]
+        public async Task<ActionResult<Batiment>> GetBatimentById(string str)
+        {
+            var leBatiment = await batimentManager.GetByStringAsync(str);
+
+            if (leBatiment == null)
+            {
+                return NotFound("getbatimentbystr: le batiment n'a pas été trouvé");
+            }
+
+            return leBatiment;
         }
 
         // PUT: api/Batiments/5
@@ -48,27 +69,17 @@ namespace API_OVH.Controllers
         {
             if (id != batiment.Idbatiment)
             {
-                return BadRequest();
+                return BadRequest("Id ne correspondent pas");
             }
 
-            _context.Entry(batiment).State = EntityState.Modified;
+            var leBatiment = batimentManager.GetByIdAsync(id);
 
-            try
+            if (leBatiment == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BatimentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound("Id incorrect: Le batiment na pas été trouvé");
             }
 
+            await batimentManager.UpdateAsync(leBatiment.Result.Value, batiment);
             return NoContent();
         }
 
@@ -77,31 +88,29 @@ namespace API_OVH.Controllers
         [HttpPost]
         public async Task<ActionResult<Batiment>> PostBatiment(Batiment batiment)
         {
-            _context.Batiments.Add(batiment);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction("GetBatiment", new { id = batiment.Idbatiment }, batiment);
+            await batimentManager.AddAsync(batiment);
+
+            return CreatedAtAction("GetMarqueById", new { id = batiment.Idbatiment }, batiment);
         }
 
         // DELETE: api/Batiments/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBatiment(int id)
         {
-            var batiment = await _context.Batiments.FindAsync(id);
-            if (batiment == null)
+            var leBatiment = await batimentManager.GetByIdAsync(id);
+            if (leBatiment.Value == null)
             {
-                return NotFound();
+                return NotFound("delete batiment: batiment non trouvé");
             }
 
-            _context.Batiments.Remove(batiment);
-            await _context.SaveChangesAsync();
+            await batimentManager.DeleteAsync(leBatiment.Value);
 
             return NoContent();
-        }
-
-        private bool BatimentExists(int id)
-        {
-            return _context.Batiments.Any(e => e.Idbatiment == id);
         }
     }
 }
