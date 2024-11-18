@@ -1,0 +1,408 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\dto\\capteurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\dto\\capteurdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\dto\\salledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\dto\\salledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\dto\\equipementdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\dto\\equipementdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\dto\\batimentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\dto\\batimentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\batiment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\batiment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\salle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\salle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\controllers\\batimentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\controllers\\batimentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\repository\\idatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\repository\\idatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\sae5_bd_ovh_dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\sae5_bd_ovh_dbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\capteur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\capteur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\valeurequipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\valeurequipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\typesalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\typesalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\typeequipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\typeequipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\caracteristiqueequipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\caracteristiqueequipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\typemesure.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\typemesure.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\direction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\direction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\equipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\equipement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\mur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\mur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|c:\\users\\christle\\desktop\\s5\\api_ovh\\api_ovh\\models\\entityframework\\unite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2D6C79AA-0D75-4FEB-A0A2-6242506BFA9F}|API_OVH\\API_OVH.csproj|solutionrelative:api_ovh\\models\\entityframework\\unite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CapteurDTO.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\CapteurDTO.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\DTO\\CapteurDTO.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\CapteurDTO.cs",
+              "RelativeToolTip": "API_OVH\\Models\\DTO\\CapteurDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T15:32:13.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EquipementDTO.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\EquipementDTO.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\DTO\\EquipementDTO.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\EquipementDTO.cs",
+              "RelativeToolTip": "API_OVH\\Models\\DTO\\EquipementDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T15:29:18.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SalleDTO.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\SalleDTO.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\DTO\\SalleDTO.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\SalleDTO.cs",
+              "RelativeToolTip": "API_OVH\\Models\\DTO\\SalleDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T15:25:07.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BatimentDTO.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\BatimentDTO.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\DTO\\BatimentDTO.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\DTO\\BatimentDTO.cs",
+              "RelativeToolTip": "API_OVH\\Models\\DTO\\BatimentDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T15:24:16.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BatimentsController.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Controllers\\BatimentsController.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Controllers\\BatimentsController.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Controllers\\BatimentsController.cs",
+              "RelativeToolTip": "API_OVH\\Controllers\\BatimentsController.cs",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAIwGEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T15:11:32.563Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "API_OVH\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T12:30:40.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SAE5_BD_OVH_DbContext.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\SAE5_BD_OVH_DbContext.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\SAE5_BD_OVH_DbContext.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\SAE5_BD_OVH_DbContext.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\SAE5_BD_OVH_DbContext.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAiwA8AAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:29:50.658Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "TypeSalle.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\TypeSalle.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\TypeSalle.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\TypeSalle.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\TypeSalle.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:28:32.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "TypeEquipement.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\TypeEquipement.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\TypeEquipement.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\TypeEquipement.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\TypeEquipement.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:27:55.043Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ValeurEquipement.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\ValeurEquipement.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\ValeurEquipement.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\ValeurEquipement.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\ValeurEquipement.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:26:45.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Salle.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Salle.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Salle.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Salle.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Salle.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:13:01.241Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Batiment.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Batiment.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Batiment.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Batiment.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Batiment.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:17:48.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\appsettings.json",
+              "RelativeDocumentMoniker": "API_OVH\\appsettings.json",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\appsettings.json",
+              "RelativeToolTip": "API_OVH\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-15T15:14:20.621Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "IDataRepository.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\Repository\\IDataRepository.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\Repository\\IDataRepository.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\Repository\\IDataRepository.cs",
+              "RelativeToolTip": "API_OVH\\Models\\Repository\\IDataRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T12:32:28.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Program.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Program.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Program.cs",
+              "RelativeToolTip": "API_OVH\\Program.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAgwAcAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T15:15:07.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CaracteristiqueEquipement.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\CaracteristiqueEquipement.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\CaracteristiqueEquipement.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\CaracteristiqueEquipement.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\CaracteristiqueEquipement.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:26:05.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "TypeMesure.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\TypeMesure.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\TypeMesure.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\TypeMesure.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\TypeMesure.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:25:31.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Capteur.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Capteur.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Capteur.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Capteur.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Capteur.cs",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAAAA0AAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:22:14.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Equipement.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Equipement.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Equipement.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Equipement.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Equipement.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:16:32.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Direction.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Direction.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Direction.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Direction.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Direction.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:19:56.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Mur.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Mur.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Mur.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Mur.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Mur.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:18:24.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Unite.cs",
+              "DocumentMoniker": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Unite.cs",
+              "RelativeDocumentMoniker": "API_OVH\\Models\\EntityFramework\\Unite.cs",
+              "ToolTip": "C:\\Users\\christle\\Desktop\\S5\\API_OVH\\API_OVH\\Models\\EntityFramework\\Unite.cs",
+              "RelativeToolTip": "API_OVH\\Models\\EntityFramework\\Unite.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T14:21:08.051Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
