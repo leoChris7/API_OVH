@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API_OVH")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7eb5be6056e404e502f28040edc125f5c31131ca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f5f8b86b814c2317877d053f805535b1e000cdd")]
 [assembly: System.Reflection.AssemblyProductAttribute("API_OVH")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API_OVH")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
