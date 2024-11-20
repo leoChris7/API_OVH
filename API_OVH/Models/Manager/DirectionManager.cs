@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GestionProduit_API.Models.Repository;
+using API_OVH.Models.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
@@ -14,14 +14,14 @@ namespace API_OVH.Models.Manager
     /// </summary>
     public class DirectionManager : IReadOnlyDataRepository<Direction>
     {
-        private readonly SAE5_BD_OVH_DbContext _context;
-        private readonly IMapper _mapper;
+        private readonly SAE5_BD_OVH_DbContext dbContext;
+        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
         public DirectionManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            dbContext = context;
+            mapper = mapper;
         }
 
         public DirectionManager()
@@ -29,50 +29,57 @@ namespace API_OVH.Models.Manager
         }
 
         /// <summary>
-        /// Retourne la liste des Directions de façon asynchrone
+        /// Retourne la liste de toutes les directions de façon asynchrone
         /// </summary>
-        /// <returns>La liste des Directions</returns>
+        /// <returns>La liste des directions</returns>
         public async Task<ActionResult<IEnumerable<Direction>>> GetAllAsync()
         {
-            var Directions = await _context.Directions.ToListAsync();
-
-            return Directions;
+            return await dbContext.Directions.ToListAsync();
         }
 
         /// <summary>
         /// Retourne une direction selon son id de façon asynchrone
         /// </summary>
-        /// <param name="id">(Entier) Identifiant du Direction</param>
-        /// <returns>Le Direction correspondant à l'ID</returns>
+        /// <param name="id">(Entier) Identifiant de la Direction</param>
+        /// <returns>La Direction correspondante à l'ID</returns>
         public async Task<ActionResult<Direction>> GetByIdAsync(int id)
         {
-            var leDirection = await _context.Directions.FirstOrDefaultAsync(x => x.Iddirection == id);
-
-            // S'il n'est pas trouvé
-            if (leDirection == null)
-            {
-                return new NotFoundResult();
-            }
-
-            return leDirection;
+            return await dbContext.Directions.FirstOrDefaultAsync(t => t.IdDirection == id);
         }
 
         /// <summary>
-        /// Retourne une direction selon sa lettre (N, S, E, O, SE, SO, NO, NE)
+        /// Retourne une direction selon son diminutif (N, S, E, O, SE, SO, NO, NE)
         /// </summary>
-        /// <param name="str">Lettre correspondant à la direction</param>
-        /// <returns>Le Direction correspondant au nom spécifié</returns>
-        public async Task<ActionResult<Direction>> GetByStringAsync(string str)
+        /// <param name="diminutif">diminutif correspondant à la direction</param>
+        /// <returns>La Direction correspondante au nom spécifié</returns>
+        public async Task<ActionResult<Direction>> GetByStringAsync(string diminutif)
         {
-            var leDirection = await _context.Directions.FirstOrDefaultAsync(x => x.Lettres_direction == str);
+            return await dbContext.Directions.FirstOrDefaultAsync(t => t.LettresDirection.ToUpper() == diminutif.ToUpper());
+        }
 
-            // Si non trouvé
-            if (leDirection == null)
-            {
-                return new NotFoundResult();
-            }
+        /// <summary>
+        /// Ajoute une direction de façon asynchrone
+        /// </summary>
+        /// <param name="entity">direction à rajouter</param>
+        /// <returns>Résultat de l'opération</returns>
+        public async Task AddAsync(Direction entity)
+        {
+            await dbContext.Directions.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
+        }
 
-            return leDirection;
+        /// <summary>
+        /// Met à jour une direction de façon asynchrone
+        /// </summary>
+        /// <param name="entityToUpdate">direction à mettre à jour</param>
+        /// <param name="entity">direction avec les nouvelles valeurs</param>
+        /// <returns>Résultat de l'opération</returns>
+        public async Task UpdateAsync(Direction Direction, Direction entity)
+        {
+            dbContext.Entry(Direction).State = EntityState.Modified;
+            Direction.IdDirection = entity.IdDirection;
+            Direction.LettresDirection = entity.LettresDirection;
+            dbContext.SaveChangesAsync();
         }
     }
 }

@@ -35,11 +35,16 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddScoped<IDataRepository<Batiment>, BatimentManager>();
 builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
 builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
-builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
 builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
 builder.Services.AddScoped<IDataRepository<TypeEquipement>, TypeEquipementManager>();
 builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
 builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
+builder.Services.AddScoped<IDataRepository<CaracteristiqueEquipement>, CaracteristiqueEquipementManager>();
+
+builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
+
+// Managers ReadOnly
+builder.Services.AddScoped<IReadOnlyDataRepository<Direction>, DirectionManager>();
 
 
 

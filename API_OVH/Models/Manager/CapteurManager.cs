@@ -13,14 +13,14 @@ namespace API_OVH.Models.Manager
     /// </summary>
     public class CapteurManager : IDataRepository<Capteur>
     {
-        private readonly SAE5_BD_OVH_DbContext _context;
-        private readonly IMapper _mapper;
+        private readonly SAE5_BD_OVH_DbContext dbContext;
+        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
         public CapteurManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            dbContext = context;
+            this.mapper = mapper;
         }
 
         public CapteurManager()
@@ -33,7 +33,7 @@ namespace API_OVH.Models.Manager
         /// <returns>La liste des capteurs</returns>
         public async Task<ActionResult<IEnumerable<Capteur>>> GetAllAsync()
         {
-            var capteurs = await _context.Capteurs.ToListAsync();
+            var capteurs = await dbContext.Capteurs.ToListAsync();
 
             return capteurs;
         }
@@ -45,7 +45,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le capteur correspondant à l'ID</returns>
         public async Task<ActionResult<Capteur>> GetByIdAsync(int id)
         {
-            var leCapteur = await _context.Capteurs.FirstOrDefaultAsync(x => x.IdCapteur == id);
+            var leCapteur = await dbContext.Capteurs.FirstOrDefaultAsync(x => x.IdCapteur == id);
 
             // S'il n'est pas trouvé
             if (leCapteur == null)
@@ -63,7 +63,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le capteur correspondant au nom spécifié</returns>
         public async Task<ActionResult<Capteur>> GetByStringAsync(string str)
         {
-            var leCapteur = await _context.Capteurs.FirstOrDefaultAsync(x => x.NomTypeCapteur == str);
+            var leCapteur = await dbContext.Capteurs.FirstOrDefaultAsync(x => x.NomTypeCapteur == str);
 
             // Si non trouvé
             if (leCapteur == null)
@@ -81,8 +81,8 @@ namespace API_OVH.Models.Manager
         /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(Capteur entity)
         {
-            await _context.Capteurs.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await dbContext.Capteurs.AddAsync(entity);
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Résultat de l'opération</returns>
         public async Task UpdateAsync(Capteur entityToUpdate, Capteur entity)
         {
-            _context.Entry(entityToUpdate).State = EntityState.Modified;
+            dbContext.Entry(entityToUpdate).State = EntityState.Modified;
 
             entityToUpdate.NomTypeCapteur = entity.NomTypeCapteur;
             entityToUpdate.XCapteur = entity.XCapteur;
@@ -104,7 +104,7 @@ namespace API_OVH.Models.Manager
             entityToUpdate.IdTypeMesure = entity.IdTypeMesure;
             entityToUpdate.IdCapteur = entity.IdCapteur;
 
-            await _context.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -114,8 +114,8 @@ namespace API_OVH.Models.Manager
         /// <returns>Le résultat de l'opération</returns>
         public async Task DeleteAsync(Capteur entity)
         {
-            _context.Capteurs.Remove(entity);
-            await _context.SaveChangesAsync();
+            dbContext.Capteurs.Remove(entity);
+            await dbContext.SaveChangesAsync();
         }
     }
 }
