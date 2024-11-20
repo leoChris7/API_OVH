@@ -17,28 +17,28 @@ namespace API_OVH.Controllers
     [ApiController]
     public class BatimentsController : ControllerBase
     {
-        private readonly IDataRepository<Batiment> batimentManager;
-        private readonly IMapper _mapper;
+        private readonly IDataRepository<Batiment> dataRepository;
+        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
         public BatimentsController(IDataRepository<Batiment> manager, IMapper mapper)
         {
-            batimentManager = manager;
-            _mapper = mapper;
+            dataRepository = manager;
+            this.mapper = mapper;
         }
 
         // GET: api/Batiments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Batiment>>> GetBatiment()
         {
-            return await batimentManager.GetAllAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Batiments/5
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult<Batiment>> GetBatimentById(int id)
         {
-            var leBatiment = await batimentManager.GetByIdAsync(id);
+            var leBatiment = await dataRepository.GetByIdAsync(id);
 
             if (leBatiment == null)
             {
@@ -52,7 +52,7 @@ namespace API_OVH.Controllers
         [HttpGet("GetByString/{str}")]
         public async Task<ActionResult<Batiment>> GetBatimentById(string str)
         {
-            var leBatiment = await batimentManager.GetByStringAsync(str);
+            var leBatiment = await dataRepository.GetByStringAsync(str);
 
             if (leBatiment == null)
             {
@@ -72,14 +72,14 @@ namespace API_OVH.Controllers
                 return BadRequest("Id ne correspondent pas");
             }
 
-            var leBatiment = batimentManager.GetByIdAsync(id);
+            var leBatiment = dataRepository.GetByIdAsync(id);
 
             if (leBatiment == null)
             {
                 return NotFound("Id incorrect: Le batiment na pas été trouvé");
             }
 
-            await batimentManager.UpdateAsync(leBatiment.Result.Value, batiment);
+            await dataRepository.UpdateAsync(leBatiment.Result.Value, batiment);
             return NoContent();
         }
 
@@ -93,7 +93,7 @@ namespace API_OVH.Controllers
                 return BadRequest(ModelState);
             }
 
-            await batimentManager.AddAsync(batiment);
+            await dataRepository.AddAsync(batiment);
 
             return CreatedAtAction("GetMarqueById", new { id = batiment.IdBatiment }, batiment);
         }
@@ -102,13 +102,13 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBatiment(int id)
         {
-            var leBatiment = await batimentManager.GetByIdAsync(id);
+            var leBatiment = await dataRepository.GetByIdAsync(id);
             if (leBatiment.Value == null)
             {
                 return NotFound("delete batiment: batiment non trouvé");
             }
 
-            await batimentManager.DeleteAsync(leBatiment.Value);
+            await dataRepository.DeleteAsync(leBatiment.Value);
 
             return NoContent();
         }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API_OVH.Models.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
@@ -55,31 +54,6 @@ namespace API_OVH.Models.Manager
         public async Task<ActionResult<Direction>> GetByStringAsync(string diminutif)
         {
             return await dbContext.Directions.FirstOrDefaultAsync(t => t.LettresDirection.ToUpper() == diminutif.ToUpper());
-        }
-
-        /// <summary>
-        /// Ajoute une direction de façon asynchrone
-        /// </summary>
-        /// <param name="entity">direction à rajouter</param>
-        /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(Direction entity)
-        {
-            await dbContext.Directions.AddAsync(entity);
-            await dbContext.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Met à jour une direction de façon asynchrone
-        /// </summary>
-        /// <param name="entityToUpdate">direction à mettre à jour</param>
-        /// <param name="entity">direction avec les nouvelles valeurs</param>
-        /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Direction Direction, Direction entity)
-        {
-            dbContext.Entry(Direction).State = EntityState.Modified;
-            Direction.IdDirection = entity.IdDirection;
-            Direction.LettresDirection = entity.LettresDirection;
-            dbContext.SaveChangesAsync();
         }
     }
 }

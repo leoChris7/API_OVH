@@ -9,7 +9,7 @@ namespace API_OVH.Models.EntityFramework
         private int idCapteur;
         private int idSalle;
         private int idTypeMesure;
-        private string nomTypeCapteur;
+        private string nomCapteur;
         private string estActif;
         private double xCapteur;
         private double yCapteur;
@@ -18,7 +18,7 @@ namespace API_OVH.Models.EntityFramework
         public int IdCapteur { get => idCapteur; set => idCapteur = value; }
         public int IdSalle { get => idSalle; set => idSalle = value; }
         public int IdTypeMesure { get => idTypeMesure; set => idTypeMesure = value; }
-        public string NomTypeCapteur { get => nomTypeCapteur; set => nomTypeCapteur = value; }
+        public string NomCapteur { get => nomCapteur; set => nomCapteur = value; }
         public string EstActif { get => estActif; set => estActif = value; }
         public double XCapteur { get => xCapteur; set => xCapteur = value; }
         public double YCapteur { get => yCapteur; set => yCapteur = value; }

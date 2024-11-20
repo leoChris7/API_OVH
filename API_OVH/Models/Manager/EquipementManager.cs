@@ -46,7 +46,7 @@ namespace API_OVH.Models.DataManager
         /// Retourne un Equipement selon son nom de façon asynchrone
         /// </summary>
         /// <param name="str">Nom de l'equipement </param>
-        /// <returns>L'equipement correspondante au nom spécifié</returns>
+        /// <returns>L'equipement correspondant au nom spécifié</returns>
         public async Task<ActionResult<Equipement>> GetByStringAsync(string nom)
         {
             return await dbContext.Equipements.FirstOrDefaultAsync(t => t.NomEquipement.ToUpper() == nom.ToUpper());

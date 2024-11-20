@@ -1,114 +1,91 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API_OVH.Models.Repository;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
-using AutoMapper;
+using API_OVH.Models.Repository;
 
-namespace API_OVH.Models.Manager
+namespace API_OVH.Models.DataManager
 {
     /// <summary>
-    /// Manager pour gérer les opérations liées aux caracteristiqueequipements.
+    /// Manager pour gérer les opérations liées aux CaracteristiqueEquipements
     /// </summary>
     public class CaracteristiqueEquipementManager : IDataRepository<CaracteristiqueEquipement>
     {
-        private readonly SAE5_BD_OVH_DbContext dbContext;
-        private readonly IMapper mapper;
+        readonly SAE5_BD_OVH_DbContext? dbContext;
+        readonly IMapper mapper;
 
-        [ActivatorUtilitiesConstructor]
+        public CaracteristiqueEquipementManager() { }
         public CaracteristiqueEquipementManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
-            this.mapper = mapper;
-        }
-
-        public CaracteristiqueEquipementManager()
-        {
+            mapper = mapper;
         }
 
         /// <summary>
-        /// Retourne la liste des caracteristiqueequipements de façon asynchrone
+        /// Retourne la liste de toutes les caracteristiques equipement de façon asynchrone
         /// </summary>
-        /// <returns>La liste des caracteristiqueequipements</returns>
+        /// <returns>La liste des caracteristiques equipement</returns>
         public async Task<ActionResult<IEnumerable<CaracteristiqueEquipement>>> GetAllAsync()
         {
-            var caracteristiqueEquipements = await dbContext.CaracteristiqueEquipements.ToListAsync();
-
-            return caracteristiqueEquipements;
+            return await dbContext.CaracteristiquesEquipement.ToListAsync();
         }
 
         /// <summary>
-        /// Retourne une caracteristique d'équipement selon son id de façon asynchrone
+        /// Retourne une caracteristique equipement selon son id de façon asynchrone
         /// </summary>
-        /// <param name="id">(Entier) Identifiant de la caracteristique d'équipement</param>
-        /// <returns>La caracteristique d'équipement correspondant à l'ID</returns>
+        /// <param name="id">(Entier) Identifiant de la caracteristique equipement</param>
+        /// <returns>La caracteristique equipement correspondant à l'ID</returns>
         public async Task<ActionResult<CaracteristiqueEquipement>> GetByIdAsync(int id)
         {
-            var laCaracteristiqueEquipement = await dbContext.CaracteristiqueEquipements.FirstOrDefaultAsync(x => x.Idcaracteristique == id);
-
-            // S'il n'est pas trouvé
-            if (laCaracteristiqueEquipement == null)
-            {
-                return new NotFoundResult();
-            }
-
-            return laCaracteristiqueEquipement;
+            return await dbContext.CaracteristiquesEquipement.FirstOrDefaultAsync(t => t.IdCaracteristique == id);
         }
 
         /// <summary>
-        /// Retourne une caracteristique d'équipement selon son nom de façon asynchrone
+        /// Retourne une caracteristique equipement selon son nom de façon asynchrone
         /// </summary>
-        /// <param name="str">Nom du type de caracteristique d'équipement</param>
-        /// <returns>Le caracteristique d'équipement correspondant au nom spécifié</returns>
-        public async Task<ActionResult<CaracteristiqueEquipement>> GetByStringAsync(string str)
+        /// <param name="str">Nom de la caracteristique equipement </param>
+        /// <returns>La caracteristique equipement correspondante au nom spécifié</returns>
+        public async Task<ActionResult<CaracteristiqueEquipement>> GetByStringAsync(string nom)
         {
-            var laCaracteristiqueEquipement = await dbContext.CaracteristiqueEquipements.FirstOrDefaultAsync(x => x.Nomcaracteristique == str);
-
-            // Si non trouvé
-            if (laCaracteristiqueEquipement == null)
-            {
-                return new NotFoundResult();
-            }
-
-            return laCaracteristiqueEquipement;
+            return await dbContext.CaracteristiquesEquipement.FirstOrDefaultAsync(t => t.NomCaracteristique.ToUpper() == nom.ToUpper());
         }
 
         /// <summary>
-        /// Ajoute une caracteristique d'équipement de façon asynchrone
+        /// Ajoute une caracteristique equipement de façon asynchrone
         /// </summary>
-        /// <param name="entity">CaracteristiqueEquipement à rajouter</param>
-        /// <returns>Le caracteristique d'équipement créée</returns>
+        /// <param name="entity">caracteristique equipement à rajouter</param>
+        /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(CaracteristiqueEquipement entity)
         {
-            await dbContext.CaracteristiqueEquipements.AddAsync(entity);
+            await dbContext.CaracteristiquesEquipement.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
+
         /// <summary>
-        /// Met à jour un caracteristique d'équipement de façon asynchrone
+        /// Met à jour une caracteristique equipement de façon asynchrone
         /// </summary>
-        /// <param name="entityToUpdate">CaracteristiqueEquipement à mettre à jour</param>
-        /// <param name="entity">CaracteristiqueEquipement avec les valeurs mis à jour</param>
+        /// <param name="entityToUpdate">caracteristique equipement à mettre à jour</param>
+        /// <param name="entity">caracteristique equipement avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(CaracteristiqueEquipement entityToUpdate, CaracteristiqueEquipement entity)
+        public async Task UpdateAsync(CaracteristiqueEquipement CaracteristiqueEquipement, CaracteristiqueEquipement entity)
         {
-            dbContext.Entry(entityToUpdate).State = EntityState.Modified;
-
-            entityToUpdate.Idcaracteristique = entity.Idcaracteristique;
-            entityToUpdate.Nomcaracteristique = entity.Nomcaracteristique;
-
-            await dbContext.SaveChangesAsync();
+            dbContext.Entry(CaracteristiqueEquipement).State = EntityState.Modified;
+            CaracteristiqueEquipement.IdCaracteristique = entity.IdCaracteristique;
+            CaracteristiqueEquipement.NomCaracteristique = entity.NomCaracteristique;
+            dbContext.SaveChangesAsync();
         }
 
         /// <summary>
-        /// Permet de supprimer une caractéristique de façon asynchrone
+        /// Permet de supprimer un caracteristique equipement de façon asynchrone
         /// </summary>
-        /// <param name="entity">La caractéristique à supprimer</param>
+        /// <param name="entity">caracteristique equipement à supprimer</param>
         /// <returns>Le résultat de l'opération</returns>
-        public async Task DeleteAsync(CaracteristiqueEquipement entity)
+        public async Task DeleteAsync(CaracteristiqueEquipement CaracteristiqueEquipement)
         {
-            dbContext.CaracteristiqueEquipements.Remove(entity);
+            dbContext.CaracteristiquesEquipement.Remove(CaracteristiqueEquipement);
             await dbContext.SaveChangesAsync();
         }
     }

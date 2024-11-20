@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Manager;
 using AutoMapper;
-using GestionProduit_API.Models.Repository;
 using API_OVH.Models.Repository;
 
 namespace API_OVH.Controllers

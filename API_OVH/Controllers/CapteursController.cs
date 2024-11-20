@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.EntityFramework;
+using API_OVH.Models.Repository;
+using AutoMapper;
 
 namespace API_OVH.Controllers
 {
@@ -13,32 +15,34 @@ namespace API_OVH.Controllers
     [ApiController]
     public class CapteursController : ControllerBase
     {
-        private readonly SAE5_BD_OVH_DbContext _context;
+        private readonly IDataRepository<Capteur> dataRepository;
+        private readonly IMapper mapper;
 
-        public CapteursController(SAE5_BD_OVH_DbContext context)
+        public CapteursController(IMapper mapper, IDataRepository<Capteur> dataRepo)
         {
-            _context = context;
+            dataRepository = dataRepo;
+            mapper = mapper;
         }
 
         // GET: api/Capteurs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Capteur>>> GetCapteurs()
         {
-            return await _context.Capteurs.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Capteurs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Capteur>> GetCapteur(int id)
+        public async Task<ActionResult<Capteur>> GetCapteurById(int id)
         {
-            var capteur = await _context.Capteurs.FindAsync(id);
+            var leCapteur = await dataRepository.GetByIdAsync(id);
 
-            if (capteur == null)
+            if (leCapteur == null)
             {
-                return NotFound();
+                return NotFound("getCapteurById: le capteur n'a pas été trouvé.");
             }
 
-            return capteur;
+            return leCapteur;
         }
 
         // PUT: api/Capteurs/5
@@ -48,27 +52,17 @@ namespace API_OVH.Controllers
         {
             if (id != capteur.IdCapteur)
             {
-                return BadRequest();
+                return BadRequest("Id ne correspondent pas");
             }
 
-            _context.Entry(capteur).State = EntityState.Modified;
+            var capteurToUpdate = dataRepository.GetByIdAsync(id);
 
-            try
+            if (capteurToUpdate == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CapteurExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound("Id incorrect: Le capteur na pas été trouvé");
             }
 
+            await dataRepository.UpdateAsync(capteurToUpdate.Result.Value, capteur);
             return NoContent();
         }
 
@@ -77,31 +71,28 @@ namespace API_OVH.Controllers
         [HttpPost]
         public async Task<ActionResult<Capteur>> PostCapteur(Capteur capteur)
         {
-            _context.Capteurs.Add(capteur);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction("GetCapteur", new { id = capteur.IdCapteur }, capteur);
+            await dataRepository.AddAsync(capteur);
+
+            return CreatedAtAction("GetById", new { id = capteur.IdCapteur }, capteur);
         }
 
         // DELETE: api/Capteurs/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCapteur(int id)
         {
-            var capteur = await _context.Capteurs.FindAsync(id);
-            if (capteur == null)
+            var leCapteur = await dataRepository.GetByIdAsync(id);
+            if (leCapteur == null)
             {
-                return NotFound();
+                return NotFound("delete capteur: catpeur non trouvé");
             }
 
-            _context.Capteurs.Remove(capteur);
-            await _context.SaveChangesAsync();
-
+            await dataRepository.DeleteAsync(leCapteur.Value);
             return NoContent();
-        }
-
-        private bool CapteurExists(int id)
-        {
-            return _context.Capteurs.Any(e => e.IdCapteur == id);
         }
     }
 }

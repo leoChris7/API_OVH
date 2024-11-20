@@ -20,7 +20,7 @@ namespace API_OVH.Models.Manager
         public CapteurManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
-            this.mapper = mapper;
+            mapper = mapper;
         }
 
         public CapteurManager()
@@ -63,7 +63,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le capteur correspondant au nom spécifié</returns>
         public async Task<ActionResult<Capteur>> GetByStringAsync(string str)
         {
-            var leCapteur = await dbContext.Capteurs.FirstOrDefaultAsync(x => x.NomTypeCapteur == str);
+            var leCapteur = await dbContext.Capteurs.FirstOrDefaultAsync(x => x.NomCapteur == str);
 
             // Si non trouvé
             if (leCapteur == null)
@@ -95,7 +95,7 @@ namespace API_OVH.Models.Manager
         {
             dbContext.Entry(entityToUpdate).State = EntityState.Modified;
 
-            entityToUpdate.NomTypeCapteur = entity.NomTypeCapteur;
+            entityToUpdate.NomCapteur = entity.NomCapteur;
             entityToUpdate.XCapteur = entity.XCapteur;
             entityToUpdate.YCapteur = entity.YCapteur;
             entityToUpdate.ZCapteur = entity.ZCapteur;

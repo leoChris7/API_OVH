@@ -24,14 +24,14 @@ namespace API_OVH.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CaracteristiqueEquipement>>> GetCaracteristiqueEquipements()
         {
-            return await _context.CaracteristiqueEquipements.ToListAsync();
+            return await _context.CaracteristiquesEquipement.ToListAsync();
         }
 
         // GET: api/CaracteristiqueEquipements/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CaracteristiqueEquipement>> GetCaracteristiqueEquipement(int id)
         {
-            var caracteristiqueEquipement = await _context.CaracteristiqueEquipements.FindAsync(id);
+            var caracteristiqueEquipement = await _context.CaracteristiquesEquipement.FindAsync(id);
 
             if (caracteristiqueEquipement == null)
             {
@@ -45,7 +45,7 @@ namespace API_OVH.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCaracteristiqueEquipement(int id, CaracteristiqueEquipement caracteristiqueEquipement)
         {
-            if (id != caracteristiqueEquipement.Idcaracteristique)
+            if (id != caracteristiqueEquipement.IdCaracteristique)
             {
                 return BadRequest();
             }
@@ -58,7 +58,7 @@ namespace API_OVH.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.CaracteristiqueEquipements.Any(e => e.Idcaracteristique == id))
+                if (!_context.CaracteristiquesEquipement.Any(e => e.IdCaracteristique == id))
                 {
                     return NotFound();
                 }
@@ -75,10 +75,10 @@ namespace API_OVH.Controllers
         [HttpPost]
         public async Task<ActionResult<CaracteristiqueEquipement>> PostCaracteristiqueEquipement(CaracteristiqueEquipement caracteristiqueEquipement)
         {
-            _context.CaracteristiqueEquipements.Add(caracteristiqueEquipement);
+            _context.CaracteristiquesEquipement.Add(caracteristiqueEquipement);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCaracteristiqueEquipement", new { id = caracteristiqueEquipement.Idcaracteristique }, caracteristiqueEquipement);
+            return CreatedAtAction("GetCaracteristiqueEquipement", new { id = caracteristiqueEquipement.IdCaracteristique }, caracteristiqueEquipement);
         }
 
         // DELETE: api/CaracteristiqueEquipements/5
