@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.EntityFramework;
-using GestionProduit_API.Models.Repository;
+using API_OVH.Models.Repository;
 using AutoMapper;
 using API_OVH.Models.Manager;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -21,7 +21,7 @@ namespace API_OVH.Controllers
         private readonly IMapper _mapper;
 
         [ActivatorUtilitiesConstructor]
-        public BatimentsController(BatimentManager manager, IMapper mapper)
+        public BatimentsController(IDataRepository<Batiment> manager, IMapper mapper)
         {
             batimentManager = manager;
             _mapper = mapper;
@@ -67,7 +67,7 @@ namespace API_OVH.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBatiment(int id, Batiment batiment)
         {
-            if (id != batiment.Idbatiment)
+            if (id != batiment.IdBatiment)
             {
                 return BadRequest("Id ne correspondent pas");
             }
@@ -95,7 +95,7 @@ namespace API_OVH.Controllers
 
             await batimentManager.AddAsync(batiment);
 
-            return CreatedAtAction("GetMarqueById", new { id = batiment.Idbatiment }, batiment);
+            return CreatedAtAction("GetMarqueById", new { id = batiment.IdBatiment }, batiment);
         }
 
         // DELETE: api/Batiments/5

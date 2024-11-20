@@ -11,14 +11,14 @@ namespace API_OVH.Models.EntityFramework
         public virtual DbSet<Salle> Salles { get; set; }
         public virtual DbSet<Capteur> Capteurs { get; set; }
         public virtual DbSet<Equipement> Equipements { get; set; }
-        public virtual DbSet<CaracteristiqueEquipement> CaracteristiqueEquipements { get; set; }
+        public virtual DbSet<CaracteristiqueEquipement> CaracteristiquesEquipement { get; set; }
         public virtual DbSet<Direction> Directions { get; set; }
         public virtual DbSet<Mur> Murs { get; set; }
         public virtual DbSet<TypeEquipement> TypesEquipement { get; set; }
         public virtual DbSet<TypeMesure> TypesMesure { get; set; }
-        public virtual DbSet<TypeSalle> TypesSalles { get; set; }
+        public virtual DbSet<TypeSalle> TypesSalle { get; set; }
         public virtual DbSet<Unite> Unites { get; set; }
-        public virtual DbSet<ValeurEquipement> ValeurEquipements { get; set; }
+        public virtual DbSet<ValeurEquipement> ValeursEquipement { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,13 +32,13 @@ namespace API_OVH.Models.EntityFramework
         {
             modelBuilder.Entity<Salle>(entity =>
             {
-                entity.HasKey(e => e.Idsalle)
+                entity.HasKey(e => e.IdSalle)
                     .HasName("pk_salle_id");
             });
 
             modelBuilder.Entity<Batiment>(entity =>
             {
-                entity.HasKey(e => e.Idbatiment)
+                entity.HasKey(e => e.IdBatiment)
                     .HasName("pk_batiment_id");
             });
 
@@ -50,20 +50,20 @@ namespace API_OVH.Models.EntityFramework
 
             modelBuilder.Entity<CaracteristiqueEquipement>(entity =>
             {
-                entity.HasKey(e => e.Idcaracteristique)
+                entity.HasKey(e => e.IdCaracteristique)
                     .HasName("pk_caractEquip_id");
 
             });
 
             modelBuilder.Entity<Direction>(entity =>
             {
-                entity.HasKey(e => e.Iddirection)
+                entity.HasKey(e => e.IdDirection)
                     .HasName("pk_direction_id");
             });
 
             modelBuilder.Entity<Equipement>(entity =>
             {
-                entity.HasKey(e => e.Idequipement)
+                entity.HasKey(e => e.IdEquipement)
                     .HasName("pk_equip_id");
             });
 
@@ -75,7 +75,7 @@ namespace API_OVH.Models.EntityFramework
 
             modelBuilder.Entity<Salle>(entity =>
             {
-                entity.HasKey(e => e.Idsalle)
+                entity.HasKey(e => e.IdSalle)
                     .HasName("pk_salle_id");
             });
 

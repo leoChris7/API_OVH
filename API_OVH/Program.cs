@@ -1,7 +1,8 @@
 using API_OVH;
+using API_OVH.Models.DataManager;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Manager;
-using GestionProduit_API.Models.Repository;
+using API_OVH.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var MyAllowSpecificOrigins = "AllowSpecificOrigins";
@@ -31,7 +32,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Ajouter les services Scoped pour les managers
-builder.Services.AddScoped<BatimentManager>();
+builder.Services.AddScoped<IDataRepository<Batiment>, BatimentManager>();
+builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
+builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
+builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
+builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
+builder.Services.AddScoped<IDataRepository<TypeEquipement>, TypeEquipementManager>();
+builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
+builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
+
+
 
 var app = builder.Build();
 

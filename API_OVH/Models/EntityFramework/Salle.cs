@@ -2,16 +2,16 @@
 {
     public class Salle
     {
-        private int idsalle;
-        private int idbatiment;
-        private int idtypesalle;
-        private string? nomsalle;
+        private int idSalle;
+        private int idBatiment;
+        private int idtypeSalle;
+        private string? nomSalle;
         private double superficieSalle;
 
-        public int Idsalle { get => idsalle; set => idsalle = value; }
-        public int Idbatiment { get => idbatiment; set => idbatiment = value; }
-        public int Idtypesalle { get => idtypesalle; set => idtypesalle = value; }
-        public string? Nomsalle { get => nomsalle; set => nomsalle = value; }
+        public int IdSalle { get => idSalle; set => idSalle = value; }
+        public int IdBatiment { get => idBatiment; set => idBatiment = value; }
+        public int IdTypeSalle { get => idtypeSalle; set => idtypeSalle = value; }
+        public string? NomSalle { get => nomSalle; set => nomSalle = value; }
         public double SuperficieSalle { get => superficieSalle; set => superficieSalle = value; }
     }
 }

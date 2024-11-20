@@ -2,17 +2,17 @@
 {
     public class Equipement
     {
-        private int idequipement;
-        private int idsalle;
-        private int idtypeequipement;
+        private int idEquipement;
+        private int idSalle;
+        private int idTypeEquipement;
         private string? nomEquipement;
         private double xEquipement;
         private double yEquipement;
         private double zEquipement;
 
-        public int Idequipement { get => idequipement; set => idequipement = value; }
-        public int Idsalle { get => idsalle; set => idsalle = value; }
-        public int Idtypeequipement { get => idtypeequipement; set => idtypeequipement = value; }
+        public int IdEquipement { get => idEquipement; set => idEquipement = value; }
+        public int IdSalle { get => idSalle; set => idSalle = value; }
+        public int IdTypeEquipement { get => idTypeEquipement; set => idTypeEquipement = value; }
         public string? NomEquipement { get => nomEquipement; set => nomEquipement = value; }
         public double XEquipement { get => xEquipement; set => xEquipement = value; }
         public double YEquipement { get => yEquipement; set => yEquipement = value; }

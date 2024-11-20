@@ -2,10 +2,10 @@
 {
     public class Direction
     {
-        private int iddirection;
-        private string lettres_direction;
+        private int idDirection;
+        private string lettresDirection;
 
-        public int Iddirection { get => iddirection; set => iddirection = value; }
-        public string Lettres_direction { get => lettres_direction; set => lettres_direction = value; }
+        public int IdDirection { get => idDirection; set => idDirection = value; }
+        public string LettresDirection { get => lettresDirection; set => lettresDirection = value; }
     }
 }

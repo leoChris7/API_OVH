@@ -4,16 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("batiment")]
     public class Batiment
     {
-        private int idbatiment;
-        private string? nombatiment;
+        private int idBatiment;
+        private string? nomBatiment;
 
-        [Column("idbatiment")]
-        public int Idbatiment { get => idbatiment; set => idbatiment = value; }
+        public int IdBatiment { get => idBatiment; set => idBatiment = value; }
 
-        [Column("nombatiment")]
-        public string? Nombatiment { get => nombatiment; set => nombatiment = value; }
+        public string? NomBatiment { get => nomBatiment; set => nomBatiment = value; }
     }
 }

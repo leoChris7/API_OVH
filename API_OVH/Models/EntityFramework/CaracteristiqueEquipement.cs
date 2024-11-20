@@ -2,10 +2,10 @@
 {
     public class CaracteristiqueEquipement
     {
-        private int idcaracteristique;
-        private string nomcaracteristique;
+        private int idCaracteristique;
+        private string nomCaracteristique;
 
-        public int Idcaracteristique { get => idcaracteristique; set => idcaracteristique = value; }
-        public string Nomcaracteristique { get => nomcaracteristique; set => nomcaracteristique = value; }
+        public int IdCaracteristique { get => idCaracteristique; set => idCaracteristique = value; }
+        public string NomCaracteristique { get => nomCaracteristique; set => nomCaracteristique = value; }
     }
 }

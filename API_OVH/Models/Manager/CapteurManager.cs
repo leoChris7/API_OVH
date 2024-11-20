@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GestionProduit_API.Models.Repository;
+using API_OVH.Models.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
@@ -28,7 +28,7 @@ namespace API_OVH.Models.Manager
         }
 
         /// <summary>
-        /// Retourne la liste des capteurs de façon asynchrone
+        /// Retourne la liste de tous les capteurs de façon asynchrone
         /// </summary>
         /// <returns>La liste des capteurs</returns>
         public async Task<ActionResult<IEnumerable<Capteur>>> GetAllAsync()
@@ -61,7 +61,7 @@ namespace API_OVH.Models.Manager
         /// <summary>
         /// Retourne un capteur selon son nom de façon asynchrone
         /// </summary>
-        /// <param name="str">Nom du type de capteur</param>
+        /// <param name="str">Nom du capteur</param>
         /// <returns>Le capteur correspondant au nom spécifié</returns>
         public async Task<ActionResult<Capteur>> GetByStringAsync(string str)
         {
@@ -80,8 +80,8 @@ namespace API_OVH.Models.Manager
         /// <summary>
         /// Ajoute un capteur de façon asynchrone
         /// </summary>
-        /// <param name="entity">Capteur à rajouter</param>
-        /// <returns>Le capteur créée</returns>
+        /// <param name="entity">capteur à rajouter</param>
+        /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(Capteur entity)
         {
             await _context.Capteurs.AddAsync(entity);
@@ -91,8 +91,8 @@ namespace API_OVH.Models.Manager
         /// <summary>
         /// Met à jour un capteur de façon asynchrone
         /// </summary>
-        /// <param name="entityToUpdate">Capteur à mettre à jour</param>
-        /// <param name="entity">Capteur avec les valeurs mis à jour</param>
+        /// <param name="entityToUpdate">capteur à mettre à jour</param>
+        /// <param name="entity">capteur avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
         public async Task UpdateAsync(Capteur entityToUpdate, Capteur entity)
         {

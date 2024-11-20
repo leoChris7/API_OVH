@@ -6,15 +6,18 @@ using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 
-namespace TDNote.Models.DataManager
+namespace API_OVH.Models.DataManager
 {
-    public class UnitesManager : IDataRepository<Unite>
+    /// <summary>
+    /// Manager pour gérer les opérations liées aux unités
+    /// </summary>
+    public class UniteManager : IDataRepository<Unite>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
 
-        public UnitesManager() { }
-        public UnitesManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
+        public UniteManager() { }
+        public UniteManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
             mapper = mapper;
@@ -40,7 +43,7 @@ namespace TDNote.Models.DataManager
         }
 
         /// <summary>
-        /// Retourne une unie selon son nom de façon asynchrone
+        /// Retourne une unite selon son nom de façon asynchrone
         /// </summary>
         /// <param name="str">Nom de l'unite</param>
         /// <returns>L'unite correspondante au nom spécifié</returns>
@@ -53,7 +56,7 @@ namespace TDNote.Models.DataManager
         /// Ajoute une unite de façon asynchrone
         /// </summary>
         /// <param name="entity">Unite à rajouter</param>
-        /// <returns>Le resultat de la création</returns>
+        /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(Unite entity)
         {
             await dbContext.Unites.AddAsync(entity);

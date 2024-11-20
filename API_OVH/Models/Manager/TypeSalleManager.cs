@@ -6,46 +6,69 @@ using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 
-namespace TDNote.Models.DataManager
+namespace API_OVH.Models.DataManager
 {
-    public class TypesSalleManager : IDataRepository<TypeSalle>
+    /// <summary>
+    /// Manager pour gérer les opérations liées aux types de salle
+    /// </summary>
+    public class TypeSalleManager : IDataRepository<TypeSalle>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
 
-        public TypesSalleManager() { }
-        public TypesSalleManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
+        public TypeSalleManager() { }
+        public TypeSalleManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
             mapper = mapper;
         }
 
-        //Récupère tous les types de salle
+        /// <summary>
+        /// Retourne la liste de tous les types de salle de façon asynchrone
+        /// </summary>
+        /// <returns>La liste des types de salle</returns>
         public async Task<ActionResult<IEnumerable<TypeSalle>>> GetAllAsync()
         {
             return await dbContext.TypesSalle.ToListAsync();
         }
 
-        //Récupère un type de salle à l'aide de son ID
+        /// <summary>
+        /// Retourne un type de salle selon son id de façon asynchrone
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant du type de salle</param>
+        /// <returns>Le type de salle correspondant à l'ID</returns>
         public async Task<ActionResult<TypeSalle>> GetByIdAsync(int id)
         {
             return await dbContext.TypesSalle.FirstOrDefaultAsync(t => t.IdTypeSalle == id);
         }
 
-        //Récupère un type de salle à l'aide du nom du type
+        /// <summary>
+        /// Retourne un type de salle selon son nom de façon asynchrone
+        /// </summary>
+        /// <param name="str">Nom du type de salle</param>
+        /// <returns>Le type de salle correspondant au nom spécifié</returns>
         public async Task<ActionResult<TypeSalle>> GetByStringAsync(string nom)
         {
             return await dbContext.TypesSalle.FirstOrDefaultAsync(t => t.NomTypeSalle.ToUpper() == nom.ToUpper());
         }
 
-        //Ajoute un nouveau type de salle
+        /// <summary>
+        /// Ajoute un type de salle de façon asynchrone
+        /// </summary>
+        /// <param name="entity">type de salle à rajouter</param>
+        /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(TypeSalle entity)
         {
             await dbContext.TypesSalle.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
-        //Met à jour les données d'un type de salle pour qu'elles correspondent aux données du type de salle passé en paramètre
+        /// <summary>
+        /// Met à jour un type de salle de façon asynchrone
+        /// </summary>
+        /// <param name="entityToUpdate">type de salle à mettre à jour</param>
+        /// <param name="entity">type de salle avec les nouvelles valeurs</param>
+        /// <returns>Résultat de l'opération</returns>
         public async Task UpdateAsync(TypeSalle TypeSalle, TypeSalle entity)
         {
             dbContext.Entry(TypeSalle).State = EntityState.Modified;
@@ -54,7 +77,11 @@ namespace TDNote.Models.DataManager
             dbContext.SaveChangesAsync();
         }
 
-        //Supprime le type de salle passé en paramètre
+        /// <summary>
+        /// Permet de supprimer un type de salle de façon asynchrone
+        /// </summary>
+        /// <param name="entity">Le type de salle à supprimer</param>
+        /// <returns>Le résultat de l'opération</returns>
         public async Task DeleteAsync(TypeSalle TypeSalle)
         {
             dbContext.TypesSalle.Remove(TypeSalle);

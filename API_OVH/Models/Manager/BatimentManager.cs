@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GestionProduit_API.Models.Repository;
+using API_OVH.Models.Repository;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
@@ -38,7 +38,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le batiment correspondant à l'ID</returns>
         public async Task<ActionResult<Batiment>> GetByIdAsync(int id)
         {
-            return await dbContext.Batiments.FirstOrDefaultAsync(x => x.Idbatiment == id);
+            return await dbContext.Batiments.FirstOrDefaultAsync(x => x.IdBatiment == id);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le batiment correspondant au nom spécifié</returns>
         public async Task<ActionResult<Batiment>> GetByStringAsync(string str)
         {
-            return await dbContext.Batiments.FirstOrDefaultAsync(x => x.Nombatiment == str);
+            return await dbContext.Batiments.FirstOrDefaultAsync(x => x.NomBatiment == str);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace API_OVH.Models.Manager
         {
             dbContext.Entry(entityToUpdate).State = EntityState.Modified;
 
-            entityToUpdate.Nombatiment = entity.Nombatiment;
+            entityToUpdate.NomBatiment = entity.NomBatiment;
 
             await dbContext.SaveChangesAsync();
         }

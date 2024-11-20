@@ -6,46 +6,69 @@ using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 
-namespace TDNote.Models.DataManager
+namespace API_OVH.Models.DataManager
 {
-    public class TypesMesureManager : IDataRepository<TypeMesure>
+    /// <summary>
+    /// Manager pour gérer les opérations liées aux types de mesure
+    /// </summary>
+    public class TypeMesureManager : IDataRepository<TypeMesure>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
 
-        public TypesMesureManager() { }
-        public TypesMesureManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
+        public TypeMesureManager() { }
+        public TypeMesureManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
             mapper = mapper;
         }
 
-        //Récupère tous les types de salle
+        /// <summary>
+        /// Retourne la liste de tous les types de mesure de façon asynchrone
+        /// </summary>
+        /// <returns>La liste des types de mesure</returns>
         public async Task<ActionResult<IEnumerable<TypeMesure>>> GetAllAsync()
         {
             return await dbContext.TypesMesure.ToListAsync();
         }
 
-        //Récupère un type de salle à l'aide de son ID
+        /// <summary>
+        /// Retourne un type de mesure selon son id de façon asynchrone
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant du type de mesure</param>
+        /// <returns>Le type de mesure correspondant à l'ID</returns>
         public async Task<ActionResult<TypeMesure>> GetByIdAsync(int id)
         {
             return await dbContext.TypesMesure.FirstOrDefaultAsync(t => t.IdTypeMesure == id);
         }
 
-        //Récupère un type de salle à l'aide du nom du type
+        /// <summary>
+        /// Retourne un type de mesure selon son nom de façon asynchrone
+        /// </summary>
+        /// <param name="str">Nom du type de mesure</param>
+        /// <returns>Le type de mesure correspondant au nom spécifié</returns>
         public async Task<ActionResult<TypeMesure>> GetByStringAsync(string nom)
         {
             return await dbContext.TypesMesure.FirstOrDefaultAsync(t => t.NomTypeMesure.ToUpper() == nom.ToUpper());
         }
 
-        //Ajoute un nouveau type de salle
+        /// <summary>
+        /// Ajoute un type de mesure de façon asynchrone
+        /// </summary>
+        /// <param name="entity">type de mesure à rajouter</param>
+        /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(TypeMesure entity)
         {
             await dbContext.TypesMesure.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
-        //Met à jour les données d'un type de salle pour qu'elles correspondent aux données du type de salle passé en paramètre
+        /// <summary>
+        /// Met à jour un type de mesure de façon asynchrone
+        /// </summary>
+        /// <param name="entityToUpdate">type de mesure à mettre à jour</param>
+        /// <param name="entity">type de mesure avec les nouvelles valeurs</param>
+        /// <returns>Résultat de l'opération</returns>
         public async Task UpdateAsync(TypeMesure TypeMesure, TypeMesure entity)
         {
             dbContext.Entry(TypeMesure).State = EntityState.Modified;
@@ -54,7 +77,11 @@ namespace TDNote.Models.DataManager
             dbContext.SaveChangesAsync();
         }
 
-        //Supprime le type de salle passé en paramètre
+        /// <summary>
+        /// Permet de supprimer un type de mesure de façon asynchrone
+        /// </summary>
+        /// <param name="entity">Le type de mesure à supprimer</param>
+        /// <returns>Le résultat de l'opération</returns>
         public async Task DeleteAsync(TypeMesure TypeMesure)
         {
             dbContext.TypesMesure.Remove(TypeMesure);
