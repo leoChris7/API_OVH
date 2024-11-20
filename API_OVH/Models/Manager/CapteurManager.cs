@@ -33,8 +33,7 @@ namespace API_OVH.Models.Manager
         /// <returns>La liste des capteurs</returns>
         public async Task<ActionResult<IEnumerable<Capteur>>> GetAllAsync()
         {
-            var capteurs = await _context.Capteurs
-                            .ToListAsync();
+            var capteurs = await _context.Capteurs.ToListAsync();
 
             return capteurs;
         }
@@ -46,8 +45,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le capteur correspondant à l'ID</returns>
         public async Task<ActionResult<Capteur>> GetByIdAsync(int id)
         {
-            var leCapteur = await _context.Capteurs
-                             .FirstOrDefaultAsync(x => x.IdCapteur == id);
+            var leCapteur = await _context.Capteurs.FirstOrDefaultAsync(x => x.IdCapteur == id);
 
             // S'il n'est pas trouvé
             if (leCapteur == null)
@@ -65,8 +63,7 @@ namespace API_OVH.Models.Manager
         /// <returns>Le capteur correspondant au nom spécifié</returns>
         public async Task<ActionResult<Capteur>> GetByStringAsync(string str)
         {
-            var leCapteur = await _context.Capteurs
-                             .FirstOrDefaultAsync(x => x.NomTypeCapteur == str);
+            var leCapteur = await _context.Capteurs.FirstOrDefaultAsync(x => x.NomTypeCapteur == str);
 
             // Si non trouvé
             if (leCapteur == null)

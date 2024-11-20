@@ -84,8 +84,8 @@ namespace API_OVH.Models.Manager
         /// <returns>Le résultat de l'opération</returns>
         public async Task DeleteAsync(Batiment entity)
         {
-            dbContext.Batiments.Remove(entity);
-            await dbContext.SaveChangesAsync();
+            _context.Batiments.Remove(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
