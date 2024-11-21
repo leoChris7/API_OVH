@@ -14,7 +14,7 @@ namespace API_OVH.Models.EntityFramework
         public int IdDirection { get => idDirection; set => idDirection = value; }
         public string LettresDirection { get => lettresDirection; set => lettresDirection = value; }
         [JsonIgnore]
-        [InverseProperty(nameof(Direction.salles))]
-        public ICollection<Salle> Salles { get => salles; set => salles = value; }
+        [InverseProperty(nameof(Mur.DirectionNavigation))]
+        public ICollection<Salle> Murs { get => salles; set => salles = value; }
     }
 }

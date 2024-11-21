@@ -14,6 +14,8 @@ namespace API_OVH.Models.EntityFramework
         private double xEquipement;
         private double yEquipement;
         private double zEquipement;
+        private TypeEquipement typeEquipementNavigation;
+        private Salle salleNavigation;
         private ICollection<ValeurEquipement> valeursEquipements = new List<ValeurEquipement>();
 
         public int IdEquipement { get => idEquipement; set => idEquipement = value; }
@@ -23,6 +25,16 @@ namespace API_OVH.Models.EntityFramework
         public double XEquipement { get => xEquipement; set => xEquipement = value; }
         public double YEquipement { get => yEquipement; set => yEquipement = value; }
         public double ZEquipement { get => zEquipement; set => zEquipement = value; }
+
+        [JsonIgnore]
+        [ForeignKey(nameof(IdTypeEquipement))]
+        [InverseProperty(nameof(TypeEquipement.Equipements))]
+        public virtual TypeEquipement? TypeEquipementNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
+
+        [JsonIgnore]
+        [ForeignKey(nameof(IdSalle))]
+        [InverseProperty(nameof(Salle.Equipements))]
+        public virtual TypeEquipement? SalleNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
 
         [JsonIgnore]
         [InverseProperty(nameof(ValeurEquipement.EquipementNavigation))]

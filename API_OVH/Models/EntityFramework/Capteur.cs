@@ -28,11 +28,13 @@ namespace API_OVH.Models.EntityFramework
         public double ZCapteur { get => zCapteur; set => zCapteur = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Capteur.salleNavigation))]
+        [ForeignKey(nameof(IdSalle))]
+        [InverseProperty(nameof(Salle.Capteurs))]
         public Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Capteur.typeMesureNavigation))]
+        [ForeignKey(nameof(IdTypeMesure))]
+        [InverseProperty(nameof(TypeMesure.Capteurs))]
         public TypeMesure? TypeMesureNavigation { get => typeMesureNavigation; set => typeMesureNavigation = value; }
     }
 }

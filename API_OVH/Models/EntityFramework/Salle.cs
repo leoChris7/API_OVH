@@ -14,6 +14,9 @@ namespace API_OVH.Models.EntityFramework
         private double superficieSalle;
         private Batiment? batimentNavigation;
         private TypeSalle? typeSalleNavigation;
+        private ICollection<Capteur> capteurs = new List<Capteur>();
+        private ICollection<Equipement> equipements = new List<Equipement>();
+        private ICollection<Mur> murs = new List<Mur>();
 
         public int IdSalle { get => idSalle; set => idSalle = value; }
         public int IdBatiment { get => idBatiment; set => idBatiment = value; }
@@ -22,11 +25,25 @@ namespace API_OVH.Models.EntityFramework
         public double SuperficieSalle { get => superficieSalle; set => superficieSalle = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Salle.batimentNavigation))]
+        [ForeignKey(nameof(idBatiment))]
+        [InverseProperty(nameof(Batiment.Salles))]
         public Batiment? BatimentNavigation { get => batimentNavigation; set => batimentNavigation = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Salle.typeSalleNavigation))]
+        [ForeignKey(nameof(IdTypeSalle))]
+        [InverseProperty(nameof(TypeSalle.Salles))]
         public TypeSalle? TypeSalleNavigation { get => typeSalleNavigation; set => typeSalleNavigation = value; }
+
+        [JsonIgnore]
+        [InverseProperty(nameof(Capteur.SalleNavigation))]
+        public virtual ICollection<Capteur> Capteurs { get => capteurs; set => capteurs = value; }
+
+        [JsonIgnore]
+        [InverseProperty(nameof(Equipement.SalleNavigation))]
+        public virtual ICollection<Equipement> Equipements { get => equipements; set => equipements = value; }
+
+        [JsonIgnore]
+        [InverseProperty(nameof(Mur.SalleNavigation))]
+        public virtual ICollection<Equipement> Murs { get => murs; set => murs = value; }
     }
 }

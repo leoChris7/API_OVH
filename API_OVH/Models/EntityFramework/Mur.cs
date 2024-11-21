@@ -24,11 +24,13 @@ namespace API_OVH.Models.EntityFramework
         public float Orientation { get => orientation; set => orientation = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Mur.salleNavigation))]
+        [ForeignKey(nameof(IdSalle))]
+        [InverseProperty(nameof(Salle.Murs))]
         public Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Mur.directionNavigation))]
+        [ForeignKey(nameof(IdDirection))]
+        [InverseProperty(nameof(Direction.Murs))]
         public Direction? DirectionNavigation { get => directionNavigation; set => directionNavigation = value; }
     }
 }

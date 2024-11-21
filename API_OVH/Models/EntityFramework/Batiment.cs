@@ -9,14 +9,14 @@ namespace API_OVH.Models.EntityFramework
     {
         private int idBatiment;
         private string? nomBatiment;
-        private ICollection<Salle> salles;
+        private ICollection<Salle> salles = new List<Salle>();
 
         public int IdBatiment { get => idBatiment; set => idBatiment = value; }
 
         public string? NomBatiment { get => nomBatiment; set => nomBatiment = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Batiment.salles))]
+        [InverseProperty(nameof(Salle.BatimentNavigation))]
         public ICollection<Salle> Salles { get => salles; set => salles = value; }
     }
 }
