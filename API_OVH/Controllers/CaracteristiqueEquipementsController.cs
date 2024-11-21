@@ -6,32 +6,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.EntityFramework;
+using API_OVH.Models.Repository;
+using AutoMapper;
 
 namespace API_OVH.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CaracteristiqueEquipementsController : ControllerBase
+    public class CaracteristiqueEquipementController : ControllerBase
     {
-        private readonly SAE5_BD_OVH_DbContext _context;
+        private readonly IDataRepository<CaracteristiqueEquipement> dataRepository;
+        private readonly IMapper mapper;
 
-        public CaracteristiqueEquipementsController(SAE5_BD_OVH_DbContext context)
+        public CaracteristiqueEquipementController(IMapper mapper, IDataRepository<CaracteristiqueEquipement> dataRepo)
         {
-            _context = context;
+            dataRepository = dataRepo;
+            mapper = mapper;
         }
 
         // GET: api/CaracteristiqueEquipements
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CaracteristiqueEquipement>>> GetCaracteristiqueEquipements()
         {
-            return await _context.CaracteristiquesEquipement.ToListAsync();
+            return await dataRepository.GetAllAsync();
         }
 
         // GET: api/CaracteristiqueEquipements/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CaracteristiqueEquipement>> GetCaracteristiqueEquipement(int id)
         {
-            var caracteristiqueEquipement = await _context.CaracteristiquesEquipement.FindAsync(id);
+            var caracteristiqueEquipement = await dataRepository.GetByIdAsync(id);
 
             if (caracteristiqueEquipement == null)
             {
@@ -50,22 +54,11 @@ namespace API_OVH.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(caracteristiqueEquipement).State = EntityState.Modified;
+            var caracteristiqueAModifier = dataRepository.GetByIdAsync(id);
 
-            try
+            if (caracteristiqueAModifier == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.CaracteristiquesEquipement.Any(e => e.IdCaracteristique == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return NoContent();
@@ -75,8 +68,12 @@ namespace API_OVH.Controllers
         [HttpPost]
         public async Task<ActionResult<CaracteristiqueEquipement>> PostCaracteristiqueEquipement(CaracteristiqueEquipement caracteristiqueEquipement)
         {
-            _context.CaracteristiquesEquipement.Add(caracteristiqueEquipement);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await dataRepository.AddAsync(caracteristiqueEquipement);
 
             return CreatedAtAction("GetCaracteristiqueEquipement", new { id = caracteristiqueEquipement.IdCaracteristique }, caracteristiqueEquipement);
         }
@@ -85,14 +82,13 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCaracteristiqueEquipement(int id)
         {
-            var caracteristiqueEquipement = await _context.CaracteristiqueEquipements.FindAsync(id);
-            if (caracteristiqueEquipement == null)
+            var laCaracteristique = await dataRepository.GetByIdAsync(id);
+            if (laCaracteristique.Value == null)
             {
-                return NotFound();
+                return NotFound("delete caracteristique: caracteristique non trouvé");
             }
 
-            _context.CaracteristiqueEquipements.Remove(caracteristiqueEquipement);
-            await _context.SaveChangesAsync();
+            await dataRepository.DeleteAsync(laCaracteristique.Value);
 
             return NoContent();
         }
