@@ -14,6 +14,8 @@ namespace API_OVH.Models.EntityFramework
         private double xCapteur;
         private double yCapteur;
         private double zCapteur;
+        private Salle? salleNavigation;
+        private TypeMesure? typeMesureNavigation;
 
         public int IdCapteur { get => idCapteur; set => idCapteur = value; }
         public int IdSalle { get => idSalle; set => idSalle = value; }
@@ -23,5 +25,7 @@ namespace API_OVH.Models.EntityFramework
         public double XCapteur { get => xCapteur; set => xCapteur = value; }
         public double YCapteur { get => yCapteur; set => yCapteur = value; }
         public double ZCapteur { get => zCapteur; set => zCapteur = value; }
+        public virtual Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
+        public virtual TypeMesure? TypeMesureNavigation { get => typeMesureNavigation; set => typeMesureNavigation = value; }
     }
 }

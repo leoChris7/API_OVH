@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_OVH.Models.EntityFramework
 {
-    public class Batiment
+    public partial class Batiment
     {
         private int idBatiment;
         private string? nomBatiment;
