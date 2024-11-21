@@ -1,4 +1,9 @@
-﻿namespace API_OVH.Models.EntityFramework
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace API_OVH.Models.EntityFramework
 {
     public class Equipement
     {
@@ -9,6 +14,7 @@
         private double xEquipement;
         private double yEquipement;
         private double zEquipement;
+        private ICollection<ValeurEquipement> valeursEquipements = new List<ValeurEquipement>();
 
         public int IdEquipement { get => idEquipement; set => idEquipement = value; }
         public int IdSalle { get => idSalle; set => idSalle = value; }
@@ -17,5 +23,9 @@
         public double XEquipement { get => xEquipement; set => xEquipement = value; }
         public double YEquipement { get => yEquipement; set => yEquipement = value; }
         public double ZEquipement { get => zEquipement; set => zEquipement = value; }
+
+        [JsonIgnore]
+        [InverseProperty(nameof(ValeurEquipement.EquipementNavigation))]
+        public virtual ICollection<ValeurEquipement> ValeursEquipements { get => valeursEquipements; set => valeursEquipements = value; }
     }
 }

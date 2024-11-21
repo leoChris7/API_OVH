@@ -105,8 +105,10 @@ namespace API_OVH.Models.EntityFramework
 
             modelBuilder.Entity<ValeurEquipement>(entity =>
             {
-                entity.HasKey(e => new { e.Idunite, e.Idcaracteristique })
+                entity.HasKey(e => new { e.IdUnite, e.IdCaracteristique })
                     .HasName("pk_valUniteCaract");
+
+
             });
 
 
