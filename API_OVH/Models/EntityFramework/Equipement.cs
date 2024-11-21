@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    public class Equipement
+    public partial class Equipement
     {
         private int idEquipement;
         private int idSalle;

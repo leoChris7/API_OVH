@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    public class TypeMesure
+    public partial class TypeMesure
     {
         private int idTypeMesure;
         private string nomTypeMesure;

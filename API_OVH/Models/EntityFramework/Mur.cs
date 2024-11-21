@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    public class Mur
+    public partial class Mur
     {
         private int idMur;
         private int idDirection;

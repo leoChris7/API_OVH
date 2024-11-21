@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    public class Unite
+    public partial class Unite
     {
         private int idUnite;
         private string nomUnite;

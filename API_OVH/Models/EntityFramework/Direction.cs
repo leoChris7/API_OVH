@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    public class Direction
+    public partial class Direction
     {
         private int idDirection;
         private string lettresDirection;
