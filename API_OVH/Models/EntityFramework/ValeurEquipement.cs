@@ -28,11 +28,11 @@ namespace API_OVH.Models.EntityFramework
         [JsonIgnore]
         [ForeignKey(nameof(IdEquipement))]
         [InverseProperty(nameof(Equipement.ValeursEquipements))]
-        public virtual Equipement EquipementNavigation { get => equipementNavigation; set => equipementNavigation = value; }
+        public virtual Equipement? EquipementNavigation { get => equipementNavigation; set => equipementNavigation = value; }
 
         [JsonIgnore]
         [ForeignKey(nameof(IdUnite))]
         [InverseProperty(nameof(Unite.ValeursEquipements))]
-        public virtual Unite UniteNavigation { get => uniteNavigation; set => uniteNavigation = value; }
+        public virtual Unite? UniteNavigation { get => uniteNavigation; set => uniteNavigation = value; }
     }
 }

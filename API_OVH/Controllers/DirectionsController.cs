@@ -17,13 +17,13 @@ namespace API_OVH.Controllers
     public class DirectionController : ControllerBase
     {
         private readonly IReadOnlyDataRepository<Direction> directionManager;
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
         public DirectionController(DirectionManager manager, IMapper mapper)
         {
             directionManager = manager;
-            _mapper = mapper;
+            this.mapper = mapper;
         }
 
         // GET: api/Directions
@@ -34,7 +34,7 @@ namespace API_OVH.Controllers
         }
 
         // GET: api/Directions/5
-        [HttpGet("{id}")]
+        [HttpGet("(GetById/{id})")]
         public async Task<ActionResult<Direction>> GetDirection(int id)
         {
             var direction = await directionManager.GetByIdAsync(id);
@@ -45,6 +45,20 @@ namespace API_OVH.Controllers
             }
 
             return direction;
+        }
+
+        // GET: api/Directions/S
+        [HttpGet("(GetByLetters/{letters})")]
+        public async Task<ActionResult<Direction>> GetDirectionByLetters(String letters)
+        {
+            var lettreDirection = await directionManager.GetByStringAsync(letters);
+
+            if (lettreDirection == null)
+            {
+                return NotFound();
+            }
+
+            return lettreDirection;
         }
 
     }

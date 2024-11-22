@@ -48,15 +48,15 @@ namespace API_OVH.Controllers
             return leBatiment;
         }
 
-        // GET: api/Batiments/5
-        [HttpGet("GetByString/{str}")]
-        public async Task<ActionResult<Batiment>> GetBatimentById(string str)
+        // GET: api/Batiments/TETRAS
+        [HttpGet("GetByName/{name}")]
+        public async Task<ActionResult<Batiment>> GetBatimentByName(string name)
         {
-            var leBatiment = await dataRepository.GetByStringAsync(str);
+            var leBatiment = await dataRepository.GetByStringAsync(name);
 
             if (leBatiment == null)
             {
-                return NotFound("getbatimentbystr: le batiment n'a pas été trouvé");
+                return NotFound("GetbatimentbyName: le batiment n'a pas été trouvé");
             }
 
             return leBatiment;
@@ -95,7 +95,7 @@ namespace API_OVH.Controllers
 
             await dataRepository.AddAsync(batiment);
 
-            return CreatedAtAction("GetMarqueById", new { id = batiment.IdBatiment }, batiment);
+            return CreatedAtAction("GetBatimentById", new { id = batiment.IdBatiment }, batiment);
         }
 
         // DELETE: api/Batiments/5

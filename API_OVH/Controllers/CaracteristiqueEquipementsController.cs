@@ -13,43 +13,43 @@ namespace API_OVH.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CaracteristiqueEquipementController : ControllerBase
+    public class ValeurEquipementController : ControllerBase
     {
-        private readonly IDataRepository<CaracteristiqueEquipement> dataRepository;
+        private readonly IDataRepository<ValeurEquipement> dataRepository;
         private readonly IMapper mapper;
 
-        public CaracteristiqueEquipementController(IMapper mapper, IDataRepository<CaracteristiqueEquipement> dataRepo)
+        public ValeurEquipementController(IMapper mapper, IDataRepository<ValeurEquipement> dataRepo)
         {
             dataRepository = dataRepo;
-            mapper = mapper;
+            this.mapper = mapper;
         }
 
-        // GET: api/CaracteristiqueEquipements
+        // GET: api/ValeurEquipements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CaracteristiqueEquipement>>> GetCaracteristiqueEquipements()
+        public async Task<ActionResult<IEnumerable<ValeurEquipement>>> GetValeurEquipements()
         {
             return await dataRepository.GetAllAsync();
         }
 
-        // GET: api/CaracteristiqueEquipements/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CaracteristiqueEquipement>> GetCaracteristiqueEquipement(int id)
+        // GET: api/ValeurEquipements/5
+        [HttpGet("(GetById/{id})")]
+        public async Task<ActionResult<ValeurEquipement>> GetValeurEquipementById(int id)
         {
-            var caracteristiqueEquipement = await dataRepository.GetByIdAsync(id);
+            var ValeurEquipement = await dataRepository.GetByIdAsync(id);
 
-            if (caracteristiqueEquipement == null)
+            if (ValeurEquipement == null)
             {
-                return NotFound();
+                return NotFound("GetValeurEquipementById: la caractérisitique n'a pas été trouvé.");
             }
 
-            return caracteristiqueEquipement;
+            return ValeurEquipement;
         }
 
-        // PUT: api/CaracteristiqueEquipements/5
+        // PUT: api/ValeurEquipements/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCaracteristiqueEquipement(int id, CaracteristiqueEquipement caracteristiqueEquipement)
+        public async Task<IActionResult> PutValeurEquipement(int id, ValeurEquipement ValeurEquipement)
         {
-            if (id != caracteristiqueEquipement.IdCaracteristique)
+            if (id != ValeurEquipement.IdCaracteristique)
             {
                 return BadRequest();
             }
@@ -64,23 +64,23 @@ namespace API_OVH.Controllers
             return NoContent();
         }
 
-        // POST: api/CaracteristiqueEquipements
+        // POST: api/ValeurEquipements
         [HttpPost]
-        public async Task<ActionResult<CaracteristiqueEquipement>> PostCaracteristiqueEquipement(CaracteristiqueEquipement caracteristiqueEquipement)
+        public async Task<ActionResult<ValeurEquipement>> PostValeurEquipement(ValeurEquipement ValeurEquipement)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await dataRepository.AddAsync(caracteristiqueEquipement);
+            await dataRepository.AddAsync(ValeurEquipement);
 
-            return CreatedAtAction("GetCaracteristiqueEquipement", new { id = caracteristiqueEquipement.IdCaracteristique }, caracteristiqueEquipement);
+            return CreatedAtAction("GetValeurEquipement", new { id = ValeurEquipement.IdCaracteristique }, ValeurEquipement);
         }
 
-        // DELETE: api/CaracteristiqueEquipements/5
+        // DELETE: api/ValeurEquipements/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCaracteristiqueEquipement(int id)
+        public async Task<IActionResult> DeleteValeurEquipement(int id)
         {
             var laCaracteristique = await dataRepository.GetByIdAsync(id);
             if (laCaracteristique.Value == null)
