@@ -21,7 +21,7 @@ namespace API_OVH.Controllers
         public CapteursController(IMapper mapper, IDataRepository<Capteur> dataRepo)
         {
             dataRepository = dataRepo;
-            mapper = mapper;
+            this.mapper = mapper;
         }
 
         // GET: api/Capteurs
@@ -32,7 +32,7 @@ namespace API_OVH.Controllers
         }
 
         // GET: api/Capteurs/5
-        [HttpGet("{id}")]
+        [HttpGet("(GetById/{id})")]
         public async Task<ActionResult<Capteur>> GetCapteurById(int id)
         {
             var leCapteur = await dataRepository.GetByIdAsync(id);
@@ -40,6 +40,21 @@ namespace API_OVH.Controllers
             if (leCapteur == null)
             {
                 return NotFound("getCapteurById: le capteur n'a pas été trouvé.");
+            }
+
+            return leCapteur;
+        }
+
+
+        // GET: api/Capteurs/CapteurCO2
+        [HttpGet("(GetByName/{name})")]
+        public async Task<ActionResult<Capteur>> GetCapteurById(String name)
+        {
+            var leCapteur = await dataRepository.GetByStringAsync(name);
+
+            if (leCapteur == null)
+            {
+                return NotFound("GetCapteurByName: le capteur n'a pas été trouvé.");
             }
 
             return leCapteur;

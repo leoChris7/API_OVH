@@ -44,6 +44,6 @@ namespace API_OVH.Models.EntityFramework
 
         [JsonIgnore]
         [InverseProperty(nameof(Mur.SalleNavigation))]
-        public virtual ICollection<Equipement> Murs { get => murs; set => murs = value; }
+        public virtual ICollection<Mur> Murs { get => murs; set => murs = value; }
     }
 }

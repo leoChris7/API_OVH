@@ -15,7 +15,7 @@ namespace API_OVH.Models.EntityFramework
         public string NomTypeEquipement { get => nomTypeEquipement; set => nomTypeEquipement = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(TypeEquipement.equipements))]
+        [InverseProperty(nameof(Equipement.TypeEquipementNavigation))]
         public ICollection<Equipement> Equipements { get => equipements; set => equipements = value; }
     }
 }

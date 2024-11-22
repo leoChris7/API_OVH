@@ -39,7 +39,6 @@ builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
 builder.Services.AddScoped<IDataRepository<TypeEquipement>, TypeEquipementManager>();
 builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
 builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
-builder.Services.AddScoped<IDataRepository<CaracteristiqueEquipement>, CaracteristiqueEquipementManager>();
 
 builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
 

@@ -10,14 +10,14 @@ namespace API_OVH.Models.EntityFramework
         private int idUnite;
         private string nomUnite;
         private string? sigleUnite;
-        private ICollection<ValeurEquipement> valeursEquipements = new List<ValeurEquipement>();
+        private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
         public int IdUnite { get => idUnite; set => idUnite = value; }
         public string NomUnite { get => nomUnite; set => nomUnite = value; }
         public string? SigleUnite { get => sigleUnite; set => sigleUnite = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(ValeurEquipement.UniteNavigation))]
-        public virtual ICollection<ValeurEquipement> ValeursEquipements { get => valeursEquipements; set => valeursEquipements = value; }
+        [InverseProperty(nameof(UniteCapteur.UniteNavigation))]
+        public virtual ICollection<UniteCapteur> UnitesCapteur { get => unitesCapteur; set => unitesCapteur = value; }
     }
 }

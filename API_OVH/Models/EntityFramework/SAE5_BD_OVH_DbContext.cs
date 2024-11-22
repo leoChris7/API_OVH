@@ -11,14 +11,12 @@ namespace API_OVH.Models.EntityFramework
         public virtual DbSet<Salle> Salles { get; set; }
         public virtual DbSet<Capteur> Capteurs { get; set; }
         public virtual DbSet<Equipement> Equipements { get; set; }
-        public virtual DbSet<Caracteristique> Caracteristiques { get; set; }
         public virtual DbSet<Direction> Directions { get; set; }
         public virtual DbSet<Mur> Murs { get; set; }
         public virtual DbSet<TypeEquipement> TypesEquipement { get; set; }
         public virtual DbSet<UniteCapteur> UnitesCapteur { get; set; }
         public virtual DbSet<TypeSalle> TypesSalle { get; set; }
         public virtual DbSet<Unite> Unites { get; set; }
-        public virtual DbSet<ValeurEquipement> ValeursEquipement { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -112,32 +110,29 @@ namespace API_OVH.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_CAPTEUR_REFERENCE_SALLE");
 
-                entity.ToTable(t => t.HasCheckConstraint("chk_capteur_actif", "estactif IN ('OUI', 'NON', 'NSP')"));
+                // Contrainte addtionnelle
 
-            });
+                entity.ToTable(t => t.HasCheckConstraint("chk_capteur_actif", "ESTACTIF IN ('OUI', 'NON', 'NSP')"));
 
-            modelBuilder.Entity<Caracteristique>(entity =>
-            {
-                // Nom de la table
-                entity.ToTable("CARACTERISTIQUE");
-
-                entity.HasKey(e => e.IdCaracteristique)
-                      .HasName("PK_CARACTERISTIQUE");
-
-                entity.Property(e => e.IdCaracteristique)
-                      .HasColumnName("IDCARACTERISTIQUE")
-                      .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.NomCaracteristique)
-                      .HasColumnName("NOMCARACTERISTIQUE") // Nom de la colonne
-                      .HasColumnType("varchar(20)")
-                      .IsRequired(false); // NULL autorisé
             });
 
             modelBuilder.Entity<Direction>(entity =>
             {
-                entity.HasKey(e => e.IdDirection)
-                    .HasName("pk_direction_id");
+                // Nom de la table
+                entity.ToTable("DIRECTION");
+
+                // Clé primaire
+                entity.HasKey(e => e.IdDirection) 
+                      .HasName("PK_DIRECTION");
+
+                // Colonnes
+                entity.Property(e => e.IdDirection)
+                      .HasColumnName("IDDIRECTION");
+
+                entity.Property(e => e.LettresDirection)
+                      .HasColumnName("LETTRES_DIRECTION")
+                      .HasColumnType("varchar(2)")
+                      .IsRequired();
             });
 
             modelBuilder.Entity<Equipement>(entity =>
