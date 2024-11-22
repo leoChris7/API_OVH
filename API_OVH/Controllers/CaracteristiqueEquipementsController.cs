@@ -15,10 +15,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class CaracteristiqueEquipementController : ControllerBase
     {
-        private readonly IDataRepository<CaracteristiqueEquipement> dataRepository;
+        private readonly IDataRepository<Caracteristique> dataRepository;
         private readonly IMapper mapper;
 
-        public CaracteristiqueEquipementController(IMapper mapper, IDataRepository<CaracteristiqueEquipement> dataRepo)
+        public CaracteristiqueEquipementController(IMapper mapper, IDataRepository<Caracteristique> dataRepo)
         {
             dataRepository = dataRepo;
             mapper = mapper;
@@ -26,14 +26,14 @@ namespace API_OVH.Controllers
 
         // GET: api/CaracteristiqueEquipements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CaracteristiqueEquipement>>> GetCaracteristiqueEquipements()
+        public async Task<ActionResult<IEnumerable<Caracteristique>>> GetCaracteristiqueEquipements()
         {
             return await dataRepository.GetAllAsync();
         }
 
         // GET: api/CaracteristiqueEquipements/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CaracteristiqueEquipement>> GetCaracteristiqueEquipement(int id)
+        public async Task<ActionResult<Caracteristique>> GetCaracteristiqueEquipement(int id)
         {
             var caracteristiqueEquipement = await dataRepository.GetByIdAsync(id);
 
@@ -47,7 +47,7 @@ namespace API_OVH.Controllers
 
         // PUT: api/CaracteristiqueEquipements/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCaracteristiqueEquipement(int id, CaracteristiqueEquipement caracteristiqueEquipement)
+        public async Task<IActionResult> PutCaracteristiqueEquipement(int id, Caracteristique caracteristiqueEquipement)
         {
             if (id != caracteristiqueEquipement.IdCaracteristique)
             {
@@ -66,7 +66,7 @@ namespace API_OVH.Controllers
 
         // POST: api/CaracteristiqueEquipements
         [HttpPost]
-        public async Task<ActionResult<CaracteristiqueEquipement>> PostCaracteristiqueEquipement(CaracteristiqueEquipement caracteristiqueEquipement)
+        public async Task<ActionResult<Caracteristique>> PostCaracteristiqueEquipement(Caracteristique caracteristiqueEquipement)
         {
             if (!ModelState.IsValid)
             {
