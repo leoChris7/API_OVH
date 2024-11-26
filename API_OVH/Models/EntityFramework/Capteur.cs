@@ -5,26 +5,34 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
+    [Table("CAPTEUR")]
     public partial class Capteur
     {
-        private int idCapteur;
-        private int idSalle;
-        private int idTypeMesure;
-        private string nomCapteur;
-        private string estActif;
-        private double xCapteur;
-        private double yCapteur;
-        private double zCapteur;
         private Salle? salleNavigation;
         private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
-        public int IdCapteur { get => idCapteur; set => idCapteur = value; }
-        public int IdSalle { get => idSalle; set => idSalle = value; }
-        public string NomCapteur { get => nomCapteur; set => nomCapteur = value; }
-        public string EstActif { get => estActif; set => estActif = value; }
-        public double XCapteur { get => xCapteur; set => xCapteur = value; }
-        public double YCapteur { get => yCapteur; set => yCapteur = value; }
-        public double ZCapteur { get => zCapteur; set => zCapteur = value; }
+        [Key]
+        [Column("IDCAPTEUR")]
+        public int IdCapteur { get; set; }
+
+        [Column("IDSALLE")]
+        public int? IdSalle { get; set; }
+
+        [Required]
+        [Column("NOMCAPTEUR", TypeName = "varchar(25)")]
+        public string NomCapteur { get; set; }
+
+        [Column("ESTACTIF", TypeName = "char(3)")]
+        public string EstActif { get; set; } = "NSP";
+
+        [Column("XCAPTEUR", TypeName = "numeric(10,1)")]
+        public decimal XCapteur { get; set; } = 0;
+
+        [Column("YCAPTEUR", TypeName = "numeric(10,1)")]
+        public decimal YCapteur { get; set; } = 0;
+
+        [Column("ZCAPTEUR", TypeName = "numeric(10,1)")]
+        public decimal ZCapteur { get; set; } = 0;
 
         [JsonIgnore]
         [ForeignKey(nameof(IdSalle))]

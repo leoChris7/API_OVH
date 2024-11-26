@@ -5,16 +5,21 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
+    [Table("UNITE")]
     public partial class Unite
     {
-        private int idUnite;
-        private string nomUnite;
-        private string? sigleUnite;
         private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
-        public int IdUnite { get => idUnite; set => idUnite = value; }
-        public string NomUnite { get => nomUnite; set => nomUnite = value; }
-        public string? SigleUnite { get => sigleUnite; set => sigleUnite = value; }
+        [Key]
+        [Column("IDUNITE")]
+        public int IdUnite { get; set; }
+
+        [Required]
+        [Column("NOMUNITE", TypeName = "varchar(50)")]
+        public string NomUnite { get; set; }
+
+        [Column("SIGLEUNITE", TypeName = "varchar(10)")]
+        public string SigleUnite { get; set; }
 
         [JsonIgnore]
         [InverseProperty(nameof(UniteCapteur.UniteNavigation))]

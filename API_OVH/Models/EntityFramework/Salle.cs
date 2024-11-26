@@ -5,27 +5,34 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
+    [Table("SALLE")]
     public partial class Salle
     {
-        private int idSalle;
-        private int idBatiment;
-        private int idtypeSalle;
-        private string? nomSalle;
-        private double superficieSalle;
         private Batiment? batimentNavigation;
         private TypeSalle? typeSalleNavigation;
         private ICollection<Capteur> capteurs = new List<Capteur>();
         private ICollection<Equipement> equipements = new List<Equipement>();
         private ICollection<Mur> murs = new List<Mur>();
 
-        public int IdSalle { get => idSalle; set => idSalle = value; }
-        public int IdBatiment { get => idBatiment; set => idBatiment = value; }
-        public int IdTypeSalle { get => idtypeSalle; set => idtypeSalle = value; }
-        public string? NomSalle { get => nomSalle; set => nomSalle = value; }
-        public double SuperficieSalle { get => superficieSalle; set => superficieSalle = value; }
+        [Key]
+        [Column("IDSALLE")]
+        public int IdSalle { get; set; }
+
+        [Column("IDBATIMENT")]
+        public int IdBatiment { get; set; }
+
+        [Column("IDTYPESALLE")]
+        public int IdTypeSalle { get; set; }
+
+        [Required]
+        [Column("NOMSALLE", TypeName = "varchar(20)")]
+        public string NomSalle { get; set; }
+
+        [Column("SUPERFICIESALLE", TypeName = "numeric(12,2)")]
+        public decimal SuperficieSalle { get; set; } = 0;
 
         [JsonIgnore]
-        [ForeignKey(nameof(idBatiment))]
+        [ForeignKey(nameof(IdBatiment))]
         [InverseProperty(nameof(Batiment.Salles))]
         public Batiment? BatimentNavigation { get => batimentNavigation; set => batimentNavigation = value; }
 

@@ -5,44 +5,45 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
+    [Table("EQUIPEMENT")]
     public partial class Equipement
     {
         private TypeEquipement typeEquipementNavigation;
         private Salle salleNavigation;
-        private ICollection<ValeurEquipement> valeursEquipements = new List<ValeurEquipement>();
 
         [Key]
+        [Column("IDEQUIPEMENT")] 
         public int IdEquipement { get; set; }
 
-        [Required]
+        [Column("IDSALLE")]
         public int IdSalle { get; set; }
 
-        [Required]
+        [Column("IDTYPEEQUIPEMENT")]
         public int IdTypeEquipement { get; set; }
 
         [Required]
-        [Column(TypeName = "varchar(20)")]
+        [Column("NOMEQUIPEMENT", TypeName = "varchar(20)")]
         public string NomEquipement { get; set; }
 
-        [Column(TypeName = "numeric")]
+        [Column("LONGUEUR", TypeName = "numeric")]
         public decimal Longueur { get; set; } = 0;
 
-        [Column(TypeName = "numeric")]
+        [Column("LARGEUR", TypeName = "numeric")]
         public decimal Largeur { get; set; } = 0;
 
-        [Column(TypeName = "numeric")]
+        [Column("HAUTEUR", TypeName = "numeric")]
         public decimal Hauteur { get; set; } = 0;
 
-        [Column(TypeName = "numeric(10,1)")]
+        [Column("XEQUIPEMENT", TypeName = "numeric(10,1)")]
         public decimal XEquipement { get; set; } = 0;
 
-        [Column(TypeName = "numeric(10,1)")]
+        [Column("YEQUIPEMENT", TypeName = "numeric(10,1)")]
         public decimal YEquipement { get; set; } = 0;
 
-        [Column(TypeName = "numeric(10,1)")]
+        [Column("ZEQUIPEMENT", TypeName = "numeric(10,1)")]
         public decimal ZEquipement { get; set; } = 0;
 
-        [Column(TypeName = "char(3)")]
+        [Column("ESTACTIF", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";
 
         [JsonIgnore]
@@ -54,9 +55,5 @@ namespace API_OVH.Models.EntityFramework
         [ForeignKey(nameof(IdSalle))]
         [InverseProperty(nameof(Salle.Equipements))]
         public virtual TypeEquipement? SalleNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
-
-        [JsonIgnore]
-        [InverseProperty(nameof(ValeurEquipement.EquipementNavigation))]
-        public virtual ICollection<ValeurEquipement> ValeursEquipements { get => valeursEquipements; set => valeursEquipements = value; }
     }
 }

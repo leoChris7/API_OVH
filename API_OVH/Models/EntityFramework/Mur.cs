@@ -5,23 +5,30 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
+    [Table("MUR")]
     public partial class Mur
     {
-        private int idMur;
-        private int idDirection;
-        private int idSalle;
-        private double longueur;
-        private double hauteur;
-        private float orientation;
         private Salle? salleNavigation;
         private Direction? directionNavigation;
 
-        public int IdMur { get => idMur; set => idMur = value; }
-        public int IdDirection { get => idDirection; set => idDirection = value; }
-        public int IdSalle { get => idSalle; set => idSalle = value; }
-        public double Longueur { get => longueur; set => longueur = value; }
-        public double Hauteur { get => hauteur; set => hauteur = value; }
-        public float Orientation { get => orientation; set => orientation = value; }
+        [Key]
+        [Column("IDMUR")]
+        public int IdMur { get; set; }
+
+        [Column("IDDIRECTION")]
+        public short IdDirection { get; set; }
+
+        [Column("IDSALLE")]
+        public int IdSalle { get; set; }
+
+        [Column("LONGUEUR", TypeName = "numeric")]
+        public decimal Longueur { get; set; } = 0;
+
+        [Column("HAUTEUR", TypeName = "numeric(4,2)")]
+        public decimal Hauteur { get; set; } = 0;
+
+        [Column("ORIENTATION", TypeName = "numeric(8,6)")]
+        public decimal Orientation { get; set; } = 0;
 
         [JsonIgnore]
         [ForeignKey(nameof(IdSalle))]

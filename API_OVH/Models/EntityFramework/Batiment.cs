@@ -5,15 +5,18 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
+    [Table("BATIMENT")]
     public partial class Batiment
     {
-        private int idBatiment;
-        private string? nomBatiment;
         private ICollection<Salle> salles = new List<Salle>();
 
-        public int IdBatiment { get => idBatiment; set => idBatiment = value; }
+        [Key]
+        [Column("IDBATIMENT")]
+        public int IdBatiment { get; set; }
 
-        public string? NomBatiment { get => nomBatiment; set => nomBatiment = value; }
+        [Required]
+        [Column("NOMBATIMENT", TypeName = "varchar(20)")]
+        public string NomBatiment { get; set; }
 
         [JsonIgnore]
         [InverseProperty(nameof(Salle.BatimentNavigation))]
