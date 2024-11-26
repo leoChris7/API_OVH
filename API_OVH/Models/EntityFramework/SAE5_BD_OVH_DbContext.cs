@@ -11,14 +11,12 @@ namespace API_OVH.Models.EntityFramework
         public virtual DbSet<Salle> Salles { get; set; }
         public virtual DbSet<Capteur> Capteurs { get; set; }
         public virtual DbSet<Equipement> Equipements { get; set; }
-        public virtual DbSet<CaracteristiqueEquipement> CaracteristiquesEquipement { get; set; }
         public virtual DbSet<Direction> Directions { get; set; }
         public virtual DbSet<Mur> Murs { get; set; }
         public virtual DbSet<TypeEquipement> TypesEquipement { get; set; }
-        public virtual DbSet<TypeMesure> TypesMesure { get; set; }
+        public virtual DbSet<UniteCapteur> UnitesCapteur { get; set; }
         public virtual DbSet<TypeSalle> TypesSalle { get; set; }
         public virtual DbSet<Unite> Unites { get; set; }
-        public virtual DbSet<ValeurEquipement> ValeursEquipement { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,96 +30,109 @@ namespace API_OVH.Models.EntityFramework
         {
             modelBuilder.Entity<Salle>(entity =>
             {
+                // Nom de la table
+                entity.ToTable("SALLE");
 
+                // Clé primaire
                 entity.HasKey(e => e.IdSalle)
+                    .HasName("PK_SALLE");
 
-                    .HasName("pk_salle_id");
+                entity.Property(e => e.IdSalle).HasColumnName("IDSALLE");
+                entity.Property(e => e.IdTypeSalle).HasColumnName("IDTYPESALLE");
+                entity.Property(e => e.IdBatiment).HasColumnName("IDBATIMENT");
+                entity.Property(e => e.NomSalle).HasColumnName("NOMSALLE");
+                entity.Property(e => e.SuperficieSalle).HasColumnName("SUPERFICIESALLE");
+
+                // Colonnes
+                entity.HasOne(d => d.TypeSalleNavigation)
+                    .WithMany(p => p.Salles)
+                    .HasForeignKey(d => d.IdTypeSalle)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_SALLE_EST_QUALI_TYPESALL");
+
+                // Clés étrangères
+                 entity.HasOne(d => d.BatimentNavigation)
+                    .WithMany(p => p.Salles)
+                    .HasForeignKey(d => d.IdBatiment)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_SALLE_SE_TROUVE_BATIMENT");
             });
 
             modelBuilder.Entity<Batiment>(entity =>
             {
-                entity.ToTable("batiment");
+                // Nom de la table
+                entity.ToTable("BATIMENT");
 
-                entity.Property(e => e.IdBatiment).HasColumnName("batimentid");
-                entity.Property(e => e.NomBatiment).HasColumnName("nombatiment");
-
+                // Clé primaire
                 entity.HasKey(e => e.IdBatiment)
-                    .HasName("pk_batiment_id");
+                    .HasName("PK_BATIMENT");
+
+                // Colonnes
+                entity.Property(e => e.IdBatiment).HasColumnName("BATIMENTID");
+                entity.Property(e => e.NomBatiment).HasColumnName("NOMBATIMENT");
             });
 
             modelBuilder.Entity<Capteur>(entity =>
             {
                 // Nom de la table
-                entity.ToTable("capteur");
+                entity.ToTable("CAPTEUR");
 
                 // Clé primaire
                 entity.HasKey(e => e.IdCapteur)
-                    .HasName("pk_capteur");
+                    .HasName("PK_CAPTEUR");
 
                 // Colonnes
-                entity.Property(e => e.IdCapteur)
-                    .HasColumnName("idcapteur")
-                    .IsRequired();
-
-                entity.Property(e => e.IdSalle)
-                    .HasColumnName("idsalle");
-
-                entity.Property(e => e.IdTypeMesure)
-                    .HasColumnName("idtypemesure");
-
-                entity.Property(e => e.NomCapteur)
-                    .HasColumnName("nomtypecapteur")
+                entity.Property(e => e.IdCapteur).HasColumnName("IDCAPTEUR");
+                entity.Property(e => e.IdSalle).HasColumnName("IDSALLE");
+                entity.Property(e => e.NomCapteur).HasColumnName("NOMCAPTEUR")
                     .HasMaxLength(25);
 
-                entity.Property(e => e.EstActif)
-                    .HasColumnName("estactif")
+                entity.Property(e => e.EstActif).HasColumnName("ESTACTIF")
                     .HasMaxLength(3)
                     .HasDefaultValue("NSP");
 
-                entity.Property(e => e.XCapteur)
-                    .HasColumnName("xcapteur")
+                entity.Property(e => e.XCapteur).HasColumnName("XCAPTEUR")
                     .HasColumnType("numeric(10,1)")
                     .HasDefaultValue(0);
 
-                entity.Property(e => e.YCapteur)
-                    .HasColumnName("ycapteur")
+                entity.Property(e => e.YCapteur).HasColumnName("YCAPTEUR")
                     .HasColumnType("numeric(10,1)")
                     .HasDefaultValue(0);
 
-                entity.Property(e => e.ZCapteur)
-                    .HasColumnName("zcapteur")
+                entity.Property(e => e.ZCapteur).HasColumnName("ZCAPTEUR")
                     .HasColumnType("numeric(10,1)")
                     .HasDefaultValue(0);
 
                 // Clés étrangères
                 entity.HasOne(d => d.SalleNavigation)
-                    .WithMany()
-                    .HasForeignKey(e => e.IdSalle)
-                    .HasConstraintName("fk_capteur_reference_salle")
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany(p => p.Capteurs)
+                    .HasForeignKey(d => d.IdSalle)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_CAPTEUR_REFERENCE_SALLE");
 
-                entity.HasOne(d => d.TypeMesureNavigation)
-                    .WithMany()
-                    .HasForeignKey(e => e.IdTypeMesure)
-                    .HasConstraintName("fk_capteur_reference_type_mes")
-                    .OnDelete(DeleteBehavior.Restrict);
+                // Contrainte addtionnelle
 
-                // Contraintes supplémentaires (CHECK)
-                entity.HasCheckConstraint("chk_capteur_actif", "estactif IN ('OUI', 'NON', 'NSP')");
-
-            });
-
-            modelBuilder.Entity<CaracteristiqueEquipement>(entity =>
-            {
-                entity.HasKey(e => e.IdCaracteristique)
-                    .HasName("pk_caractEquip_id");
+                entity.ToTable(t => t.HasCheckConstraint("chk_capteur_actif", "ESTACTIF IN ('OUI', 'NON', 'NSP')"));
 
             });
 
             modelBuilder.Entity<Direction>(entity =>
             {
-                entity.HasKey(e => e.IdDirection)
-                    .HasName("pk_direction_id");
+                // Nom de la table
+                entity.ToTable("DIRECTION");
+
+                // Clé primaire
+                entity.HasKey(e => e.IdDirection) 
+                      .HasName("PK_DIRECTION");
+
+                // Colonnes
+                entity.Property(e => e.IdDirection)
+                      .HasColumnName("IDDIRECTION");
+
+                entity.Property(e => e.LettresDirection)
+                      .HasColumnName("LETTRES_DIRECTION")
+                      .HasColumnType("varchar(2)")
+                      .IsRequired();
             });
 
             modelBuilder.Entity<Equipement>(entity =>
@@ -142,12 +153,6 @@ namespace API_OVH.Models.EntityFramework
                     .HasName("pk_typEquip_id");
             });
 
-            modelBuilder.Entity<TypeMesure>(entity =>
-            {
-                entity.HasKey(e => e.IdTypeMesure)
-                    .HasName("pk_typMesure_id");
-            });
-
             modelBuilder.Entity<TypeSalle>(entity =>
             {
                 entity.HasKey(e => e.IdTypeSalle)
@@ -158,6 +163,24 @@ namespace API_OVH.Models.EntityFramework
             {
                 entity.HasKey(e => e.IdUnite)
                     .HasName("pk_unite");
+            });
+
+            modelBuilder.Entity<UniteCapteur>(entity =>
+            {
+                entity.HasKey(e => new { e.IdCapteur, e.IdUnite })
+                    .HasName("pk_unite_capteur");
+
+                entity.HasOne(d => d.CapteurNavigation)
+                    .WithMany(p => p.UnitesCapteur)
+                    .HasForeignKey(d => d.IdCapteur)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_unicapt_capt");
+
+                entity.HasOne(d => d.UniteNavigation)
+                    .WithMany(p => p.UnitesCapteur)
+                    .HasForeignKey(d => d.IdUnite)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("FK_UNICAPT_UNI");
             });
 
             modelBuilder.Entity<ValeurEquipement>(entity =>

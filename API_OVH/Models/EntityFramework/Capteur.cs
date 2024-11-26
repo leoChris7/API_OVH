@@ -16,11 +16,10 @@ namespace API_OVH.Models.EntityFramework
         private double yCapteur;
         private double zCapteur;
         private Salle? salleNavigation;
-        private TypeMesure? typeMesureNavigation;
+        private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
         public int IdCapteur { get => idCapteur; set => idCapteur = value; }
         public int IdSalle { get => idSalle; set => idSalle = value; }
-        public int IdTypeMesure { get => idTypeMesure; set => idTypeMesure = value; }
         public string NomCapteur { get => nomCapteur; set => nomCapteur = value; }
         public string EstActif { get => estActif; set => estActif = value; }
         public double XCapteur { get => xCapteur; set => xCapteur = value; }
@@ -33,8 +32,7 @@ namespace API_OVH.Models.EntityFramework
         public Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
 
         [JsonIgnore]
-        [ForeignKey(nameof(IdTypeMesure))]
-        [InverseProperty(nameof(TypeMesure.Capteurs))]
-        public TypeMesure? TypeMesureNavigation { get => typeMesureNavigation; set => typeMesureNavigation = value; }
+        [InverseProperty(nameof(UniteCapteur.CapteurNavigation))]
+        public virtual ICollection<UniteCapteur> UnitesCapteur { get => unitesCapteur; set => unitesCapteur = value; }
     }
 }

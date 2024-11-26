@@ -11,17 +11,24 @@ namespace API_OVH.Models.EntityFramework
         private int idSalle;
         private int idTypeEquipement;
         private string? nomEquipement;
+        private double longueurEquipement;
+        private double largeurEquipement;
+        private double hauteurEquipement;
+        private string estActif;
         private double xEquipement;
         private double yEquipement;
         private double zEquipement;
         private TypeEquipement typeEquipementNavigation;
         private Salle salleNavigation;
-        private ICollection<ValeurEquipement> valeursEquipements = new List<ValeurEquipement>();
 
         public int IdEquipement { get => idEquipement; set => idEquipement = value; }
         public int IdSalle { get => idSalle; set => idSalle = value; }
         public int IdTypeEquipement { get => idTypeEquipement; set => idTypeEquipement = value; }
         public string? NomEquipement { get => nomEquipement; set => nomEquipement = value; }
+        public double LongueurEquipement { get => longueurEquipement; set => longueurEquipement = value; }
+        public double LargeurEquipement { get => largeurEquipement; set => largeurEquipement = value; }
+        public double HauteurEquipement { get => hauteurEquipement; set => hauteurEquipement = value; }
+        public string EstActif { get => estActif; set => estActif = value; }
         public double XEquipement { get => xEquipement; set => xEquipement = value; }
         public double YEquipement { get => yEquipement; set => yEquipement = value; }
         public double ZEquipement { get => zEquipement; set => zEquipement = value; }
@@ -35,9 +42,5 @@ namespace API_OVH.Models.EntityFramework
         [ForeignKey(nameof(IdSalle))]
         [InverseProperty(nameof(Salle.Equipements))]
         public virtual TypeEquipement? SalleNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
-
-        [JsonIgnore]
-        [InverseProperty(nameof(ValeurEquipement.EquipementNavigation))]
-        public virtual ICollection<ValeurEquipement> ValeursEquipements { get => valeursEquipements; set => valeursEquipements = value; }
     }
 }
