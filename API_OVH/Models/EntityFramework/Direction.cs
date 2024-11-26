@@ -9,12 +9,17 @@ namespace API_OVH.Models.EntityFramework
     {
         private int idDirection;
         private string lettresDirection;
-        private ICollection<Salle> salles;
+        private ICollection<Mur> murs;
 
-        public int IdDirection { get => idDirection; set => idDirection = value; }
-        public string LettresDirection { get => lettresDirection; set => lettresDirection = value; }
+        [Key] // Indique que cette propriété est la clé primaire
+        public int IdDirection { get; set; }
+
+        [Column(TypeName = "varchar(2)")]
+        [Required]
+        public string LettresDirection { get; set; }
+
         [JsonIgnore]
         [InverseProperty(nameof(Mur.DirectionNavigation))]
-        public ICollection<Salle> Murs { get => salles; set => salles = value; }
+        public ICollection<Mur> Murs { get => murs; set => murs = value; }
     }
 }
