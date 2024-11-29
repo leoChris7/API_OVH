@@ -14,10 +14,8 @@ namespace API_OVH.Models.EntityFramework
         public virtual DbSet<Direction> Directions { get; set; }
         public virtual DbSet<Mur> Murs { get; set; }
         public virtual DbSet<TypeEquipement> TypesEquipement { get; set; }
-        public virtual DbSet<TypeMesure> TypesMesure { get; set; }
         public virtual DbSet<TypeSalle> TypesSalle { get; set; }
         public virtual DbSet<Unite> Unites { get; set; }
-        public virtual DbSet<ValeurEquipement> ValeursEquipement { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
