@@ -57,7 +57,7 @@ namespace API_OVH.Models.EntityFramework
                    .HasConstraintName("FK_SALLE_SE_TROUVE_BATIMENT");
 
                 // Contraintes supplémentaires (CHECK)
-                entity.ToTable(t => t.HasCheckConstraint("chk_salle_superficie", "estactif IN ('OUI', 'NON', 'NSP')"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_salle_superficie", "\"SUPERFICIESALLE\" >= 0"));
             });
 
             modelBuilder.Entity<Batiment>(entity =>
@@ -77,11 +77,11 @@ namespace API_OVH.Models.EntityFramework
             modelBuilder.Entity<Capteur>(entity =>
             {
                 // Nom de la table
-                entity.ToTable("capteur");
+                entity.ToTable("CAPTEUR");
 
                 // Clé primaire
                 entity.HasKey(e => e.IdCapteur)
-                    .HasName("pk_capteur");
+                    .HasName("PK_CAPTEUR");
 
                 // Colonnes
                 entity.Property(e => e.IdCapteur)
@@ -89,29 +89,29 @@ namespace API_OVH.Models.EntityFramework
                     .IsRequired();
 
                 entity.Property(e => e.IdSalle)
-                    .HasColumnName("idsalle");
+                    .HasColumnName("IDSALLE");
 
                 entity.Property(e => e.NomCapteur)
-                    .HasColumnName("nomtypecapteur")
+                    .HasColumnName("NOMTYPECAPTEUR")
                     .HasMaxLength(25);
 
                 entity.Property(e => e.EstActif)
-                    .HasColumnName("estactif")
+                    .HasColumnName("ESTACTIF")
                     .HasMaxLength(3)
                     .HasDefaultValue("NSP");
 
                 entity.Property(e => e.XCapteur)
-                    .HasColumnName("xcapteur")
+                    .HasColumnName("XCAPTEUR")
                     .HasColumnType("numeric(10,1)")
                     .HasDefaultValue(0);
 
                 entity.Property(e => e.YCapteur)
-                    .HasColumnName("ycapteur")
+                    .HasColumnName("YCAPTEUR")
                     .HasColumnType("numeric(10,1)")
                     .HasDefaultValue(0);
 
                 entity.Property(e => e.ZCapteur)
-                    .HasColumnName("zcapteur")
+                    .HasColumnName("ZCAPTEUR")
                     .HasColumnType("numeric(10,1)")
                     .HasDefaultValue(0);
 
@@ -119,11 +119,11 @@ namespace API_OVH.Models.EntityFramework
                 entity.HasOne(d => d.SalleNavigation)
                     .WithMany()
                     .HasForeignKey(e => e.IdSalle)
-                    .HasConstraintName("fk_capteur_reference_salle")
+                    .HasConstraintName("FK_CAPTEUR_REFERENCE_SALLE")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 // Contraintes supplémentaires (CHECK)
-                entity.ToTable(t => t.HasCheckConstraint("chk_capteur_actif", "SUPERFICIESALLE >= 0"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_capteur_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')"));
 
             });
 
@@ -146,7 +146,7 @@ namespace API_OVH.Models.EntityFramework
                       .IsRequired();
 
                 // Contraintes supplémentaires (CHECK)
-                entity.ToTable(t => t.HasCheckConstraint("chk_direction", "LETTRES_DIRECTION IN ('N', 'S', 'E', 'O', 'NE', 'NO', 'SE', 'SO')"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_direction", "\"LETTRES_DIRECTION\" IN ('N', 'S', 'E', 'O', 'NE', 'NO', 'SE', 'SO')"));
 
             });
 
@@ -225,13 +225,13 @@ namespace API_OVH.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict);
 
                 // Contraintes supplémentaires (CHECK)
-                entity.ToTable(t => t.HasCheckConstraint("chk_equip_actif", "ESTACTIF IN ('OUI', 'NON', 'NSP')"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_equip_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')"));
 
-                entity.ToTable(t => t.HasCheckConstraint("chk_equip_long", "LONGUEUR >= 0"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_equip_long", "\"LONGUEUR\" >= 0"));
 
-                entity.ToTable(t => t.HasCheckConstraint("chk_equip_larg", "LARGEUR >= 0"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_equip_larg", "\"LARGEUR\" >= 0"));
 
-                entity.ToTable(t => t.HasCheckConstraint("chk_equip_haut", "HAUTEUR >= 0"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_equip_haut", "\"HAUTEUR\" >= 0"));
 
             });
 
@@ -285,9 +285,9 @@ namespace API_OVH.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict);
 
                 // Contraintes CHECK
-                entity.ToTable(t => t.HasCheckConstraint("chk_longueur", "LONGUEUR > 0"));
-                entity.ToTable(t => t.HasCheckConstraint("chk_hauteur", "HAUTEUR > 0"));
-                entity.ToTable(t => t.HasCheckConstraint("chk_orientation_degrees", "ORIENTATION >= 0 AND ORIENTATION <= 360"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_longueur", "\"LONGUEUR\" > 0"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_hauteur", "\"HAUTEUR\" > 0"));
+                entity.ToTable(t => t.HasCheckConstraint("chk_orientation_degrees", "\"ORIENTATION\" >= 0 AND \"ORIENTATION\" <= 360"));
 
             });
 

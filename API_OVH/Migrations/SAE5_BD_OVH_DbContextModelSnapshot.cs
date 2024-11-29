@@ -57,17 +57,17 @@ namespace API_OVH.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("char(3)")
                         .HasDefaultValue("NSP")
-                        .HasColumnName("estactif");
+                        .HasColumnName("ESTACTIF");
 
                     b.Property<int?>("IdSalle")
                         .HasColumnType("integer")
-                        .HasColumnName("idsalle");
+                        .HasColumnName("IDSALLE");
 
                     b.Property<string>("NomCapteur")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)")
-                        .HasColumnName("nomtypecapteur");
+                        .HasColumnName("NOMTYPECAPTEUR");
 
                     b.Property<int?>("SalleIdSalle")
                         .HasColumnType("integer");
@@ -76,30 +76,30 @@ namespace API_OVH.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("xcapteur");
+                        .HasColumnName("XCAPTEUR");
 
                     b.Property<decimal>("YCapteur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("ycapteur");
+                        .HasColumnName("YCAPTEUR");
 
                     b.Property<decimal>("ZCapteur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("zcapteur");
+                        .HasColumnName("ZCAPTEUR");
 
                     b.HasKey("IdCapteur")
-                        .HasName("pk_capteur");
+                        .HasName("PK_CAPTEUR");
 
                     b.HasIndex("IdSalle");
 
                     b.HasIndex("SalleIdSalle");
 
-                    b.ToTable("capteur", null, t =>
+                    b.ToTable("CAPTEUR", null, t =>
                         {
-                            t.HasCheckConstraint("chk_capteur_actif", "SUPERFICIESALLE >= 0");
+                            t.HasCheckConstraint("chk_capteur_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
                         });
                 });
 
@@ -122,7 +122,7 @@ namespace API_OVH.Migrations
 
                     b.ToTable("DIRECTION", null, t =>
                         {
-                            t.HasCheckConstraint("chk_direction", "LETTRES_DIRECTION IN ('N', 'S', 'E', 'O', 'NE', 'NO', 'SE', 'SO')");
+                            t.HasCheckConstraint("chk_direction", "\"LETTRES_DIRECTION\" IN ('N', 'S', 'E', 'O', 'NE', 'NO', 'SE', 'SO')");
                         });
                 });
 
@@ -200,13 +200,13 @@ namespace API_OVH.Migrations
 
                     b.ToTable("EQUIPEMENT", null, t =>
                         {
-                            t.HasCheckConstraint("chk_equip_actif", "ESTACTIF IN ('OUI', 'NON', 'NSP')");
+                            t.HasCheckConstraint("chk_equip_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
 
-                            t.HasCheckConstraint("chk_equip_haut", "HAUTEUR >= 0");
+                            t.HasCheckConstraint("chk_equip_haut", "\"HAUTEUR\" >= 0");
 
-                            t.HasCheckConstraint("chk_equip_larg", "LARGEUR >= 0");
+                            t.HasCheckConstraint("chk_equip_larg", "\"LARGEUR\" >= 0");
 
-                            t.HasCheckConstraint("chk_equip_long", "LONGUEUR >= 0");
+                            t.HasCheckConstraint("chk_equip_long", "\"LONGUEUR\" >= 0");
                         });
                 });
 
@@ -254,11 +254,11 @@ namespace API_OVH.Migrations
 
                     b.ToTable("MUR", null, t =>
                         {
-                            t.HasCheckConstraint("chk_hauteur", "HAUTEUR > 0");
+                            t.HasCheckConstraint("chk_hauteur", "\"HAUTEUR\" > 0");
 
-                            t.HasCheckConstraint("chk_longueur", "LONGUEUR > 0");
+                            t.HasCheckConstraint("chk_longueur", "\"LONGUEUR\" > 0");
 
-                            t.HasCheckConstraint("chk_orientation_degrees", "ORIENTATION >= 0 AND ORIENTATION <= 360");
+                            t.HasCheckConstraint("chk_orientation_degrees", "\"ORIENTATION\" >= 0 AND \"ORIENTATION\" <= 360");
                         });
                 });
 
@@ -297,7 +297,7 @@ namespace API_OVH.Migrations
 
                     b.ToTable("SALLE", null, t =>
                         {
-                            t.HasCheckConstraint("chk_salle_superficie", "estactif IN ('OUI', 'NON', 'NSP')");
+                            t.HasCheckConstraint("chk_salle_superficie", "\"SUPERFICIESALLE\" >= 0");
                         });
                 });
 
@@ -390,7 +390,7 @@ namespace API_OVH.Migrations
                         .WithMany()
                         .HasForeignKey("IdSalle")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_capteur_reference_salle");
+                        .HasConstraintName("FK_CAPTEUR_REFERENCE_SALLE");
 
                     b.HasOne("API_OVH.Models.EntityFramework.Salle", null)
                         .WithMany("Capteurs")
