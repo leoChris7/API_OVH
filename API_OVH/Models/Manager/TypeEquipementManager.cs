@@ -5,13 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
+using Humanizer;
+using AutoMapper.Internal;
 
 namespace API_OVH.Models.DataManager
 {
     /// <summary>
     /// Manager pour gérer les opérations liées aux types d'equipement
     /// </summary>
-    public class TypeEquipementManager : IDataRepository<TypeEquipement>
+    public class TypeEquipementManager : ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -27,9 +29,15 @@ namespace API_OVH.Models.DataManager
         /// Retourne la liste de tous les types d'equipement de façon asynchrone
         /// </summary>
         /// <returns>La liste des types d'equipement</returns>
-        public async Task<ActionResult<IEnumerable<TypeEquipement>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<TypeEquipementDTO>>> GetAllAsync()
         {
-            return await dbContext.TypesEquipement.ToListAsync();
+            // Récupère tous les TypeEquipement de la base
+            var typesEquipement = await dbContext.TypesEquipement
+                .ProjectTo<TypeEquipementDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            // Retourne la liste des DTO
+            return typesEquipement;
         }
 
         /// <summary>
@@ -37,9 +45,14 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="id">(Entier) Identifiant du type d'equipement</param>
         /// <returns>Le type d'equipement correspondant à l'ID</returns>
-        public async Task<ActionResult<TypeEquipement>> GetByIdAsync(int id)
+        public async Task<ActionResult<TypeEquipementDetailDTO>> GetByIdAsync(int id)
         {
-            return await dbContext.TypesEquipement.FirstOrDefaultAsync(t => t.IdTypeEquipement == id);
+            var typeEquipement = await dbContext.TypesEquipement
+                .Include(t => t.Equipements)
+                .FirstOrDefaultAsync(t => t.IdTypeEquipement == id);
+
+            return mapper.Map<TypeEquipementDetailDTO>(typeEquipement);
+
         }
 
         /// <summary>
@@ -47,9 +60,13 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="str">Nom du type d'equipement</param>
         /// <returns>Le type d'equipement correspondant au nom spécifié</returns>
-        public async Task<ActionResult<TypeEquipement>> GetByStringAsync(string nom)
+        public async Task<ActionResult<TypeEquipementDetailDTO>> GetByStringAsync(string nom)
         {
-            return await dbContext.TypesEquipement.FirstOrDefaultAsync(t => t.NomTypeEquipement.ToUpper() == nom.ToUpper());
+            var typeEquipement = await dbContext.TypesEquipement
+                .Include(t => t.Equipements)
+                .FirstOrDefaultAsync(t => t.NomTypeEquipement.ToUpper() == nom.ToUpper());
+
+            return mapper.Map<TypeEquipementDetailDTO>(typeEquipement);
         }
 
         /// <summary>
@@ -57,9 +74,11 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">type d'equipement à rajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(TypeEquipement entity)
+        public async Task AddAsync(TypeEquipementDTO entity)
         {
-            await dbContext.TypesEquipement.AddAsync(entity);
+            var typeEquipement = mapper.Map<TypeEquipement>(entity);
+
+            await dbContext.TypesEquipement.AddAsync(typeEquipement);
             await dbContext.SaveChangesAsync();
         }
 
@@ -69,11 +88,12 @@ namespace API_OVH.Models.DataManager
         /// <param name="entityToUpdate">type d'equipement à mettre à jour</param>
         /// <param name="entity">type d'equipement avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(TypeEquipement TypeEquipement, TypeEquipement entity)
+        public async Task UpdateAsync(TypeEquipementDetailDTO TypeEquipement, TypeEquipementDTO entity)
         {
             dbContext.Entry(TypeEquipement).State = EntityState.Modified;
-            TypeEquipement.IdTypeEquipement = entity.IdTypeEquipement;
+
             TypeEquipement.NomTypeEquipement = entity.NomTypeEquipement;
+
             dbContext.SaveChangesAsync();
         }
 
@@ -82,9 +102,11 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">Le type d'equipement à supprimer</param>
         /// <returns>Le résultat de l'opération</returns>
-        public async Task DeleteAsync(TypeEquipement TypeEquipement)
+        public async Task DeleteAsync(TypeEquipementDetailDTO TypeEquipement)
         {
-            dbContext.TypesEquipement.Remove(TypeEquipement);
+            var typeEquipementNormal = mapper.Map<TypeEquipement>(TypeEquipement);
+
+            dbContext.TypesEquipement.Remove(typeEquipementNormal);
             await dbContext.SaveChangesAsync();
         }
     }

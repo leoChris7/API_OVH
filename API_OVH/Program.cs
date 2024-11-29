@@ -1,5 +1,6 @@
 using API_OVH;
 using API_OVH.Models.DataManager;
+using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Manager;
 using API_OVH.Models.Repository;
@@ -14,7 +15,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(MyAllowSpecificOrigins, builder =>
     {
-        builder.WithOrigins("https://localhost:7245") // Allow this origin
+        builder.WithOrigins("http://localhost:5258", "https://localhost:5258") // Allow this origin
                .AllowAnyMethod()                     // Allow any HTTP methods
                .AllowAnyHeader();                    // Allow any headers
     });
@@ -36,7 +37,7 @@ builder.Services.AddScoped<IDataRepository<Batiment>, BatimentManager>();
 builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
 builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
 builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
-builder.Services.AddScoped<IDataRepository<TypeEquipement>, TypeEquipementManager>();
+builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO>, TypeEquipementManager>();
 builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
 builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
 
