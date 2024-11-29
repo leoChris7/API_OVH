@@ -101,7 +101,6 @@ namespace API_OVH.Models.Manager
             entityToUpdate.ZCapteur = entity.ZCapteur;
             entityToUpdate.EstActif = entity.EstActif;
             entityToUpdate.IdSalle = entity.IdSalle;
-            entityToUpdate.IdTypeMesure = entity.IdTypeMesure;
             entityToUpdate.IdCapteur = entity.IdCapteur;
 
             await dbContext.SaveChangesAsync();

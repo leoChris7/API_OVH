@@ -12,7 +12,7 @@ namespace API_OVH.Models.EntityFramework
 
         [Key]
         [Column("IDDIRECTION")]
-        public int IdDirection { get; set; }
+        public short IdDirection { get; set; }
 
         [Required]
         [Column("LETTRES_DIRECTION", TypeName = "varchar(2)")]
