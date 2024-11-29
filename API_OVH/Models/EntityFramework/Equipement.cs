@@ -54,6 +54,6 @@ namespace API_OVH.Models.EntityFramework
         [JsonIgnore]
         [ForeignKey(nameof(IdSalle))]
         [InverseProperty(nameof(Salle.Equipements))]
-        public virtual TypeEquipement? SalleNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
+        public virtual Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
     }
 }

@@ -77,6 +77,10 @@ namespace API_OVH.Models.DataManager
             Equipement.IdSalle = entity.IdSalle;
             Equipement.IdTypeEquipement = entity.IdTypeEquipement;
             Equipement.NomEquipement = entity.NomEquipement;
+            Equipement.Longueur = entity.Longueur;
+            Equipement.Largeur = entity.Largeur;
+            Equipement.Hauteur = entity.Hauteur;
+            Equipement.EstActif = entity.EstActif;
             Equipement.XEquipement = entity.XEquipement;
             Equipement.YEquipement = entity.YEquipement;
             Equipement.ZEquipement = entity.ZEquipement;
