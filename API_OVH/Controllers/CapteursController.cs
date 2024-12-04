@@ -16,12 +16,10 @@ namespace API_OVH.Controllers
     public class CapteursController : ControllerBase
     {
         private readonly IDataRepository<Capteur> dataRepository;
-        private readonly IMapper mapper;
 
-        public CapteursController(IMapper mapper, IDataRepository<Capteur> dataRepo)
+        public CapteursController(IDataRepository<Capteur> dataRepo)
         {
             dataRepository = dataRepo;
-            this.mapper = mapper;
         }
 
         // GET: api/Capteurs

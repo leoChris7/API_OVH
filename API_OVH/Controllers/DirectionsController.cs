@@ -17,13 +17,11 @@ namespace API_OVH.Controllers
     public class DirectionController : ControllerBase
     {
         private readonly IReadOnlyDataRepository<Direction> directionManager;
-        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
-        public DirectionController(DirectionManager manager, IMapper mapper)
+        public DirectionController(DirectionManager manager)
         {
             directionManager = manager;
-            this.mapper = mapper;
         }
 
         // GET: api/Directions

@@ -28,9 +28,6 @@ namespace API_OVH.Models.EntityFramework
         [Column("NOMSALLE", TypeName = "varchar(20)")]
         public string NomSalle { get; set; }
 
-        [Column("SUPERFICIESALLE", TypeName = "numeric(12,2)")]
-        public decimal SuperficieSalle { get; set; } = 0;
-
         [JsonIgnore]
         [ForeignKey(nameof(IdBatiment))]
         [InverseProperty(nameof(Batiment.Salles))]

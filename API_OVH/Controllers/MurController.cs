@@ -18,13 +18,11 @@ namespace API_OVH.Controllers
     public class MursController : ControllerBase
     {
         private readonly IDataRepository<Mur> dataRepository;
-        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
         public MursController(IDataRepository<Mur> manager, IMapper mapper)
         {
             dataRepository = manager;
-            this.mapper = mapper;
         }
 
         // GET: api/Murs

@@ -20,7 +20,7 @@ namespace API_OVH.Models.DataManager
         public EquipementManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
-            mapper = mapper;
+            this.mapper = mapper;
         }
 
         /// <summary>

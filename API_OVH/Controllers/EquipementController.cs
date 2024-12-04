@@ -18,13 +18,11 @@ namespace API_OVH.Controllers
     public class EquipementController : ControllerBase
     {
         private readonly IDataRepository<Equipement> dataRepository;
-        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
-        public EquipementController(IDataRepository<Equipement> manager, IMapper mapper)
+        public EquipementController(IDataRepository<Equipement> manager)
         {
             dataRepository = manager;
-            this.mapper = mapper;
         }
 
         // GET: api/Equipements

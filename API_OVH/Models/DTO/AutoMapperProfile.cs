@@ -11,18 +11,10 @@ namespace API_OVH
             // Mappage entre TypeEquipement et TypeEquipementDTO
             CreateMap<TypeEquipement, TypeEquipementDTO>()
                 .ForMember(dest => dest.NomTypeEquipement, opt => opt.MapFrom(src => src.NomTypeEquipement))
+                .ForMember(dest => dest.IdTypeEquipement, opt => opt.MapFrom(src => src.IdTypeEquipement))
                 .ReverseMap()
                 .ForMember(dest => dest.NomTypeEquipement, opt => opt.MapFrom(src => src.NomTypeEquipement))
                 .ForMember(dest => dest.Equipements, opt => opt.Ignore());
-
-            // Mappage entre TypeEquipement et TypeEquipementDetailDTO
-            CreateMap<TypeEquipement, TypeEquipementDetailDTO>()
-                .ForMember(dest => dest.NomTypeEquipement, opt => opt.MapFrom(src => src.NomTypeEquipement))
-                .ForMember(dest => dest.Equipements, opt => opt.MapFrom(src => src.Equipements))
-                .ReverseMap();
-
-
-
         }
     }
 }

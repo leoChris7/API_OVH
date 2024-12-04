@@ -18,13 +18,11 @@ namespace API_OVH.Controllers
     public class SallesController : ControllerBase
     {
         private readonly IDataRepository<Salle> dataRepository;
-        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
-        public SallesController(IDataRepository<Salle> manager, IMapper mapper)
+        public SallesController(IDataRepository<Salle> manager)
         {
             dataRepository = manager;
-            this.mapper = mapper;
         }
 
         // GET: api/Salles

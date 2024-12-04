@@ -18,13 +18,11 @@ namespace API_OVH.Controllers
     public class BatimentsController : ControllerBase
     {
         private readonly IDataRepository<Batiment> dataRepository;
-        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
-        public BatimentsController(IDataRepository<Batiment> manager, IMapper mapper)
+        public BatimentsController(IDataRepository<Batiment> manager)
         {
             dataRepository = manager;
-            this.mapper = mapper;
         }
 
         // GET: api/Batiments

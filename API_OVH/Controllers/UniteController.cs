@@ -18,13 +18,11 @@ namespace API_OVH.Controllers
     public class UnitesController : ControllerBase
     {
         private readonly IDataRepository<Unite> dataRepository;
-        private readonly IMapper mapper;
 
         [ActivatorUtilitiesConstructor]
-        public UnitesController(IDataRepository<Unite> manager, IMapper mapper)
+        public UnitesController(IDataRepository<Unite> manager)
         {
             dataRepository = manager;
-            this.mapper = mapper;
         }
 
         // GET: api/Unites

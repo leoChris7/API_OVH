@@ -21,23 +21,12 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Connexion à la base de données
-builder.Services.AddDbContext<SAE5_BD_OVH_DbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionLocale")));
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Auto Mapping
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
 // Ajouter les services Scoped pour les managers
 builder.Services.AddScoped<IDataRepository<Batiment>, BatimentManager>();
 builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
 builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
 builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
-builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO>, TypeEquipementManager>();
+builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
 builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
 builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
 
@@ -46,7 +35,17 @@ builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
 // Managers ReadOnly
 builder.Services.AddScoped<IReadOnlyDataRepository<Direction>, DirectionManager>();
 
+// Auto Mapping
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Connexion à la base de données
+builder.Services.AddDbContext<SAE5_BD_OVH_DbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionLocale")));
 
 var app = builder.Build();
 

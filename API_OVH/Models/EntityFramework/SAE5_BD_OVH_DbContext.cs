@@ -40,7 +40,6 @@ namespace API_OVH.Models.EntityFramework
                 entity.Property(e => e.IdTypeSalle).HasColumnName("IDTYPESALLE");
                 entity.Property(e => e.IdBatiment).HasColumnName("IDBATIMENT");
                 entity.Property(e => e.NomSalle).HasColumnName("NOMSALLE");
-                entity.Property(e => e.SuperficieSalle).HasColumnName("SUPERFICIESALLE");
 
                 // Colonnes
                 entity.HasOne(d => d.TypeSalleNavigation)

@@ -18,10 +18,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class TypeEquipementsController : ControllerBase
     {
-        private readonly ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO> dataRepository;
+        private readonly ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public TypeEquipementsController(ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO> manager, IMapper mapper)
+        public TypeEquipementsController(ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO> manager)
         {
             dataRepository = manager;
         }
@@ -35,7 +35,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeEquipements/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TypeEquipementDetailDTO>> GetTypeEquipementById(int id)
+        public async Task<ActionResult<TypeEquipement>> GetTypeEquipementById(int id)
         {
             var leTypeEquipement = await dataRepository.GetByIdAsync(id);
 
@@ -49,7 +49,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeEquipements/TETRAS
         [HttpGet("GetByName/{name}")]
-        public async Task<ActionResult<TypeEquipementDetailDTO>> GetTypeEquipementByName(string name)
+        public async Task<ActionResult<TypeEquipement>> GetTypeEquipementByName(string name)
         {
             var leTypeEquipement = await dataRepository.GetByStringAsync(name);
 
@@ -64,7 +64,7 @@ namespace API_OVH.Controllers
         // PUT: api/TypeEquipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeEquipement(int id, TypeEquipementDTO TypeEquipement)
+        public async Task<IActionResult> PutTypeEquipement(int id, TypeEquipement TypeEquipement)
         {
             if (id != TypeEquipement.IdTypeEquipement)
             {

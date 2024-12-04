@@ -20,7 +20,7 @@ namespace API_OVH.Models.DataManager
         public SalleManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
-            mapper = mapper;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -76,7 +76,6 @@ namespace API_OVH.Models.DataManager
             Salle.IdBatiment = entity.IdBatiment;
             Salle.IdTypeSalle = entity.IdTypeSalle;
             Salle.NomSalle = entity.NomSalle;
-            Salle.SuperficieSalle = entity.SuperficieSalle;
             dbContext.SaveChangesAsync();
         }
 
