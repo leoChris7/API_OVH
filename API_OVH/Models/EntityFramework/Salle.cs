@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("SALLE")]
+    [Table("salle")]
     public partial class Salle
     {
         private Batiment? batimentNavigation;
@@ -15,17 +15,17 @@ namespace API_OVH.Models.EntityFramework
         private ICollection<Mur> murs = new List<Mur>();
 
         [Key]
-        [Column("IDSALLE")]
+        [Column("idsalle")]
         public int IdSalle { get; set; }
 
-        [Column("IDBATIMENT")]
+        [Column("idbatiment")]
         public int IdBatiment { get; set; }
 
-        [Column("IDTYPESALLE")]
+        [Column("idtypesalle")]
         public int IdTypeSalle { get; set; }
 
         [Required]
-        [Column("NOMSALLE", TypeName = "varchar(20)")]
+        [Column("nomsalle", TypeName = "varchar(20)")]
         public string NomSalle { get; set; }
 
         [JsonIgnore]

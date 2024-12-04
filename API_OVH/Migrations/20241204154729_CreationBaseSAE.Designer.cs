@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_OVH.Migrations
 {
     [DbContext(typeof(SAE5_BD_OVH_DbContext))]
-    [Migration("20241204133451_CreationBaseSAE")]
+    [Migration("20241204154729_CreationBaseSAE")]
     partial class CreationBaseSAE
     {
         /// <inheritdoc />
@@ -30,19 +30,19 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdBatiment")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("BATIMENTID");
+                        .HasColumnName("batimentid");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdBatiment"));
 
                     b.Property<string>("NomBatiment")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("NOMBATIMENT");
+                        .HasColumnName("nombatiment");
 
                     b.HasKey("IdBatiment")
-                        .HasName("PK_BATIMENT");
+                        .HasName("pk_batiment");
 
-                    b.ToTable("BATIMENT", (string)null);
+                    b.ToTable("batiment", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Capteur", b =>
@@ -60,11 +60,11 @@ namespace API_OVH.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("char(3)")
                         .HasDefaultValue("NSP")
-                        .HasColumnName("ESTACTIF");
+                        .HasColumnName("estactif");
 
                     b.Property<int?>("IdMur")
                         .HasColumnType("integer")
-                        .HasColumnName("IDMUR");
+                        .HasColumnName("idmur");
 
                     b.Property<int?>("MurIdMur")
                         .HasColumnType("integer");
@@ -73,36 +73,36 @@ namespace API_OVH.Migrations
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)")
-                        .HasColumnName("NOMTYPECAPTEUR");
+                        .HasColumnName("nomtypecapteur");
 
                     b.Property<decimal>("XCapteur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("XCAPTEUR");
+                        .HasColumnName("xcapteur");
 
                     b.Property<decimal>("YCapteur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("YCAPTEUR");
+                        .HasColumnName("ycapteur");
 
                     b.Property<decimal>("ZCapteur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("ZCAPTEUR");
+                        .HasColumnName("zcapteur");
 
                     b.HasKey("IdCapteur")
-                        .HasName("PK_CAPTEUR");
+                        .HasName("pk_capteur");
 
                     b.HasIndex("IdMur");
 
                     b.HasIndex("MurIdMur");
 
-                    b.ToTable("CAPTEUR", null, t =>
+                    b.ToTable("capteur", null, t =>
                         {
-                            t.HasCheckConstraint("chk_capteur_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
+                            t.HasCheckConstraint("chk_capteur_actif", "\"estactif\" IN ('OUI', 'NON', 'NSP')");
                         });
                 });
 
@@ -111,21 +111,21 @@ namespace API_OVH.Migrations
                     b.Property<short>("IdDirection")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("smallint")
-                        .HasColumnName("IDDIRECTION");
+                        .HasColumnName("iddirection");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<short>("IdDirection"));
 
                     b.Property<string>("LettresDirection")
                         .IsRequired()
                         .HasColumnType("varchar(2)")
-                        .HasColumnName("LETTRES_DIRECTION");
+                        .HasColumnName("lettres_direction");
 
                     b.HasKey("IdDirection")
-                        .HasName("PK_DIRECTION");
+                        .HasName("pk_direction");
 
-                    b.ToTable("DIRECTION", null, t =>
+                    b.ToTable("direction", null, t =>
                         {
-                            t.HasCheckConstraint("chk_direction", "\"LETTRES_DIRECTION\" IN ('N', 'S', 'E', 'O', 'NE', 'NO', 'SE', 'SO')");
+                            t.HasCheckConstraint("chk_direction", "\"lettres_direction\" IN ('N', 'S', 'E', 'O', 'NE', 'NO', 'SE', 'SO')");
                         });
                 });
 
@@ -134,7 +134,7 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdEquipement")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IDEQUIPEMENT");
+                        .HasColumnName("idequipement");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdEquipement"));
 
@@ -142,74 +142,74 @@ namespace API_OVH.Migrations
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(3)")
-                        .HasDefaultValue("NSP")
-                        .HasColumnName("ESTACTIF");
+                        .HasDefaultValue("nsp")
+                        .HasColumnName("estactif");
 
                     b.Property<decimal>("Hauteur")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric")
+                        .HasColumnType("numeric(4,2)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("HAUTEUR");
+                        .HasColumnName("hauteur");
 
                     b.Property<int>("IdMur")
                         .HasColumnType("integer")
-                        .HasColumnName("IDMUR");
+                        .HasColumnName("idmur");
 
                     b.Property<int>("IdTypeEquipement")
                         .HasColumnType("integer")
-                        .HasColumnName("IDTYPEEQUIPEMENT");
+                        .HasColumnName("idtypeequipement");
 
                     b.Property<decimal>("Largeur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric")
                         .HasDefaultValue(0m)
-                        .HasColumnName("LARGEUR");
+                        .HasColumnName("largeur");
 
                     b.Property<decimal>("Longueur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric")
                         .HasDefaultValue(0m)
-                        .HasColumnName("LONGUEUR");
+                        .HasColumnName("longueur");
 
                     b.Property<string>("NomEquipement")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("NOMEQUIPEMENT");
+                        .HasColumnName("nomequipement");
 
                     b.Property<decimal>("XEquipement")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("XEQUIPEMENT");
+                        .HasColumnName("xequipement");
 
                     b.Property<decimal>("YEquipement")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("YEQUIPEMENT");
+                        .HasColumnName("yequipement");
 
                     b.Property<decimal>("ZEquipement")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,1)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("ZEQUIPEMENT");
+                        .HasColumnName("zequipement");
 
                     b.HasKey("IdEquipement")
-                        .HasName("PK_EQUIPEMENT");
+                        .HasName("pk_equipement");
 
                     b.HasIndex("IdMur");
 
                     b.HasIndex("IdTypeEquipement");
 
-                    b.ToTable("EQUIPEMENT", null, t =>
+                    b.ToTable("equipement", null, t =>
                         {
-                            t.HasCheckConstraint("chk_equip_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
+                            t.HasCheckConstraint("chk_equip_actif", "\"estactif\" IN ('OUI', 'NON', 'NSP')");
 
-                            t.HasCheckConstraint("chk_equip_haut", "\"HAUTEUR\" >= 0");
+                            t.HasCheckConstraint("chk_equip_haut", "\"hauteur\" >= 0");
 
-                            t.HasCheckConstraint("chk_equip_larg", "\"LARGEUR\" >= 0");
+                            t.HasCheckConstraint("chk_equip_larg", "\"largeur\" >= 0");
 
-                            t.HasCheckConstraint("chk_equip_long", "\"LONGUEUR\" >= 0");
+                            t.HasCheckConstraint("chk_equip_long", "\"longueur\" >= 0");
                         });
                 });
 
@@ -218,50 +218,50 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdMur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IDMUR");
+                        .HasColumnName("idmur");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdMur"));
 
                     b.Property<decimal>("Hauteur")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric(4,2)")
+                        .HasColumnType("numeric")
                         .HasDefaultValue(0m)
-                        .HasColumnName("HAUTEUR");
+                        .HasColumnName("hauteur");
 
                     b.Property<short>("IdDirection")
                         .HasColumnType("smallint")
-                        .HasColumnName("IDDIRECTION");
+                        .HasColumnName("iddirection");
 
                     b.Property<int>("IdSalle")
                         .HasColumnType("integer")
-                        .HasColumnName("IDSALLE");
+                        .HasColumnName("idsalle");
 
                     b.Property<decimal>("Longueur")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric")
                         .HasDefaultValue(0m)
-                        .HasColumnName("LONGUEUR");
+                        .HasColumnName("longueur");
 
                     b.Property<decimal>("Orientation")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(8,6)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("ORIENTATION");
+                        .HasColumnName("orientation");
 
                     b.HasKey("IdMur")
-                        .HasName("PK_MUR");
+                        .HasName("pk_mur");
 
                     b.HasIndex("IdDirection");
 
                     b.HasIndex("IdSalle");
 
-                    b.ToTable("MUR", null, t =>
+                    b.ToTable("mur", null, t =>
                         {
-                            t.HasCheckConstraint("chk_hauteur", "\"HAUTEUR\" > 0");
+                            t.HasCheckConstraint("chk_hauteur", "\"hauteur\" > 0");
 
-                            t.HasCheckConstraint("chk_longueur", "\"LONGUEUR\" > 0");
+                            t.HasCheckConstraint("chk_longueur", "\"longueur\" > 0");
 
-                            t.HasCheckConstraint("chk_orientation_degrees", "\"ORIENTATION\" >= 0 AND \"ORIENTATION\" <= 360");
+                            t.HasCheckConstraint("chk_orientation_degrees", "\"orientation\" >= 0 AND \"orientation\" <= 360");
                         });
                 });
 
@@ -270,31 +270,31 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdSalle")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IDSALLE");
+                        .HasColumnName("idsalle");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdSalle"));
 
                     b.Property<int>("IdBatiment")
                         .HasColumnType("integer")
-                        .HasColumnName("IDBATIMENT");
+                        .HasColumnName("idbatiment");
 
                     b.Property<int>("IdTypeSalle")
                         .HasColumnType("integer")
-                        .HasColumnName("IDTYPESALLE");
+                        .HasColumnName("idtypesalle");
 
                     b.Property<string>("NomSalle")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("NOMSALLE");
+                        .HasColumnName("nomsalle");
 
                     b.HasKey("IdSalle")
-                        .HasName("PK_SALLE");
+                        .HasName("pk_salle");
 
                     b.HasIndex("IdBatiment");
 
                     b.HasIndex("IdTypeSalle");
 
-                    b.ToTable("SALLE", (string)null);
+                    b.ToTable("salle", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.TypeEquipement", b =>
@@ -302,19 +302,19 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdTypeEquipement")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IDTYPEEQUIPEMENT");
+                        .HasColumnName("idtypeequipement");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdTypeEquipement"));
 
                     b.Property<string>("NomTypeEquipement")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("NOMTYPEEQUIPEMENT");
+                        .HasColumnName("nomtypeequipement");
 
                     b.HasKey("IdTypeEquipement")
-                        .HasName("PK_TYPEEQUIPEMENT");
+                        .HasName("pk_typeequipement");
 
-                    b.ToTable("TYPEEQUIPEMENT", (string)null);
+                    b.ToTable("typeequipement", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.TypeSalle", b =>
@@ -322,19 +322,19 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdTypeSalle")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IDTYPESALLE");
+                        .HasColumnName("idtypesalle");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdTypeSalle"));
 
                     b.Property<string>("NomTypeSalle")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnName("NOMTYPESALLE");
+                        .HasColumnName("nomtypesalle");
 
                     b.HasKey("IdTypeSalle")
-                        .HasName("PK_TYPESALLE");
+                        .HasName("pk_typesalle");
 
-                    b.ToTable("TYPESALLE", (string)null);
+                    b.ToTable("typesalle", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Unite", b =>
@@ -342,42 +342,42 @@ namespace API_OVH.Migrations
                     b.Property<int>("IdUnite")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IDUNITE");
+                        .HasColumnName("idunite");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdUnite"));
 
                     b.Property<string>("NomUnite")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
-                        .HasColumnName("NOMUNITE");
+                        .HasColumnName("nomunite");
 
                     b.Property<string>("SigleUnite")
                         .IsRequired()
                         .HasColumnType("varchar(10)")
-                        .HasColumnName("SIGLEUNITE");
+                        .HasColumnName("sigleunite");
 
                     b.HasKey("IdUnite")
-                        .HasName("PK_UNITE");
+                        .HasName("pk_unite");
 
-                    b.ToTable("UNITE", (string)null);
+                    b.ToTable("unite", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.UniteCapteur", b =>
                 {
                     b.Property<int>("IdCapteur")
                         .HasColumnType("integer")
-                        .HasColumnName("IDCAPTEUR");
+                        .HasColumnName("idcapteur");
 
                     b.Property<int>("IdUnite")
                         .HasColumnType("integer")
-                        .HasColumnName("IDUNITE");
+                        .HasColumnName("idunite");
 
                     b.HasKey("IdCapteur", "IdUnite")
-                        .HasName("PK_UNITE_CAPTEUR");
+                        .HasName("pk_unite_capteur");
 
                     b.HasIndex("IdUnite");
 
-                    b.ToTable("UNITE_CAPTEUR", (string)null);
+                    b.ToTable("unite_capteur", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Capteur", b =>
@@ -386,7 +386,7 @@ namespace API_OVH.Migrations
                         .WithMany()
                         .HasForeignKey("IdMur")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_CAPTEUR_REFERENCE_MUR");
+                        .HasConstraintName("fk_capteur_reference_mur");
 
                     b.HasOne("API_OVH.Models.EntityFramework.Mur", null)
                         .WithMany("Capteurs")
@@ -402,14 +402,14 @@ namespace API_OVH.Migrations
                         .HasForeignKey("IdMur")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_EQUIPEME_LIE_MUR");
+                        .HasConstraintName("fk_equipeme_lie_mur");
 
                     b.HasOne("API_OVH.Models.EntityFramework.TypeEquipement", "TypeEquipementNavigation")
                         .WithMany("Equipements")
                         .HasForeignKey("IdTypeEquipement")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_EQUIPEME_EST_TYPEEQUI");
+                        .HasConstraintName("fk_equipeme_est_typeequi");
 
                     b.Navigation("MurNavigation");
 
@@ -423,14 +423,14 @@ namespace API_OVH.Migrations
                         .HasForeignKey("IdDirection")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_MUR_EST_ORIEN_DIRECTIO");
+                        .HasConstraintName("fk_mur_est_orien_directio");
 
                     b.HasOne("API_OVH.Models.EntityFramework.Salle", "SalleNavigation")
                         .WithMany("Murs")
                         .HasForeignKey("IdSalle")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_MUR_CONTIENT_SALLE");
+                        .HasConstraintName("fk_mur_contient_salle");
 
                     b.Navigation("DirectionNavigation");
 
@@ -444,14 +444,14 @@ namespace API_OVH.Migrations
                         .HasForeignKey("IdBatiment")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_SALLE_SE_TROUVE_BATIMENT");
+                        .HasConstraintName("fk_salle_se_trouve_batiment");
 
                     b.HasOne("API_OVH.Models.EntityFramework.TypeSalle", "TypeSalleNavigation")
                         .WithMany("Salles")
                         .HasForeignKey("IdTypeSalle")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_SALLE_EST_QUALI_TYPESALL");
+                        .HasConstraintName("fk_salle_est_quali_typesall");
 
                     b.Navigation("BatimentNavigation");
 
@@ -465,14 +465,14 @@ namespace API_OVH.Migrations
                         .HasForeignKey("IdCapteur")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_UNICAPT_CAPT");
+                        .HasConstraintName("fk_unicapt_capt");
 
                     b.HasOne("API_OVH.Models.EntityFramework.Unite", "UniteNavigation")
                         .WithMany("UnitesCapteur")
                         .HasForeignKey("IdUnite")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_UNICAPT_UNI");
+                        .HasConstraintName("fk_unicapt_uni");
 
                     b.Navigation("CapteurNavigation");
 

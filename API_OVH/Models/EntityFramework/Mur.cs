@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("MUR")]
+    [Table("mur")]
     public partial class Mur
     {
         private Salle? salleNavigation;
@@ -14,22 +14,22 @@ namespace API_OVH.Models.EntityFramework
         private ICollection<Equipement> equipements = new List<Equipement>();
 
         [Key]
-        [Column("IDMUR")]
+        [Column("idmur")]
         public int IdMur { get; set; }
 
-        [Column("IDDIRECTION")]
+        [Column("iddirection")]
         public short IdDirection { get; set; }
 
-        [Column("IDSALLE")]
+        [Column("idsalle")]
         public int IdSalle { get; set; }
 
-        [Column("LONGUEUR", TypeName = "numeric")]
+        [Column("longueur", TypeName = "numeric")]
         public decimal Longueur { get; set; } = 0;
 
-        [Column("HAUTEUR", TypeName = "numeric(4,2)")]
+        [Column("hauteur", TypeName = "numeric(4,2)")]
         public decimal Hauteur { get; set; } = 0;
 
-        [Column("ORIENTATION", TypeName = "numeric(8,6)")]
+        [Column("orientation", TypeName = "numeric(8,6)")]
         public decimal Orientation { get; set; } = 0;
 
         [JsonIgnore]

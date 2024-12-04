@@ -5,17 +5,17 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("TYPEEQUIPEMENT")]
+    [Table("typeequipement")]
     public partial class TypeEquipement
     {
         private ICollection<Equipement> equipements;
 
         [Key]
-        [Column("IDTYPEEQUIPEMENT")]
+        [Column("idtypeequipement")]
         public int IdTypeEquipement { get; set; }
 
         [Required]
-        [Column("NOMTYPEEQUIPEMENT", TypeName = "varchar(20)")]
+        [Column("nomtypeequipement", TypeName = "varchar(20)")]
         public string NomTypeEquipement { get; set; }
 
         [JsonIgnore]

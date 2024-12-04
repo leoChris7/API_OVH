@@ -7,18 +7,18 @@ using System.Text.Json.Serialization;
 namespace API_OVH.Models.EntityFramework
 {
     [PrimaryKey(nameof(IdCapteur), nameof(IdUnite))]
-    [Table("UNITE_CAPTEUR")]
+    [Table("unite_capteur")]
     public partial class UniteCapteur
     {
         private Capteur capteurNavigation;
         private Unite uniteNavigation;
 
         [Key]
-        [Column("IDCAPTEUR")]
+        [Column("idcapteur")]
         public int IdCapteur { get; set; }
 
         [Key]
-        [Column("IDUNITE")]
+        [Column("idunite")]
         public int IdUnite { get; set; }
 
         [JsonIgnore]

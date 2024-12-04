@@ -5,33 +5,33 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("CAPTEUR")]
+    [Table("capteur")]
     public partial class Capteur
     {
         private Mur? murNavigation;
         private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
         [Key]
-        [Column("IDCAPTEUR")]
+        [Column("idcapteur")]
         public int IdCapteur { get; set; }
 
-        [Column("IDMUR")]
+        [Column("idmur")]
         public int? IdMur { get; set; }
 
         [Required]
-        [Column("NOMCAPTEUR", TypeName = "varchar(25)")]
+        [Column("nomcapteur", TypeName = "varchar(25)")]
         public string NomCapteur { get; set; }
 
-        [Column("ESTACTIF", TypeName = "char(3)")]
+        [Column("estactif", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";
 
-        [Column("XCAPTEUR", TypeName = "numeric(10,1)")]
+        [Column("xcapteur", TypeName = "numeric(10,1)")]
         public decimal XCapteur { get; set; } = 0;
 
-        [Column("YCAPTEUR", TypeName = "numeric(10,1)")]
+        [Column("ycapteur", TypeName = "numeric(10,1)")]
         public decimal YCapteur { get; set; } = 0;
 
-        [Column("ZCAPTEUR", TypeName = "numeric(10,1)")]
+        [Column("zcapteur", TypeName = "numeric(10,1)")]
         public decimal ZCapteur { get; set; } = 0;
 
         [JsonIgnore]

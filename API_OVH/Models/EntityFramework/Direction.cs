@@ -5,17 +5,17 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("DIRECTION")]
+    [Table("direction")]
     public partial class Direction
     {
         private ICollection<Mur> murs;
 
         [Key]
-        [Column("IDDIRECTION")]
+        [Column("iddirection")]
         public short IdDirection { get; set; }
 
         [Required]
-        [Column("LETTRES_DIRECTION", TypeName = "varchar(2)")]
+        [Column("lettres_direction", TypeName = "varchar(2)")]
         public string LettresDirection { get; set; }
 
         [JsonIgnore]

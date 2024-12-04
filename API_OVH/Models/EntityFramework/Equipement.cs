@@ -5,45 +5,45 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("EQUIPEMENT")]
+    [Table("equipement")]
     public partial class Equipement
     {
         private TypeEquipement typeEquipementNavigation;
         private Mur murNavigation;
 
         [Key]
-        [Column("IDEQUIPEMENT")] 
+        [Column("idequipement")] 
         public int IdEquipement { get; set; }
 
-        [Column("IDMUR")]
+        [Column("idmur")]
         public int IdMur { get; set; }
 
-        [Column("IDTYPEEQUIPEMENT")]
+        [Column("idtypeequipement")]
         public int IdTypeEquipement { get; set; }
 
         [Required]
-        [Column("NOMEQUIPEMENT", TypeName = "varchar(20)")]
+        [Column("nomequipement", TypeName = "varchar(20)")]
         public string NomEquipement { get; set; }
 
-        [Column("LONGUEUR", TypeName = "numeric")]
+        [Column("longueur", TypeName = "numeric")]
         public decimal Longueur { get; set; } = 0;
 
-        [Column("LARGEUR", TypeName = "numeric")]
+        [Column("largeur", TypeName = "numeric")]
         public decimal Largeur { get; set; } = 0;
 
-        [Column("HAUTEUR", TypeName = "numeric")]
+        [Column("hauteur", TypeName = "numeric")]
         public decimal Hauteur { get; set; } = 0;
 
-        [Column("XEQUIPEMENT", TypeName = "numeric(10,1)")]
+        [Column("xequipement", TypeName = "numeric(10,1)")]
         public decimal XEquipement { get; set; } = 0;
 
-        [Column("YEQUIPEMENT", TypeName = "numeric(10,1)")]
+        [Column("yequipement", TypeName = "numeric(10,1)")]
         public decimal YEquipement { get; set; } = 0;
 
-        [Column("ZEQUIPEMENT", TypeName = "numeric(10,1)")]
+        [Column("zequipement", TypeName = "numeric(10,1)")]
         public decimal ZEquipement { get; set; } = 0;
 
-        [Column("ESTACTIF", TypeName = "char(3)")]
+        [Column("estactif", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";
 
         [JsonIgnore]

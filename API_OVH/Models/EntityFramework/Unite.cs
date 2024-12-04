@@ -5,20 +5,20 @@ using System.Text.Json.Serialization;
 
 namespace API_OVH.Models.EntityFramework
 {
-    [Table("UNITE")]
+    [Table("unite")]
     public partial class Unite
     {
         private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
         [Key]
-        [Column("IDUNITE")]
+        [Column("idunite")]
         public int IdUnite { get; set; }
 
         [Required]
-        [Column("NOMUNITE", TypeName = "varchar(50)")]
+        [Column("nomunite", TypeName = "varchar(50)")]
         public string NomUnite { get; set; }
 
-        [Column("SIGLEUNITE", TypeName = "varchar(10)")]
+        [Column("sigleunite", TypeName = "varchar(10)")]
         public string SigleUnite { get; set; }
 
         [JsonIgnore]
