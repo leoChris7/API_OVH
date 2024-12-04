@@ -9,14 +9,14 @@ namespace API_OVH.Models.EntityFramework
     public partial class Equipement
     {
         private TypeEquipement typeEquipementNavigation;
-        private Salle salleNavigation;
+        private Mur murNavigation;
 
         [Key]
         [Column("IDEQUIPEMENT")] 
         public int IdEquipement { get; set; }
 
-        [Column("IDSALLE")]
-        public int IdSalle { get; set; }
+        [Column("IDMUR")]
+        public int IdMur { get; set; }
 
         [Column("IDTYPEEQUIPEMENT")]
         public int IdTypeEquipement { get; set; }
@@ -52,8 +52,8 @@ namespace API_OVH.Models.EntityFramework
         public virtual TypeEquipement? TypeEquipementNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
 
         [JsonIgnore]
-        [ForeignKey(nameof(IdSalle))]
-        [InverseProperty(nameof(Salle.Equipements))]
-        public virtual Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
+        [ForeignKey(nameof(IdMur))]
+        [InverseProperty(nameof(Mur.Equipements))]
+        public virtual Mur? MurNavigation { get => murNavigation; set => murNavigation = value; }
     }
 }

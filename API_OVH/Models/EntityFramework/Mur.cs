@@ -10,6 +10,8 @@ namespace API_OVH.Models.EntityFramework
     {
         private Salle? salleNavigation;
         private Direction? directionNavigation;
+        private ICollection<Capteur> capteurs = new List<Capteur>();
+        private ICollection<Equipement> equipements = new List<Equipement>();
 
         [Key]
         [Column("IDMUR")]
@@ -39,5 +41,13 @@ namespace API_OVH.Models.EntityFramework
         [ForeignKey(nameof(IdDirection))]
         [InverseProperty(nameof(Direction.Murs))]
         public Direction? DirectionNavigation { get => directionNavigation; set => directionNavigation = value; }
+
+        [JsonIgnore]
+        [InverseProperty(nameof(Capteur.MurNavigation))]
+        public virtual ICollection<Capteur> Capteurs { get => capteurs; set => capteurs = value; }
+
+        [JsonIgnore]
+        [InverseProperty(nameof(Equipement.MurNavigation))]
+        public virtual ICollection<Equipement> Equipements { get => equipements; set => equipements = value; }
     }
 }

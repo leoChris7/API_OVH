@@ -54,9 +54,6 @@ namespace API_OVH.Models.EntityFramework
                    .HasForeignKey(d => d.IdBatiment)
                    .OnDelete(DeleteBehavior.Restrict)
                    .HasConstraintName("FK_SALLE_SE_TROUVE_BATIMENT");
-
-                // Contraintes supplémentaires (CHECK)
-                entity.ToTable(t => t.HasCheckConstraint("chk_salle_superficie", "\"SUPERFICIESALLE\" >= 0"));
             });
 
             modelBuilder.Entity<Batiment>(entity =>
@@ -87,8 +84,8 @@ namespace API_OVH.Models.EntityFramework
                     .HasColumnName("idcapteur")
                     .IsRequired();
 
-                entity.Property(e => e.IdSalle)
-                    .HasColumnName("IDSALLE");
+                entity.Property(e => e.IdMur)
+                    .HasColumnName("IDMUR");
 
                 entity.Property(e => e.NomCapteur)
                     .HasColumnName("NOMTYPECAPTEUR")
@@ -115,10 +112,10 @@ namespace API_OVH.Models.EntityFramework
                     .HasDefaultValue(0);
 
                 // Clés étrangères
-                entity.HasOne(d => d.SalleNavigation)
+                entity.HasOne(d => d.MurNavigation)
                     .WithMany()
-                    .HasForeignKey(e => e.IdSalle)
-                    .HasConstraintName("FK_CAPTEUR_REFERENCE_SALLE")
+                    .HasForeignKey(e => e.IdMur)
+                    .HasConstraintName("FK_CAPTEUR_REFERENCE_MUR")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 // Contraintes supplémentaires (CHECK)
@@ -162,8 +159,8 @@ namespace API_OVH.Models.EntityFramework
                 entity.Property(e => e.IdEquipement)
                       .HasColumnName("IDEQUIPEMENT");
 
-                entity.Property(e => e.IdSalle)
-                      .HasColumnName("IDSALLE")
+                entity.Property(e => e.IdMur)
+                      .HasColumnName("IDMUR")
                       .IsRequired();
 
                 entity.Property(e => e.IdTypeEquipement)
@@ -211,10 +208,10 @@ namespace API_OVH.Models.EntityFramework
                       .HasDefaultValue("NSP");
 
                 // Clés étrangères
-                entity.HasOne(d => d.SalleNavigation)
+                entity.HasOne(d => d.MurNavigation)
                     .WithMany(p => p.Equipements)
-                    .HasForeignKey(e => e.IdSalle)
-                    .HasConstraintName("FK_EQUIPEME_EST_DANS_SALLE")
+                    .HasForeignKey(e => e.IdMur)
+                    .HasConstraintName("FK_EQUIPEME_LIE_MUR")
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(d => d.TypeEquipementNavigation)

@@ -59,18 +59,18 @@ namespace API_OVH.Migrations
                         .HasDefaultValue("NSP")
                         .HasColumnName("ESTACTIF");
 
-                    b.Property<int?>("IdSalle")
+                    b.Property<int?>("IdMur")
                         .HasColumnType("integer")
-                        .HasColumnName("IDSALLE");
+                        .HasColumnName("IDMUR");
+
+                    b.Property<int?>("MurIdMur")
+                        .HasColumnType("integer");
 
                     b.Property<string>("NomCapteur")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)")
                         .HasColumnName("NOMTYPECAPTEUR");
-
-                    b.Property<int?>("SalleIdSalle")
-                        .HasColumnType("integer");
 
                     b.Property<decimal>("XCapteur")
                         .ValueGeneratedOnAdd()
@@ -93,9 +93,9 @@ namespace API_OVH.Migrations
                     b.HasKey("IdCapteur")
                         .HasName("PK_CAPTEUR");
 
-                    b.HasIndex("IdSalle");
+                    b.HasIndex("IdMur");
 
-                    b.HasIndex("SalleIdSalle");
+                    b.HasIndex("MurIdMur");
 
                     b.ToTable("CAPTEUR", null, t =>
                         {
@@ -148,9 +148,9 @@ namespace API_OVH.Migrations
                         .HasDefaultValue(0m)
                         .HasColumnName("HAUTEUR");
 
-                    b.Property<int>("IdSalle")
+                    b.Property<int>("IdMur")
                         .HasColumnType("integer")
-                        .HasColumnName("IDSALLE");
+                        .HasColumnName("IDMUR");
 
                     b.Property<int>("IdTypeEquipement")
                         .HasColumnType("integer")
@@ -194,7 +194,7 @@ namespace API_OVH.Migrations
                     b.HasKey("IdEquipement")
                         .HasName("PK_EQUIPEMENT");
 
-                    b.HasIndex("IdSalle");
+                    b.HasIndex("IdMur");
 
                     b.HasIndex("IdTypeEquipement");
 
@@ -284,10 +284,6 @@ namespace API_OVH.Migrations
                         .HasColumnType("varchar(20)")
                         .HasColumnName("NOMSALLE");
 
-                    b.Property<decimal>("SuperficieSalle")
-                        .HasColumnType("numeric(12,2)")
-                        .HasColumnName("SUPERFICIESALLE");
-
                     b.HasKey("IdSalle")
                         .HasName("PK_SALLE");
 
@@ -295,10 +291,7 @@ namespace API_OVH.Migrations
 
                     b.HasIndex("IdTypeSalle");
 
-                    b.ToTable("SALLE", null, t =>
-                        {
-                            t.HasCheckConstraint("chk_salle_superficie", "\"SUPERFICIESALLE\" >= 0");
-                        });
+                    b.ToTable("SALLE", (string)null);
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.TypeEquipement", b =>
@@ -386,27 +379,27 @@ namespace API_OVH.Migrations
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Capteur", b =>
                 {
-                    b.HasOne("API_OVH.Models.EntityFramework.Salle", "SalleNavigation")
+                    b.HasOne("API_OVH.Models.EntityFramework.Mur", "MurNavigation")
                         .WithMany()
-                        .HasForeignKey("IdSalle")
+                        .HasForeignKey("IdMur")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_CAPTEUR_REFERENCE_SALLE");
+                        .HasConstraintName("FK_CAPTEUR_REFERENCE_MUR");
 
-                    b.HasOne("API_OVH.Models.EntityFramework.Salle", null)
+                    b.HasOne("API_OVH.Models.EntityFramework.Mur", null)
                         .WithMany("Capteurs")
-                        .HasForeignKey("SalleIdSalle");
+                        .HasForeignKey("MurIdMur");
 
-                    b.Navigation("SalleNavigation");
+                    b.Navigation("MurNavigation");
                 });
 
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Equipement", b =>
                 {
-                    b.HasOne("API_OVH.Models.EntityFramework.Salle", "SalleNavigation")
+                    b.HasOne("API_OVH.Models.EntityFramework.Mur", "MurNavigation")
                         .WithMany("Equipements")
-                        .HasForeignKey("IdSalle")
+                        .HasForeignKey("IdMur")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_EQUIPEME_EST_DANS_SALLE");
+                        .HasConstraintName("FK_EQUIPEME_LIE_MUR");
 
                     b.HasOne("API_OVH.Models.EntityFramework.TypeEquipement", "TypeEquipementNavigation")
                         .WithMany("Equipements")
@@ -415,7 +408,7 @@ namespace API_OVH.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_EQUIPEME_EST_TYPEEQUI");
 
-                    b.Navigation("SalleNavigation");
+                    b.Navigation("MurNavigation");
 
                     b.Navigation("TypeEquipementNavigation");
                 });
@@ -498,12 +491,15 @@ namespace API_OVH.Migrations
                     b.Navigation("Murs");
                 });
 
-            modelBuilder.Entity("API_OVH.Models.EntityFramework.Salle", b =>
+            modelBuilder.Entity("API_OVH.Models.EntityFramework.Mur", b =>
                 {
                     b.Navigation("Capteurs");
 
                     b.Navigation("Equipements");
+                });
 
+            modelBuilder.Entity("API_OVH.Models.EntityFramework.Salle", b =>
+                {
                     b.Navigation("Murs");
                 });
 

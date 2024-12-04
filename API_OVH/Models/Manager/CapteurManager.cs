@@ -100,7 +100,7 @@ namespace API_OVH.Models.Manager
             entityToUpdate.YCapteur = entity.YCapteur;
             entityToUpdate.ZCapteur = entity.ZCapteur;
             entityToUpdate.EstActif = entity.EstActif;
-            entityToUpdate.IdSalle = entity.IdSalle;
+            entityToUpdate.IdMur = entity.IdMur;
             entityToUpdate.IdCapteur = entity.IdCapteur;
 
             await dbContext.SaveChangesAsync();

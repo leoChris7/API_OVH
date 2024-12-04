@@ -39,14 +39,6 @@ namespace API_OVH.Models.EntityFramework
         public TypeSalle? TypeSalleNavigation { get => typeSalleNavigation; set => typeSalleNavigation = value; }
 
         [JsonIgnore]
-        [InverseProperty(nameof(Capteur.SalleNavigation))]
-        public virtual ICollection<Capteur> Capteurs { get => capteurs; set => capteurs = value; }
-
-        [JsonIgnore]
-        [InverseProperty(nameof(Equipement.SalleNavigation))]
-        public virtual ICollection<Equipement> Equipements { get => equipements; set => equipements = value; }
-
-        [JsonIgnore]
         [InverseProperty(nameof(Mur.SalleNavigation))]
         public virtual ICollection<Mur> Murs { get => murs; set => murs = value; }
     }

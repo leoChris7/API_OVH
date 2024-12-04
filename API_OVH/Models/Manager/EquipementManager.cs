@@ -74,7 +74,7 @@ namespace API_OVH.Models.DataManager
         {
             dbContext.Entry(Equipement).State = EntityState.Modified;
             Equipement.IdEquipement = entity.IdEquipement;
-            Equipement.IdSalle = entity.IdSalle;
+            Equipement.IdMur = entity.IdMur;
             Equipement.IdTypeEquipement = entity.IdTypeEquipement;
             Equipement.NomEquipement = entity.NomEquipement;
             Equipement.Longueur = entity.Longueur;

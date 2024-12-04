@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_OVH.Migrations
 {
     /// <inheritdoc />
-    public partial class CreationDbLocale : Migration
+    public partial class CreationBaseSAE : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,13 +86,11 @@ namespace API_OVH.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     IDBATIMENT = table.Column<int>(type: "integer", nullable: false),
                     IDTYPESALLE = table.Column<int>(type: "integer", nullable: false),
-                    NOMSALLE = table.Column<string>(type: "varchar(20)", nullable: false),
-                    SUPERFICIESALLE = table.Column<decimal>(type: "numeric(12,2)", nullable: false)
+                    NOMSALLE = table.Column<string>(type: "varchar(20)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SALLE", x => x.IDSALLE);
-                    table.CheckConstraint("chk_salle_superficie", "\"SUPERFICIESALLE\" >= 0");
                     table.ForeignKey(
                         name: "FK_SALLE_EST_QUALI_TYPESALL",
                         column: x => x.IDTYPESALLE,
@@ -104,75 +102,6 @@ namespace API_OVH.Migrations
                         column: x => x.IDBATIMENT,
                         principalTable: "BATIMENT",
                         principalColumn: "BATIMENTID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CAPTEUR",
-                columns: table => new
-                {
-                    idcapteur = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IDSALLE = table.Column<int>(type: "integer", nullable: true),
-                    NOMTYPECAPTEUR = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
-                    ESTACTIF = table.Column<string>(type: "char(3)", maxLength: 3, nullable: false, defaultValue: "NSP"),
-                    XCAPTEUR = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    YCAPTEUR = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    ZCAPTEUR = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    SalleIdSalle = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CAPTEUR", x => x.idcapteur);
-                    table.CheckConstraint("chk_capteur_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
-                    table.ForeignKey(
-                        name: "FK_CAPTEUR_REFERENCE_SALLE",
-                        column: x => x.IDSALLE,
-                        principalTable: "SALLE",
-                        principalColumn: "IDSALLE",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CAPTEUR_SALLE_SalleIdSalle",
-                        column: x => x.SalleIdSalle,
-                        principalTable: "SALLE",
-                        principalColumn: "IDSALLE");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EQUIPEMENT",
-                columns: table => new
-                {
-                    IDEQUIPEMENT = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IDSALLE = table.Column<int>(type: "integer", nullable: false),
-                    IDTYPEEQUIPEMENT = table.Column<int>(type: "integer", nullable: false),
-                    NOMEQUIPEMENT = table.Column<string>(type: "varchar(20)", nullable: false),
-                    LONGUEUR = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
-                    LARGEUR = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
-                    HAUTEUR = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
-                    XEQUIPEMENT = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    YEQUIPEMENT = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    ZEQUIPEMENT = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    ESTACTIF = table.Column<string>(type: "char(3)", nullable: false, defaultValue: "NSP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EQUIPEMENT", x => x.IDEQUIPEMENT);
-                    table.CheckConstraint("chk_equip_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
-                    table.CheckConstraint("chk_equip_haut", "\"HAUTEUR\" >= 0");
-                    table.CheckConstraint("chk_equip_larg", "\"LARGEUR\" >= 0");
-                    table.CheckConstraint("chk_equip_long", "\"LONGUEUR\" >= 0");
-                    table.ForeignKey(
-                        name: "FK_EQUIPEME_EST_DANS_SALLE",
-                        column: x => x.IDSALLE,
-                        principalTable: "SALLE",
-                        principalColumn: "IDSALLE",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_EQUIPEME_EST_TYPEEQUI",
-                        column: x => x.IDTYPEEQUIPEMENT,
-                        principalTable: "TYPEEQUIPEMENT",
-                        principalColumn: "IDTYPEEQUIPEMENT",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -209,6 +138,75 @@ namespace API_OVH.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CAPTEUR",
+                columns: table => new
+                {
+                    idcapteur = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IDMUR = table.Column<int>(type: "integer", nullable: true),
+                    NOMTYPECAPTEUR = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    ESTACTIF = table.Column<string>(type: "char(3)", maxLength: 3, nullable: false, defaultValue: "NSP"),
+                    XCAPTEUR = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
+                    YCAPTEUR = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
+                    ZCAPTEUR = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
+                    MurIdMur = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CAPTEUR", x => x.idcapteur);
+                    table.CheckConstraint("chk_capteur_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
+                    table.ForeignKey(
+                        name: "FK_CAPTEUR_MUR_MurIdMur",
+                        column: x => x.MurIdMur,
+                        principalTable: "MUR",
+                        principalColumn: "IDMUR");
+                    table.ForeignKey(
+                        name: "FK_CAPTEUR_REFERENCE_MUR",
+                        column: x => x.IDMUR,
+                        principalTable: "MUR",
+                        principalColumn: "IDMUR",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EQUIPEMENT",
+                columns: table => new
+                {
+                    IDEQUIPEMENT = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IDMUR = table.Column<int>(type: "integer", nullable: false),
+                    IDTYPEEQUIPEMENT = table.Column<int>(type: "integer", nullable: false),
+                    NOMEQUIPEMENT = table.Column<string>(type: "varchar(20)", nullable: false),
+                    LONGUEUR = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
+                    LARGEUR = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
+                    HAUTEUR = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
+                    XEQUIPEMENT = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
+                    YEQUIPEMENT = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
+                    ZEQUIPEMENT = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
+                    ESTACTIF = table.Column<string>(type: "char(3)", nullable: false, defaultValue: "NSP")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EQUIPEMENT", x => x.IDEQUIPEMENT);
+                    table.CheckConstraint("chk_equip_actif", "\"ESTACTIF\" IN ('OUI', 'NON', 'NSP')");
+                    table.CheckConstraint("chk_equip_haut", "\"HAUTEUR\" >= 0");
+                    table.CheckConstraint("chk_equip_larg", "\"LARGEUR\" >= 0");
+                    table.CheckConstraint("chk_equip_long", "\"LONGUEUR\" >= 0");
+                    table.ForeignKey(
+                        name: "FK_EQUIPEME_EST_TYPEEQUI",
+                        column: x => x.IDTYPEEQUIPEMENT,
+                        principalTable: "TYPEEQUIPEMENT",
+                        principalColumn: "IDTYPEEQUIPEMENT",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EQUIPEME_LIE_MUR",
+                        column: x => x.IDMUR,
+                        principalTable: "MUR",
+                        principalColumn: "IDMUR",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UNITE_CAPTEUR",
                 columns: table => new
                 {
@@ -233,19 +231,19 @@ namespace API_OVH.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CAPTEUR_IDSALLE",
+                name: "IX_CAPTEUR_IDMUR",
                 table: "CAPTEUR",
-                column: "IDSALLE");
+                column: "IDMUR");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CAPTEUR_SalleIdSalle",
+                name: "IX_CAPTEUR_MurIdMur",
                 table: "CAPTEUR",
-                column: "SalleIdSalle");
+                column: "MurIdMur");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EQUIPEMENT_IDSALLE",
+                name: "IX_EQUIPEMENT_IDMUR",
                 table: "EQUIPEMENT",
-                column: "IDSALLE");
+                column: "IDMUR");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EQUIPEMENT_IDTYPEEQUIPEMENT",
@@ -285,16 +283,10 @@ namespace API_OVH.Migrations
                 name: "EQUIPEMENT");
 
             migrationBuilder.DropTable(
-                name: "MUR");
-
-            migrationBuilder.DropTable(
                 name: "UNITE_CAPTEUR");
 
             migrationBuilder.DropTable(
                 name: "TYPEEQUIPEMENT");
-
-            migrationBuilder.DropTable(
-                name: "DIRECTION");
 
             migrationBuilder.DropTable(
                 name: "CAPTEUR");
@@ -303,7 +295,13 @@ namespace API_OVH.Migrations
                 name: "UNITE");
 
             migrationBuilder.DropTable(
+                name: "MUR");
+
+            migrationBuilder.DropTable(
                 name: "SALLE");
+
+            migrationBuilder.DropTable(
+                name: "DIRECTION");
 
             migrationBuilder.DropTable(
                 name: "TYPESALLE");

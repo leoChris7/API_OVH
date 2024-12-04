@@ -8,15 +8,15 @@ namespace API_OVH.Models.EntityFramework
     [Table("CAPTEUR")]
     public partial class Capteur
     {
-        private Salle? salleNavigation;
+        private Mur? murNavigation;
         private ICollection<UniteCapteur> unitesCapteur = new List<UniteCapteur>();
 
         [Key]
         [Column("IDCAPTEUR")]
         public int IdCapteur { get; set; }
 
-        [Column("IDSALLE")]
-        public int? IdSalle { get; set; }
+        [Column("IDMUR")]
+        public int? IdMur { get; set; }
 
         [Required]
         [Column("NOMCAPTEUR", TypeName = "varchar(25)")]
@@ -35,9 +35,9 @@ namespace API_OVH.Models.EntityFramework
         public decimal ZCapteur { get; set; } = 0;
 
         [JsonIgnore]
-        [ForeignKey(nameof(IdSalle))]
-        [InverseProperty(nameof(Salle.Capteurs))]
-        public Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
+        [ForeignKey(nameof(IdMur))]
+        [InverseProperty(nameof(Mur.Capteurs))]
+        public Mur? MurNavigation { get => murNavigation; set => murNavigation = value; }
 
         [JsonIgnore]
         [InverseProperty(nameof(UniteCapteur.CapteurNavigation))]
