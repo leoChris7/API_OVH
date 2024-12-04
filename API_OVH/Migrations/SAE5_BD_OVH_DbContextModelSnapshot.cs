@@ -349,7 +349,6 @@ namespace API_OVH.Migrations
                         .HasColumnName("nomunite");
 
                     b.Property<string>("SigleUnite")
-                        .IsRequired()
                         .HasColumnType("varchar(10)")
                         .HasColumnName("sigleunite");
 

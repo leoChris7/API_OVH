@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_OVH.Migrations
 {
     [DbContext(typeof(SAE5_BD_OVH_DbContext))]
-    [Migration("20241204154729_CreationBaseSAE")]
+    [Migration("20241204163830_CreationBaseSAE")]
     partial class CreationBaseSAE
     {
         /// <inheritdoc />
@@ -352,7 +352,6 @@ namespace API_OVH.Migrations
                         .HasColumnName("nomunite");
 
                     b.Property<string>("SigleUnite")
-                        .IsRequired()
                         .HasColumnType("varchar(10)")
                         .HasColumnName("sigleunite");
 
