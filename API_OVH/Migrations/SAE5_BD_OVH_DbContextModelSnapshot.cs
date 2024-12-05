@@ -241,7 +241,7 @@ namespace API_OVH.Migrations
 
                     b.Property<decimal>("Orientation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric(8,6)")
+                        .HasColumnType("numeric(9,6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("orientation");
 

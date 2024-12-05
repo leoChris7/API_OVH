@@ -27,7 +27,7 @@ builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
 builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
 builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
-builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
+builder.Services.AddScoped<ITypeSalleRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
 builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
 
 builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();

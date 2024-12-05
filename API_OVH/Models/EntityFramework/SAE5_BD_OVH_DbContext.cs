@@ -258,7 +258,7 @@ namespace API_OVH.Models.EntityFramework
 
                 entity.Property(e => e.Orientation)
                       .HasColumnName("orientation")
-                      .HasColumnType("numeric(8,6)")
+                      .HasColumnType("numeric(9,6)")
                       .HasDefaultValue(0);
 
                 // Clés étrangères

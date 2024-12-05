@@ -10,6 +10,7 @@ using API_OVH.Models.Repository;
 using AutoMapper;
 using API_OVH.Models.Manager;
 using Microsoft.AspNetCore.Http.HttpResults;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
 {
@@ -17,17 +18,17 @@ namespace API_OVH.Controllers
     [ApiController]
     public class TypeSallesController : ControllerBase
     {
-        private readonly IDataRepository<TypeSalle> dataRepository;
+        private readonly ITypeSalleRepository<TypeSalle, TypeSalleDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public TypeSallesController(IDataRepository<TypeSalle> manager)
+        public TypeSallesController(ITypeSalleRepository<TypeSalle, TypeSalleDTO> manager)
         {
             dataRepository = manager;
         }
 
         // GET: api/TypeSalles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TypeSalle>>> GetTypeSalle()
+        public async Task<ActionResult<IEnumerable<TypeSalleDTO>>> GetTypeSalle()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -84,7 +85,7 @@ namespace API_OVH.Controllers
         // POST: api/TypeSalles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TypeSalle>> PostTypeSalle(TypeSalle TypeSalle)
+        public async Task<ActionResult<TypeSalleDTO>> PostTypeSalle(TypeSalleDTO TypeSalle)
         {
             if (!ModelState.IsValid)
             {

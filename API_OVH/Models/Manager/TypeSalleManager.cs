@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux types de salle
     /// </summary>
-    public class TypeSalleManager : IDataRepository<TypeSalle>
+    public class TypeSalleManager : ITypeSalleRepository<TypeSalle, TypeSalleDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -27,9 +27,15 @@ namespace API_OVH.Models.DataManager
         /// Retourne la liste de tous les types de salle de façon asynchrone
         /// </summary>
         /// <returns>La liste des types de salle</returns>
-        public async Task<ActionResult<IEnumerable<TypeSalle>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<TypeSalleDTO>>> GetAllAsync()
         {
-            return await dbContext.TypesSalle.ToListAsync();
+            // Récupère tous les TypeEquipement de la base
+            var typesSalle = await dbContext.TypesSalle
+                .ProjectTo<TypeSalleDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            // Retourne la liste des DTO
+            return typesSalle;
         }
 
         /// <summary>
@@ -39,7 +45,9 @@ namespace API_OVH.Models.DataManager
         /// <returns>Le type de salle correspondant à l'ID</returns>
         public async Task<ActionResult<TypeSalle>> GetByIdAsync(int id)
         {
-            return await dbContext.TypesSalle.FirstOrDefaultAsync(t => t.IdTypeSalle == id);
+            return await dbContext.TypesSalle
+                .Include(t=>t.Salles)
+                .FirstOrDefaultAsync(t => t.IdTypeSalle == id);
         }
 
         /// <summary>
@@ -49,7 +57,9 @@ namespace API_OVH.Models.DataManager
         /// <returns>Le type de salle correspondant au nom spécifié</returns>
         public async Task<ActionResult<TypeSalle>> GetByStringAsync(string nom)
         {
-            return await dbContext.TypesSalle.FirstOrDefaultAsync(t => t.NomTypeSalle.ToUpper() == nom.ToUpper());
+            return await dbContext.TypesSalle
+                .Include (t=>t.Salles)
+                .FirstOrDefaultAsync(t => t.NomTypeSalle.ToUpper() == nom.ToUpper());
         }
 
         /// <summary>
@@ -57,9 +67,11 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">type de salle à rajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(TypeSalle entity)
+        public async Task AddAsync(TypeSalleDTO entity)
         {
-            await dbContext.TypesSalle.AddAsync(entity);
+            var typeSalle = mapper.Map<TypeSalle>(entity);
+
+            await dbContext.TypesSalle.AddAsync(typeSalle);
             await dbContext.SaveChangesAsync();
         }
 

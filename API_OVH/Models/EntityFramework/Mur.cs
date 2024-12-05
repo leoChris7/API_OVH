@@ -29,7 +29,7 @@ namespace API_OVH.Models.EntityFramework
         [Column("hauteur", TypeName = "numeric(4,2)")]
         public decimal Hauteur { get; set; } = 0;
 
-        [Column("orientation", TypeName = "numeric(8,6)")]
+        [Column("orientation", TypeName = "numeric(9,6)")]
         public decimal Orientation { get; set; } = 0;
 
         [JsonIgnore]
