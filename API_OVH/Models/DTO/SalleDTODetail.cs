@@ -1,19 +1,22 @@
-﻿using Humanizer;
+﻿using API_OVH.Models.EntityFramework;
+using Humanizer;
 
 namespace API_OVH.Models.DTO
 {
     public class SalleDTODetail
     {
+        private int idSalle;
         private string nomSalle;
         private string nomBatiment;
-        private int nbCapteurs;
-        private int nbEquipements;
-        private int nbMurs;
+        private List<Capteur> capteurs;
+        private List<Equipement> equipements;
+        private List<Mur> murs;
 
         public string NomSalle { get => nomSalle; set => nomSalle = value; }
         public string NomBatiment { get => nomBatiment; set => nomBatiment = value; }
-        public int NbCapteurs { get => nbCapteurs; set => nbCapteurs = value; }
-        public int NbEquipements { get => nbEquipements; set => nbEquipements = value; }
-        public int NbMurs { get => nbMurs; set => nbMurs = value; }
+        public int IdSalle { get => idSalle; set => idSalle = value; }
+        public List<Mur> Murs { get => murs; set => murs = value; }
+        public List<Equipement> Equipements { get => equipements; set => equipements = value; }
+        public List<Capteur> Capteurs { get => capteurs; set => capteurs = value; }
     }
 }

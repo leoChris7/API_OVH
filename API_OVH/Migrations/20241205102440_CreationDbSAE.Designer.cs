@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_OVH.Migrations
 {
     [DbContext(typeof(SAE5_BD_OVH_DbContext))]
-    [Migration("20241204163830_CreationBaseSAE")]
-    partial class CreationBaseSAE
+    [Migration("20241205102440_CreationDbSAE")]
+    partial class CreationDbSAE
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,14 +66,11 @@ namespace API_OVH.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("idmur");
 
-                    b.Property<int?>("MurIdMur")
-                        .HasColumnType("integer");
-
                     b.Property<string>("NomCapteur")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)")
-                        .HasColumnName("nomtypecapteur");
+                        .HasColumnName("nomcapteur");
 
                     b.Property<decimal>("XCapteur")
                         .ValueGeneratedOnAdd()
@@ -97,8 +94,6 @@ namespace API_OVH.Migrations
                         .HasName("pk_capteur");
 
                     b.HasIndex("IdMur");
-
-                    b.HasIndex("MurIdMur");
 
                     b.ToTable("capteur", null, t =>
                         {
@@ -244,7 +239,7 @@ namespace API_OVH.Migrations
 
                     b.Property<decimal>("Orientation")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("numeric(8,6)")
+                        .HasColumnType("numeric(9,6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("orientation");
 
@@ -382,14 +377,10 @@ namespace API_OVH.Migrations
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Capteur", b =>
                 {
                     b.HasOne("API_OVH.Models.EntityFramework.Mur", "MurNavigation")
-                        .WithMany()
+                        .WithMany("Capteurs")
                         .HasForeignKey("IdMur")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_capteur_reference_mur");
-
-                    b.HasOne("API_OVH.Models.EntityFramework.Mur", null)
-                        .WithMany("Capteurs")
-                        .HasForeignKey("MurIdMur");
 
                     b.Navigation("MurNavigation");
                 });

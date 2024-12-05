@@ -4,6 +4,7 @@ namespace API_OVH.Models.DTO
 {
     public class EquipementDTO
     {
+        private int idEquipement;
         private string nomequipement;
         private string dimensions; // Dimensions: LxlxH
         private string nomSalleEquipement;
@@ -15,5 +16,6 @@ namespace API_OVH.Models.DTO
         public string NomSalleEquipement { get => nomSalleEquipement; set => nomSalleEquipement = value; }
         public string NomTypeEquipement { get => nomTypeEquipement; set => nomTypeEquipement = value; }
         public string EstActif { get => estActif; set => estActif = value; }
+        public int IdEquipement { get => idEquipement; set => idEquipement = value; }
     }
 }

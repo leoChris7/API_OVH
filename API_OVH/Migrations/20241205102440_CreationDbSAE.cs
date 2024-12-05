@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API_OVH.Migrations
 {
     /// <inheritdoc />
-    public partial class CreationBaseSAE : Migration
+    public partial class CreationDbSAE : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -115,7 +115,7 @@ namespace API_OVH.Migrations
                     idsalle = table.Column<int>(type: "integer", nullable: false),
                     longueur = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
                     hauteur = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
-                    orientation = table.Column<decimal>(type: "numeric(8,6)", nullable: false, defaultValue: 0m)
+                    orientation = table.Column<decimal>(type: "numeric(9,6)", nullable: false, defaultValue: 0m)
                 },
                 constraints: table =>
                 {
@@ -144,22 +144,16 @@ namespace API_OVH.Migrations
                     idcapteur = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     idmur = table.Column<int>(type: "integer", nullable: true),
-                    nomtypecapteur = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
+                    nomcapteur = table.Column<string>(type: "varchar(25)", maxLength: 25, nullable: false),
                     estactif = table.Column<string>(type: "char(3)", maxLength: 3, nullable: false, defaultValue: "NSP"),
                     xcapteur = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
                     ycapteur = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    zcapteur = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m),
-                    MurIdMur = table.Column<int>(type: "integer", nullable: true)
+                    zcapteur = table.Column<decimal>(type: "numeric(10,1)", nullable: false, defaultValue: 0m)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_capteur", x => x.idcapteur);
                     table.CheckConstraint("chk_capteur_actif", "\"estactif\" IN ('OUI', 'NON', 'NSP')");
-                    table.ForeignKey(
-                        name: "FK_capteur_mur_MurIdMur",
-                        column: x => x.MurIdMur,
-                        principalTable: "mur",
-                        principalColumn: "idmur");
                     table.ForeignKey(
                         name: "fk_capteur_reference_mur",
                         column: x => x.idmur,
@@ -234,11 +228,6 @@ namespace API_OVH.Migrations
                 name: "IX_capteur_idmur",
                 table: "capteur",
                 column: "idmur");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_capteur_MurIdMur",
-                table: "capteur",
-                column: "MurIdMur");
 
             migrationBuilder.CreateIndex(
                 name: "IX_equipement_idmur",
