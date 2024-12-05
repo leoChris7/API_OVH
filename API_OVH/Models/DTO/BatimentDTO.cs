@@ -2,10 +2,11 @@
 {
     public class BatimentDTO
     {
-        private string nombatiment;
-        private int nbsalle;
+        private int idBatiment;
+        private string nomBatiment;
+        private int nbSalle;
 
-        public string Nombatiment { get => nombatiment; set => nombatiment = value; }
-        public int Nbsalle { get => nbsalle; set => nbsalle = value; }
+        public string NomBatiment { get => nomBatiment; set => nomBatiment = value; }
+        public int NbSalle { get => nbSalle; set => nbSalle = value; }
     }
 }
