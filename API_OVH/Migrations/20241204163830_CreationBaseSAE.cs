@@ -71,7 +71,7 @@ namespace API_OVH.Migrations
                     idunite = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nomunite = table.Column<string>(type: "varchar(50)", nullable: false),
-                    sigleunite = table.Column<string>(type: "varchar(10)", nullable: false)
+                    sigleunite = table.Column<string>(type: "varchar(10)", nullable: true)
                 },
                 constraints: table =>
                 {

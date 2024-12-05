@@ -19,7 +19,7 @@ namespace API_OVH.Models.EntityFramework
         public string NomUnite { get; set; }
 
         [Column("sigleunite", TypeName = "varchar(10)")]
-        public string SigleUnite { get; set; }
+        public string? SigleUnite { get; set; }
 
         [JsonIgnore]
         [InverseProperty(nameof(UniteCapteur.UniteNavigation))]
