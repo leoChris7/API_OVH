@@ -63,14 +63,11 @@ namespace API_OVH.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("idmur");
 
-                    b.Property<int?>("MurIdMur")
-                        .HasColumnType("integer");
-
                     b.Property<string>("NomCapteur")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)")
-                        .HasColumnName("nomtypecapteur");
+                        .HasColumnName("nomcapteur");
 
                     b.Property<decimal>("XCapteur")
                         .ValueGeneratedOnAdd()
@@ -94,8 +91,6 @@ namespace API_OVH.Migrations
                         .HasName("pk_capteur");
 
                     b.HasIndex("IdMur");
-
-                    b.HasIndex("MurIdMur");
 
                     b.ToTable("capteur", null, t =>
                         {
@@ -379,14 +374,10 @@ namespace API_OVH.Migrations
             modelBuilder.Entity("API_OVH.Models.EntityFramework.Capteur", b =>
                 {
                     b.HasOne("API_OVH.Models.EntityFramework.Mur", "MurNavigation")
-                        .WithMany()
+                        .WithMany("Capteurs")
                         .HasForeignKey("IdMur")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_capteur_reference_mur");
-
-                    b.HasOne("API_OVH.Models.EntityFramework.Mur", null)
-                        .WithMany("Capteurs")
-                        .HasForeignKey("MurIdMur");
 
                     b.Navigation("MurNavigation");
                 });

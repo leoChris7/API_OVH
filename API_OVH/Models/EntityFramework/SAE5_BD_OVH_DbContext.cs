@@ -88,7 +88,7 @@ namespace API_OVH.Models.EntityFramework
                     .HasColumnName("idmur");
 
                 entity.Property(e => e.NomCapteur)
-                    .HasColumnName("nomtypecapteur")
+                    .HasColumnName("nomcapteur")
                     .HasMaxLength(25);
 
                 entity.Property(e => e.EstActif)
@@ -113,7 +113,7 @@ namespace API_OVH.Models.EntityFramework
 
                 // Clés étrangères
                 entity.HasOne(d => d.MurNavigation)
-                    .WithMany()
+                    .WithMany(m => m.Capteurs)
                     .HasForeignKey(e => e.IdMur)
                     .HasConstraintName("fk_capteur_reference_mur")
                     .OnDelete(DeleteBehavior.Restrict);

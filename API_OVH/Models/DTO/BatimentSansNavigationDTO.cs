@@ -4,8 +4,10 @@ namespace API_OVH.Models.DTO
 {
     public class BatimentSansNavigationDTO
     {
-        public int IdBatiment { get; set; }
+        private int idBatiment;
+        private string nomBatiment;
 
-        public string NomBatiment { get; set; }
+        public int IdBatiment { get => idBatiment; set => idBatiment = value; }
+        public string NomBatiment { get => nomBatiment; set => nomBatiment = value; }
     }
 }
