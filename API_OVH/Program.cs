@@ -5,6 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Manager;
 using API_OVH.Models.Repository;
 using Microsoft.EntityFrameworkCore;
+using static API_OVH.Models.Repository.IUniteRepository;
 
 var MyAllowSpecificOrigins = "AllowSpecificOrigins";
 
@@ -27,8 +28,8 @@ builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
 builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
 builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
-builder.Services.AddScoped<IDataRepository<TypeSalle>, TypeSalleManager>();
-builder.Services.AddScoped<IDataRepository<Unite>, UniteManager>();
+builder.Services.AddScoped<ITypeSalleRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
+builder.Services.AddScoped<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>, UniteManager>();
 
 builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
 

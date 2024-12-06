@@ -182,7 +182,7 @@ namespace API_OVH.Models.EntityFramework
 
                 entity.Property(e => e.Hauteur)
                       .HasColumnName("hauteur")
-                      .HasColumnType("numeric(4,2)")
+                      .HasColumnType("numeric(5,2)")
                       .HasDefaultValue(0);
 
                 entity.Property(e => e.XEquipement)
@@ -203,7 +203,7 @@ namespace API_OVH.Models.EntityFramework
                 entity.Property(e => e.EstActif)
                       .HasColumnName("estactif")
                       .HasColumnType("char(3)")
-                      .HasDefaultValue("nsp");
+                      .HasDefaultValue("NSP");
 
                 // Clés étrangères
                 entity.HasOne(d => d.MurNavigation)

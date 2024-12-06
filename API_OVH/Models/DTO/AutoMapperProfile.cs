@@ -88,6 +88,25 @@ namespace API_OVH
                 .ForMember(dest => dest.NomTypeSalle, opt => opt.MapFrom(src => src.NomTypeSalle))
                 .ReverseMap()
                 .ForMember(dest => dest.Salles, opt => opt.Ignore());
+
+            // Map entre Unite et UniteDTO
+            CreateMap<Unite, UniteDTO>()
+                .ForMember(dest => dest.IdUnite, opt => opt.MapFrom(src => src.IdUnite))
+                .ForMember(dest => dest.NomUnite, opt => opt.MapFrom(src => src.NomUnite))
+                .ForMember(dest => dest.SigleUnite, opt => opt.MapFrom(src => src.SigleUnite))
+                .ReverseMap()
+                .ForMember(dest => dest.UnitesCapteur, opt => opt.Ignore());
+
+            // Map entre Unite et UniteDetailDTO
+            CreateMap<Unite, UniteDetailDTO>()
+                .ForMember(dest => dest.IdUnite, opt => opt.MapFrom(src => src.IdUnite))
+                .ForMember(dest => dest.NomUnite, opt => opt.MapFrom(src => src.NomUnite))
+                .ForMember(dest => dest.SigleUnite, opt => opt.MapFrom(src => src.SigleUnite))
+                // Mapper la liste des capteurs à partir de la collection UnitesCapteur
+                .ForMember(dest => dest.Capteurs, opt => opt.MapFrom(src => src.UnitesCapteur.Select(uc => uc.CapteurNavigation)))
+                .ReverseMap()
+                .ForMember(dest => dest.UnitesCapteur, opt => opt.Ignore());
+
         }
     }
 }
