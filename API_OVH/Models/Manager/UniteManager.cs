@@ -5,18 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
+using static API_OVH.Models.Repository.IUniteRepository;
 
 namespace API_OVH.Models.DataManager
 {
-    /// <summary>
-    /// Manager pour gérer les opérations liées aux unités
-    /// </summary>
-    public class UniteManager : IDataRepository<Unite>
+    public class UniteManager : IUniteRepository<Unite, UniteDTO, UniteDetailDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
 
         public UniteManager() { }
+
         public UniteManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
@@ -24,68 +23,93 @@ namespace API_OVH.Models.DataManager
         }
 
         /// <summary>
-        /// Retourne la liste de toutes les unites de façon asynchrone
+        /// Retourne la liste de toutes les unités sous forme de UniteDTO
         /// </summary>
-        /// <returns>La liste des unites</returns>
-        public async Task<ActionResult<IEnumerable<Unite>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<UniteDTO>>> GetAllAsync()
         {
-            return await dbContext.Unites.ToListAsync();
+            var result = await dbContext.Unites
+                .ProjectTo<UniteDTO>(mapper.ConfigurationProvider) // Mapper les entités vers UniteDTO
+                .ToListAsync();
+
+            return new ActionResult<IEnumerable<UniteDTO>>(result);
         }
 
         /// <summary>
-        /// Retourne une unite selon son id de façon asynchrone
+        /// Retourne une unité par son ID sous forme de UniteDetailDTO
         /// </summary>
-        /// <param name="id">(Entier) Identifiant de l'unite</param>
-        /// <returns>L'unite correspondante à l'ID</returns>
-        public async Task<ActionResult<Unite>> GetByIdAsync(int id)
+        public async Task<ActionResult<UniteDetailDTO>> GetByIdAsync(int id)
         {
-            return await dbContext.Unites.FirstOrDefaultAsync(t => t.IdUnite == id);
+            var result = await dbContext.Unites
+                .Where(u => u.IdUnite == id)
+                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return new NotFoundResult();
+
+            return new ActionResult<UniteDetailDTO>(result);
         }
 
         /// <summary>
-        /// Retourne une unite selon son nom de façon asynchrone
+        /// Retourne une unité par son ID sous forme de Unite
         /// </summary>
-        /// <param name="str">Nom de l'unite</param>
-        /// <returns>L'unite correspondante au nom spécifié</returns>
-        public async Task<ActionResult<Unite>> GetByStringAsync(string nom)
+        public async Task<ActionResult<Unite>> GetByIdWithoutDTOAsync(int id)
         {
-            return await dbContext.Unites.FirstOrDefaultAsync(t => t.NomUnite.ToUpper() == nom.ToUpper());
+            var result = await dbContext.Unites
+                .FirstOrDefaultAsync( u => u.IdUnite == id);
+
+            if (result == null)
+                return new NotFoundResult();
+
+            return new ActionResult<Unite>(result);
         }
 
         /// <summary>
-        /// Ajoute une unite de façon asynchrone
+        /// Retourne une unité par son nom sous forme de UniteDetailDTO
         /// </summary>
-        /// <param name="entity">Unite à rajouter</param>
-        /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(Unite entity)
+        public async Task<ActionResult<UniteDetailDTO>> GetByStringAsync(string nom)
         {
+            var result = await dbContext.Unites
+                .Where(u => u.NomUnite.ToUpper() == nom.ToUpper())
+                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return new NotFoundResult();
+
+            return new ActionResult<UniteDetailDTO>(result);
+        }
+
+        /// <summary>
+        /// Ajoute une unité à partir d'un UniteDTO
+        /// </summary>
+        public async Task AddAsync(UniteDTO dto)
+        {
+            // Mapper le DTO vers l'entité Unite
+            var entity = mapper.Map<Unite>(dto);
+
             await dbContext.Unites.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
-        /// Met à jour une unite de façon asynchrone
+        /// Met à jour une unité existante
         /// </summary>
-        /// <param name="entityToUpdate">Unite à mettre à jour</param>
-        /// <param name="entity">Unite avec les nouvelles valeurs</param>
-        /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Unite Unite, Unite entity)
+        public async Task UpdateAsync(Unite unite, Unite entity)
         {
-            dbContext.Entry(Unite).State = EntityState.Modified;
-            Unite.IdUnite = entity.IdUnite;
-            Unite.NomUnite = entity.NomUnite;
-            Unite.SigleUnite = entity.SigleUnite;
-            dbContext.SaveChangesAsync();
+            dbContext.Entry(unite).State = EntityState.Modified;
+            unite.IdUnite = entity.IdUnite;
+            unite.NomUnite = entity.NomUnite;
+            unite.SigleUnite = entity.SigleUnite;
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
-        /// Permet de supprimer une unite de façon asynchrone
+        /// Supprime une unité
         /// </summary>
-        /// <param name="entity">L'unite à supprimer</param>
-        /// <returns>Le résultat de l'opération</returns>
-        public async Task DeleteAsync(Unite Unite)
+        public async Task DeleteAsync(Unite unite)
         {
-            dbContext.Unites.Remove(Unite);
+            dbContext.Unites.Remove(unite);
             await dbContext.SaveChangesAsync();
         }
     }
