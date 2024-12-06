@@ -194,6 +194,37 @@ namespace API_OVH
                 .ForMember(dest => dest.SigleUnite, opt => opt.MapFrom(src => src.SigleUnite))
                 .ForMember(dest => dest.UnitesCapteur, opt => opt.Ignore());
 
+            // Mapping pour Salle vers SalleDTO
+            CreateMap<Salle, SalleDTO>()
+                .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
+                .ForMember(dest => dest.NomSalle, opt => opt.MapFrom(src => src.NomSalle))
+                .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.BatimentNavigation != null ? src.BatimentNavigation.NomBatiment : string.Empty))
+                .ForMember(dest => dest.NomType, opt => opt.MapFrom(src => src.TypeSalleNavigation != null ? src.TypeSalleNavigation.NomTypeSalle : string.Empty))
+                .ReverseMap()
+                .ForMember(dest => dest.BatimentNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSalleNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.Murs, opt => opt.Ignore());
+
+            // Mapping pour Salle vers SalleSansNavigation
+            CreateMap<Salle, SalleSansNavigation>()
+                .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
+                .ForMember(dest => dest.NomSalle, opt => opt.MapFrom(src => src.NomSalle))
+                .ForMember(dest => dest.IdBatiment, opt => opt.MapFrom(src => src.IdBatiment))
+                .ForMember(dest => dest.IdTypeSalle, opt => opt.MapFrom(src => src.IdTypeSalle))
+                .ReverseMap();
+
+            // Mapping pour Salle vers SalleDetailDTO
+            CreateMap<Salle, SalleDTODetail>()
+                .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
+                .ForMember(dest => dest.NomSalle, opt => opt.MapFrom(src => src.NomSalle))
+                .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.BatimentNavigation != null ? src.BatimentNavigation.NomBatiment : string.Empty))
+                .ForMember(dest => dest.Murs, opt => opt.MapFrom(src => src.Murs))
+                .ReverseMap()
+                .ForMember(dest => dest.BatimentNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.TypeSalleNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.Murs, opt => opt.Ignore());
+
+
         }
     }
 }

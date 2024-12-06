@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IDataRepository<Batiment>, BatimentManager>();
 builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
 builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
-builder.Services.AddScoped<IDataRepository<Salle>, SalleManager>();
+builder.Services.AddScoped<ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail>, SalleManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
 builder.Services.AddScoped<ITypeSalleRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
 builder.Services.AddScoped<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>, UniteManager>();

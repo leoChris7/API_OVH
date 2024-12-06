@@ -48,7 +48,7 @@ namespace API_OVH.Controllers
             return leUnite;
         }
 
-        // GET: api/Unites/TETRAS
+        // GET: api/Unites/Centimètre
         [HttpGet("GetByName/{name}")]
         public async Task<ActionResult<UniteDetailDTO>> GetUniteByName(string name)
         {
@@ -57,6 +57,20 @@ namespace API_OVH.Controllers
             if (leUnite == null)
             {
                 return NotFound("GetUnitebyName: le Unite n'a pas été trouvé");
+            }
+
+            return leUnite;
+        }
+
+        // GET: api/Unites/cm
+        [HttpGet("GetBySigle/{sigle}")]
+        public async Task<ActionResult<UniteDetailDTO>> GetUniteBySigle(string sigle)
+        {
+            var leUnite = await dataRepository.GetBySigleAsync(sigle);
+
+            if (leUnite == null)
+            {
+                return NotFound("GetUnitebyName: l'Unite n'a pas été trouvé");
             }
 
             return leUnite;

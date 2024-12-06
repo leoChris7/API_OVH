@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux salles
     /// </summary>
-    public class SalleManager : IDataRepository<Salle>
+    public class SalleManager : ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -24,59 +24,100 @@ namespace API_OVH.Models.DataManager
         }
 
         /// <summary>
-        /// Retourne la liste de toutes les Salles de façon asynchrone
+        /// Retourne la liste de toutes les Salles sous forme de DTO
         /// </summary>
-        /// <returns>La liste des Salles</returns>
-        public async Task<ActionResult<IEnumerable<Salle>>> GetAllAsync()
+        /// <returns>La liste des SallesDTO</returns>
+        public async Task<ActionResult<IEnumerable<SalleDTO>>> GetAllAsync()
         {
-            return await dbContext.Salles.ToListAsync();
+            return await dbContext.Salles
+                .ProjectTo<SalleDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         /// <summary>
-        /// Retourne une Salle selon son id de façon asynchrone
+        /// Retourne une SalleDetailDTO selon son id
         /// </summary>
         /// <param name="id">(Entier) Identifiant de la Salle</param>
-        /// <returns>La Salle correspondante à l'ID</returns>
-        public async Task<ActionResult<Salle>> GetByIdAsync(int id)
+        /// <returns>La SalleDetailDTO correspondante à l'ID</returns>
+        public async Task<ActionResult<SalleDTODetail>> GetByIdAsync(int id)
         {
-            return await dbContext.Salles.FirstOrDefaultAsync(t => t.IdSalle == id);
+            var result = await dbContext.Salles
+                .Where(u => u.IdSalle == id)
+                .Include(s => s.Murs) // Inclure les murs
+                    .ThenInclude(m => m.Capteurs) // Inclure les capteurs pour chaque mur
+                .Include(s => s.Murs)
+                    .ThenInclude(m => m.Equipements) // Inclure les équipements pour chaque mur
+                .ProjectTo<SalleDTODetail>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return new NotFoundResult();
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Retourne une Salle selon son id
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant de la Salle</param>
+        /// <returns>La salle correspondante à l'ID</returns>
+        public async Task<ActionResult<Salle>> GetByIdWithoutDTOAsync(int id)
+        {
+            var salle = await dbContext.Salles
+                .FirstOrDefaultAsync(t => t.IdSalle == id);
+
+            if (salle == null) return new NotFoundResult();
+
+            return salle;
         }
 
         /// <summary>
-        /// Retourne une Salle selon son nom de façon asynchrone
+        /// Retourne une SalleDetailDTO selon son nom
         /// </summary>
-        /// <param name="str">Nom de la Salle</param>
-        /// <returns>La Salle correspondante au nom spécifié</returns>
-        public async Task<ActionResult<Salle>> GetByStringAsync(string nom)
+        /// <param name="nom">Nom de la Salle</param>
+        /// <returns>La SalleDetailDTO correspondante au nom spécifié</returns>
+        public async Task<ActionResult<SalleDTODetail>> GetByStringAsync(string nom)
         {
-            return await dbContext.Salles.FirstOrDefaultAsync(t => t.NomSalle.ToUpper() == nom.ToUpper());
+            var salle = await dbContext.Salles
+                .Where(u => u.NomSalle.ToUpper() == nom.ToUpper())
+                .ProjectTo<SalleDTODetail>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .FirstOrDefaultAsync();
+
+            if (salle == null)
+                return new NotFoundResult();
+
+            return new ActionResult<SalleDTODetail>(salle);
         }
 
         /// <summary>
-        /// Ajoute une Salle de façon asynchrone
+        /// Ajoute une Salle de façon asynchrone à partir d'un DTO sans navigation
         /// </summary>
-        /// <param name="entity">Salle à rajouter</param>
+        /// <param name="entity">SalleSansNavigation (DTO) à ajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(Salle entity)
+        public async Task AddAsync(SalleSansNavigation entity)
         {
-            await dbContext.Salles.AddAsync(entity);
+            var salle = mapper.Map<Salle>(entity);
+
+            await dbContext.Salles.AddAsync(salle);
             await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
-        /// Met à jour une Salle de façon asynchrone
+        /// Met à jour une Salle à partir de l'entité existante
         /// </summary>
-        /// <param name="entityToUpdate">Salle à mettre à jour</param>
+        /// <param name="entityToUpdate">Salle existante</param>
         /// <param name="entity">Salle avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Salle Salle, Salle entity)
+        public async Task UpdateAsync(Salle entityToUpdate, Salle entity)
         {
-            dbContext.Entry(Salle).State = EntityState.Modified;
-            Salle.IdSalle = entity.IdSalle;
-            Salle.IdBatiment = entity.IdBatiment;
-            Salle.IdTypeSalle = entity.IdTypeSalle;
-            Salle.NomSalle = entity.NomSalle;
-            dbContext.SaveChangesAsync();
+            dbContext.Entry(entityToUpdate).State = EntityState.Modified;
+
+            entityToUpdate.IdBatiment = entity.IdBatiment;
+            entityToUpdate.IdTypeSalle = entity.IdTypeSalle;
+            entityToUpdate.NomSalle = entity.NomSalle;
+
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -84,9 +125,9 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">Salle à supprimer</param>
         /// <returns>Le résultat de l'opération</returns>
-        public async Task DeleteAsync(Salle Salle)
+        public async Task DeleteAsync(Salle entity)
         {
-            dbContext.Salles.Remove(Salle);
+            dbContext.Salles.Remove(entity);
             await dbContext.SaveChangesAsync();
         }
     }

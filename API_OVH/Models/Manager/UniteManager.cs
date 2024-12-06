@@ -81,6 +81,22 @@ namespace API_OVH.Models.DataManager
         }
 
         /// <summary>
+        /// Retourne une unité par son sigle sous forme de UniteDetailDTO
+        /// </summary>
+        public async Task<ActionResult<UniteDetailDTO>> GetBySigleAsync(string sigle)
+        {
+            var result = await dbContext.Unites
+                .Where(u => u.SigleUnite.ToUpper() == sigle.ToUpper())
+                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return new NotFoundResult();
+
+            return new ActionResult<UniteDetailDTO>(result);
+        }
+
+        /// <summary>
         /// Ajoute une unité à partir d'un UniteDTO
         /// </summary>
         public async Task AddAsync(UniteDTO dto)

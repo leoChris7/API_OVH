@@ -11,6 +11,7 @@ namespace API_OVH.Models.Repository
             Task<ActionResult<TEntityDetailDTO>> GetByIdAsync(int id);
             Task<ActionResult<TEntity>> GetByIdWithoutDTOAsync(int id);
             Task<ActionResult<TEntityDetailDTO>> GetByStringAsync(string nomUnite);
+            Task<ActionResult<TEntityDetailDTO>> GetBySigleAsync(string nomSigle);
             Task AddAsync(TEntityDTO entity);
             Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
             Task DeleteAsync(TEntity entity);
