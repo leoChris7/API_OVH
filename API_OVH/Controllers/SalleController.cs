@@ -10,6 +10,7 @@ using API_OVH.Models.Repository;
 using AutoMapper;
 using API_OVH.Models.Manager;
 using Microsoft.AspNetCore.Http.HttpResults;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
 {
@@ -17,24 +18,24 @@ namespace API_OVH.Controllers
     [ApiController]
     public class SallesController : ControllerBase
     {
-        private readonly IDataRepository<Salle> dataRepository;
+        private readonly ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public SallesController(IDataRepository<Salle> manager)
+        public SallesController(ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail> manager)
         {
             dataRepository = manager;
         }
 
         // GET: api/Salles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Salle>>> GetSalle()
+        public async Task<ActionResult<IEnumerable<SalleDTO>>> GetSalle()
         {
             return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Salles/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Salle>> GetSalleById(int id)
+        public async Task<ActionResult<SalleDTODetail>> GetSalleById(int id)
         {
             var leSalle = await dataRepository.GetByIdAsync(id);
 
@@ -48,7 +49,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Salles/D101
         [HttpGet("GetByName/{name}")]
-        public async Task<ActionResult<Salle>> GetSalleByName(string name)
+        public async Task<ActionResult<SalleDTODetail>> GetSalleByName(string name)
         {
             var leSalle = await dataRepository.GetByStringAsync(name);
 
@@ -70,7 +71,7 @@ namespace API_OVH.Controllers
                 return BadRequest("Id ne correspondent pas");
             }
 
-            var leSalle = dataRepository.GetByIdAsync(id);
+            var leSalle = dataRepository.GetByIdWithoutDTOAsync(id);
 
             if (leSalle == null)
             {
@@ -84,7 +85,7 @@ namespace API_OVH.Controllers
         // POST: api/Salles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Salle>> PostSalle(Salle Salle)
+        public async Task<ActionResult<Salle>> PostSalle(SalleSansNavigation Salle)
         {
             if (!ModelState.IsValid)
             {
@@ -100,7 +101,7 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSalle(int id)
         {
-            var leSalle = await dataRepository.GetByIdAsync(id);
+            var leSalle = await dataRepository.GetByIdWithoutDTOAsync(id);
             if (leSalle.Value == null)
             {
                 return NotFound("delete Salle: Salle non trouvé");

@@ -49,7 +49,7 @@ namespace API_OVH.Models.DataManager
         {
             return await dbContext.TypesEquipement
                 .Include(t => t.Equipements)
-                .FirstOrDefaultAsync(t => t.IdTypeEquipement == id); ;
+                .FirstOrDefaultAsync(t => t.IdTypeEquipement == id);
 
         }
 
