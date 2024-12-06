@@ -18,10 +18,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class SallesController : ControllerBase
     {
-        private readonly ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail> dataRepository;
+        private readonly ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public SallesController(ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail> manager)
+        public SallesController(ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO> manager)
         {
             dataRepository = manager;
         }
@@ -35,7 +35,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Salles/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<SalleDTODetail>> GetSalleById(int id)
+        public async Task<ActionResult<SalleDetailDTO>> GetSalleById(int id)
         {
             var leSalle = await dataRepository.GetByIdAsync(id);
 
@@ -49,7 +49,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Salles/D101
         [HttpGet("GetByName/{name}")]
-        public async Task<ActionResult<SalleDTODetail>> GetSalleByName(string name)
+        public async Task<ActionResult<SalleDetailDTO>> GetSalleByName(string name)
         {
             var leSalle = await dataRepository.GetByStringAsync(name);
 
@@ -85,7 +85,7 @@ namespace API_OVH.Controllers
         // POST: api/Salles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Salle>> PostSalle(SalleSansNavigation Salle)
+        public async Task<ActionResult<Salle>> PostSalle(SalleSansNavigationDTO Salle)
         {
             if (!ModelState.IsValid)
             {
