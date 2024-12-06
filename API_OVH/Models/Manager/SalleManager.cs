@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux salles
     /// </summary>
-    public class SalleManager : ISalleRepository<Salle, SalleSansNavigation, SalleDTO, SalleDTODetail>
+    public class SalleManager : ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -39,7 +39,7 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="id">(Entier) Identifiant de la Salle</param>
         /// <returns>La SalleDetailDTO correspondante à l'ID</returns>
-        public async Task<ActionResult<SalleDTODetail>> GetByIdAsync(int id)
+        public async Task<ActionResult<SalleDetailDTO>> GetByIdAsync(int id)
         {
             var result = await dbContext.Salles
                 .Where(u => u.IdSalle == id)
@@ -47,7 +47,7 @@ namespace API_OVH.Models.DataManager
                     .ThenInclude(m => m.Capteurs) // Inclure les capteurs pour chaque mur
                 .Include(s => s.Murs)
                     .ThenInclude(m => m.Equipements) // Inclure les équipements pour chaque mur
-                .ProjectTo<SalleDTODetail>(mapper.ConfigurationProvider)
+                .ProjectTo<SalleDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             if (result == null)
@@ -77,17 +77,17 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="nom">Nom de la Salle</param>
         /// <returns>La SalleDetailDTO correspondante au nom spécifié</returns>
-        public async Task<ActionResult<SalleDTODetail>> GetByStringAsync(string nom)
+        public async Task<ActionResult<SalleDetailDTO>> GetByStringAsync(string nom)
         {
             var salle = await dbContext.Salles
                 .Where(u => u.NomSalle.ToUpper() == nom.ToUpper())
-                .ProjectTo<SalleDTODetail>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .ProjectTo<SalleDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
                 .FirstOrDefaultAsync();
 
             if (salle == null)
                 return new NotFoundResult();
 
-            return new ActionResult<SalleDTODetail>(salle);
+            return new ActionResult<SalleDetailDTO>(salle);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">SalleSansNavigation (DTO) à ajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(SalleSansNavigation entity)
+        public async Task AddAsync(SalleSansNavigationDTO entity)
         {
             var salle = mapper.Map<Salle>(entity);
 
