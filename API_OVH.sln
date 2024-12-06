@@ -7,13 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_OVH", "API_OVH\API_OVH.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_OVHTests", "API_OVHTests\API_OVHTests.csproj", "{39D5DD93-EA0E-408C-B69F-CD4D82D834F7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{BC0ED326-E3D6-40D9-B65F-1BAAE9F07E20}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{32032A53-AD93-4E7D-B33B-43CBA92D7A13}"
-	ProjectSection(SolutionItems) = preProject
-		test.yml = test.yml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,9 +24,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{32032A53-AD93-4E7D-B33B-43CBA92D7A13} = {BC0ED326-E3D6-40D9-B65F-1BAAE9F07E20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {757DAD58-BE93-4D5B-B172-68BFF49C4A52}
