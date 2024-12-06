@@ -68,7 +68,7 @@ namespace API_OVH.Models.DataManager
             dbContext.Entry(Mur).State = EntityState.Modified;
             Mur.IdMur = entity.IdMur;
             Mur.IdDirection = entity.IdDirection;
-            Mur.IdMur = entity.IdMur;
+            Mur.IdSalle = entity.IdSalle;
             Mur.Longueur = entity.Longueur;
             Mur.Hauteur = entity.Hauteur;
             Mur.Orientation = entity.Orientation;

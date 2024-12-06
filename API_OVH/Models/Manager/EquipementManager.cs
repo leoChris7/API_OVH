@@ -68,15 +68,15 @@ namespace API_OVH.Models.DataManager
         }
 
         /// <summary>
-        /// Ajoute un Equipement de façon asynchrone
+        /// Ajoute un Equipement à partir de son DTO sans navigation de façon asynchrone
         /// </summary>
         /// <param name="entity">Equipement à rajouter</param>
         /// <returns>Résultat de l'opération</returns>
         public async Task AddAsync(EquipementSansNavigationDTO entity)
         {
-            var equipement = mapper.Map<Mur>(entity);
+            var equipement = mapper.Map<Equipement>(entity);
 
-            await dbContext.Equipements.AddAsync(entity);
+            await dbContext.Equipements.AddAsync(equipement);
             await dbContext.SaveChangesAsync();
         }
 
