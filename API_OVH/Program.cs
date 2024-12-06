@@ -25,13 +25,13 @@ builder.Services.AddCors(options =>
 // Ajouter les services Scoped pour les managers
 builder.Services.AddScoped<IDataRepository<Batiment>, BatimentManager>();
 builder.Services.AddScoped<IDataRepository<Capteur>, CapteurManager>();
-builder.Services.AddScoped<IDataRepository<Equipement>, EquipementManager>();
+
+builder.Services.AddScoped<IEquipementRepository<Equipement, EquipementDTO, EquipementDetailDTO, EquipementSansNavigationDTO>, EquipementManager>();
 builder.Services.AddScoped<ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO>, SalleManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
 builder.Services.AddScoped<ITypeSalleRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
 builder.Services.AddScoped<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>, UniteManager>();
-
-builder.Services.AddScoped<IMurRepository<Mur>, MurManager>();
+builder.Services.AddScoped<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>, MurManager>();
 
 // Managers ReadOnly
 builder.Services.AddScoped<IReadOnlyDataRepository<Direction>, DirectionManager>();
