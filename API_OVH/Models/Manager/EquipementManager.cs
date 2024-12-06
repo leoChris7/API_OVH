@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux Equipements
     /// </summary>
-    public class EquipementManager : IDataRepository<Equipement>
+    public class EquipementManager : IEquipementRepository<Equipement, EquipementDTO, EquipementDetailDTO, EquipementSansNavigationDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -24,12 +24,27 @@ namespace API_OVH.Models.DataManager
         }
 
         /// <summary>
-        /// Retourne la liste de tous les Equipements de façon asynchrone
+        /// Retourne la liste de tous les Equipements sous forme de DTO simplifié de façon asynchrone
         /// </summary>
         /// <returns>La liste des Equipements</returns>
-        public async Task<ActionResult<IEnumerable<Equipement>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<EquipementDTO>>> GetAllAsync()
         {
-            return await dbContext.Equipements.ToListAsync();
+            return await dbContext.Equipements
+                .ProjectTo<EquipementDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Retourne un DTO détaillé de l'Equipement selon son id de façon asynchrone
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant de l'Equipement</param>
+        /// <returns>L'Equipement correspondant à l'ID</returns>
+        public async Task<ActionResult<EquipementDetailDTO>> GetByIdAsync(int id)
+        {
+            return await dbContext.Equipements
+                .Where(t => t.IdEquipement == id)
+                .ProjectTo<EquipementDetailDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -37,7 +52,7 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="id">(Entier) Identifiant de l'Equipement</param>
         /// <returns>L'Equipement correspondant à l'ID</returns>
-        public async Task<ActionResult<Equipement>> GetByIdAsync(int id)
+        public async Task<ActionResult<Equipement>> GetByIdWithoutDTOAsync(int id)
         {
             return await dbContext.Equipements.FirstOrDefaultAsync(t => t.IdEquipement == id);
         }
@@ -57,8 +72,10 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">Equipement à rajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(Equipement entity)
+        public async Task AddAsync(EquipementSansNavigationDTO entity)
         {
+            var equipement = mapper.Map<Mur>(entity);
+
             await dbContext.Equipements.AddAsync(entity);
             await dbContext.SaveChangesAsync();
         }

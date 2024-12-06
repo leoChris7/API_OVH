@@ -10,6 +10,7 @@ using API_OVH.Models.Repository;
 using AutoMapper;
 using API_OVH.Models.Manager;
 using Microsoft.AspNetCore.Http.HttpResults;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
 {
@@ -17,38 +18,52 @@ namespace API_OVH.Controllers
     [ApiController]
     public class EquipementController : ControllerBase
     {
-        private readonly IDataRepository<Equipement> dataRepository;
+        private readonly IEquipementRepository<Equipement, EquipementDTO, EquipementDetailDTO, EquipementSansNavigationDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public EquipementController(IDataRepository<Equipement> manager)
+        public EquipementController(IEquipementRepository<Equipement, EquipementDTO, EquipementDetailDTO, EquipementSansNavigationDTO> manager)
         {
             dataRepository = manager;
         }
 
         // GET: api/Equipements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Equipement>>> GetEquipement()
+        public async Task<ActionResult<IEnumerable<EquipementDTO>>> GetEquipement()
         {
             return await dataRepository.GetAllAsync();
         }
 
         // GET: api/Equipements/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Equipement>> GetEquipementById(int id)
+        public async Task<ActionResult<EquipementDetailDTO>> GetEquipementById(int id)
         {
-            var leEquipement = await dataRepository.GetByIdAsync(id);
+            var equipement = await dataRepository.GetByIdAsync(id);
 
-            if (leEquipement == null)
+            if (equipement == null)
             {
-                return NotFound("getEquipementbyid: l'équipement n'a pas été trouvé.");
+                return NotFound("getEquipementByID: l'équipement n'a pas été trouvé.");
             }
 
-            return leEquipement;
+            return equipement;
+        }
+
+        // GET: api/Equipements/5
+        [HttpGet("GetByIdWithoutDTO/{id}")]
+        public async Task<ActionResult<Equipement>> GetByIdWithoutDTOAsync(int id)
+        {
+            var equipement = await dataRepository.GetByIdWithoutDTOAsync(id);
+
+            if (equipement == null)
+            {
+                return NotFound("getEquipementByIDWithoutDTO: l'équipement n'a pas été trouvé.");
+            }
+
+            return equipement;
         }
 
         // GET: api/Equipements/5
         [HttpGet("GetByName/{name}")]
-        public async Task<ActionResult<Equipement>> GetEquipementByString(string name)
+        public async Task<ActionResult<EquipementDetailDTO>> GetEquipementByString(string name)
         {
             var leEquipement = await dataRepository.GetByStringAsync(name);
             
@@ -70,21 +85,21 @@ namespace API_OVH.Controllers
                 return BadRequest("Id ne correspondent pas");
             }
 
-            var leEquipement = dataRepository.GetByIdAsync(id);
+            var equipement = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (leEquipement == null)
+            if (equipement == null)
             {
                 return NotFound("Id incorrect: L'équipement na pas été trouvé");
             }
 
-            await dataRepository.UpdateAsync(leEquipement.Result.Value, Equipement);
+            await dataRepository.UpdateAsync(equipement.Result.Value, Equipement);
             return NoContent();
         }
 
         // POST: api/Equipements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Equipement>> PostEquipement(Equipement Equipement)
+        public async Task<ActionResult<EquipementSansNavigationDTO>> PostEquipement(EquipementSansNavigationDTO Equipement)
         {
             if (!ModelState.IsValid)
             {
@@ -93,20 +108,20 @@ namespace API_OVH.Controllers
 
             await dataRepository.AddAsync(Equipement);
 
-            return CreatedAtAction("GetEquipementById", new { id = Equipement.IdEquipement }, Equipement);
+            return CreatedAtAction("GetEquipementByIdWithoutDTO", new { id = Equipement.IdEquipement }, Equipement);
         }
 
         // DELETE: api/Equipements/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEquipement(int id)
         {
-            var leEquipement = await dataRepository.GetByIdAsync(id);
-            if (leEquipement.Value == null)
+            var equipement = await dataRepository.GetByIdWithoutDTOAsync(id);
+            if (equipement.Value == null)
             {
                 return NotFound("delete Equipement: Equipement non trouvé");
             }
 
-            await dataRepository.DeleteAsync(leEquipement.Value);
+            await dataRepository.DeleteAsync(equipement.Value);
 
             return NoContent();
         }

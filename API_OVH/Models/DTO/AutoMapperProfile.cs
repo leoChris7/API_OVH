@@ -206,7 +206,7 @@ namespace API_OVH
                 .ForMember(dest => dest.Murs, opt => opt.Ignore());
 
             // Mapping pour Salle vers SalleSansNavigation
-            CreateMap<Salle, SalleSansNavigation>()
+            CreateMap<Salle, SalleSansNavigationDTO>()
                 .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
                 .ForMember(dest => dest.NomSalle, opt => opt.MapFrom(src => src.NomSalle))
                 .ForMember(dest => dest.IdBatiment, opt => opt.MapFrom(src => src.IdBatiment))
@@ -214,7 +214,7 @@ namespace API_OVH
                 .ReverseMap();
 
             // Mapping pour Salle vers SalleDetailDTO
-            CreateMap<Salle, SalleDTODetail>()
+            CreateMap<Salle, SalleDetailDTO>()
                 .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
                 .ForMember(dest => dest.NomSalle, opt => opt.MapFrom(src => src.NomSalle))
                 .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.BatimentNavigation != null ? src.BatimentNavigation.NomBatiment : string.Empty))

@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux murs
     /// </summary>
-    public class MurManager : IMurRepository<Mur>
+    public class MurManager : IMurRepository<Mur, MurDTO, MurSansNavigationDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -27,9 +27,11 @@ namespace API_OVH.Models.DataManager
         /// Retourne la liste de tous les Murs de façon asynchrone
         /// </summary>
         /// <returns>La liste des Murs</returns>
-        public async Task<ActionResult<IEnumerable<Mur>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<MurDTO>>> GetAllAsync()
         {
-            return await dbContext.Murs.ToListAsync();
+            return await dbContext.Murs
+                .ProjectTo<MurDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -47,9 +49,11 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="entity">Mur à rajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(Mur entity)
+        public async Task AddAsync(MurSansNavigationDTO entity)
         {
-            await dbContext.Murs.AddAsync(entity);
+            var mur = mapper.Map<Mur>(entity);
+
+            await dbContext.Murs.AddAsync(mur);
             await dbContext.SaveChangesAsync();
         }
 

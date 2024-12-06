@@ -10,6 +10,7 @@ using API_OVH.Models.Repository;
 using AutoMapper;
 using API_OVH.Models.Manager;
 using Microsoft.AspNetCore.Http.HttpResults;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
 {
@@ -17,17 +18,17 @@ namespace API_OVH.Controllers
     [ApiController]
     public class MursController : ControllerBase
     {
-        private readonly IDataRepository<Mur> dataRepository;
+        private readonly IMurRepository<Mur, MurDTO, MurSansNavigationDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public MursController(IDataRepository<Mur> manager, IMapper mapper)
+        public MursController(IMurRepository<Mur, MurDTO, MurSansNavigationDTO> manager)
         {
             dataRepository = manager;
         }
 
         // GET: api/Murs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mur>>> GetMurs()
+        public async Task<ActionResult<IEnumerable<MurDTO>>> GetMurs()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -70,16 +71,16 @@ namespace API_OVH.Controllers
         // POST: api/Murs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Mur>> PostMur(Mur Mur)
+        public async Task<ActionResult<MurDTO>> PostMur(MurSansNavigationDTO mur)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await dataRepository.AddAsync(Mur);
+            await dataRepository.AddAsync(mur);
 
-            return CreatedAtAction("GetMurById", new { id = Mur.IdMur }, Mur);
+            return CreatedAtAction("GetMurById", new { id = mur.IdMur }, mur);
         }
 
         // DELETE: api/Murs/5
