@@ -33,7 +33,6 @@ namespace API_OVH.Controllers
             return await dataRepository.GetAllAsync();
         }
 
-        // GET: api/TypeSalles/5
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult<TypeSalle>> GetTypeSalleById(int id)
         {
@@ -44,8 +43,9 @@ namespace API_OVH.Controllers
                 return NotFound("getTypeSallebyid: le TypeSalle n'a pas été trouvé.");
             }
 
-            return leTypeSalle;
+            return Ok(leTypeSalle.Value);
         }
+
 
         // GET: api/TypeSalles/TETRAS
         [HttpGet("GetByName/{name}")]
