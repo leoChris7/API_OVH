@@ -130,13 +130,23 @@ namespace API_OVH
             CreateMap<Salle, SalleDTODetail>()
                 .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
                 .ForMember(dest => dest.NomSalle, opt => opt.MapFrom(src => src.NomSalle))
-                .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.BatimentNavigation != null ? src.BatimentNavigation.NomBatiment : string.Empty))
+
+                // Mapper les noms du bâtiment et du type de salle
+                .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.BatimentNavigation != null ? src.BatimentNavigation.NomBatiment : null))
+                .ForMember(dest => dest.NomTypeSalle, opt => opt.MapFrom(src => src.TypeSalleNavigation != null ? src.TypeSalleNavigation.NomTypeSalle : null))
+
+                // Mapper les équipements et capteurs des murs
+                .ForMember(dest => dest.Capteurs, opt => opt.MapFrom(src => src.Murs.SelectMany(mur => mur.Capteurs)))
+                .ForMember(dest => dest.Equipements, opt => opt.MapFrom(src => src.Murs.SelectMany(mur => mur.Equipements)))
+
+                // Optionnel : Mapper les murs si nécessaire
                 .ForMember(dest => dest.Murs, opt => opt.MapFrom(src => src.Murs))
+
+                // Mappage inverse : ignorer certains membres dans l'autre sens si nécessaire
                 .ReverseMap()
                 .ForMember(dest => dest.BatimentNavigation, opt => opt.Ignore())
-                .ForMember(dest => dest.TypeSalleNavigation, opt => opt.Ignore())
-                .ForMember(dest => dest.Murs, opt => opt.Ignore());
-
+                .ForMember(dest => dest.TypeSalleNavigation, opt => opt.Ignore());
+                //.ForMember(dest => dest.Murs, opt => opt.Ignore());
 
         }
     }
