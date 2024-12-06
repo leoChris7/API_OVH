@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace API_OVH.Models.DTO
 {
-    public class SalleDTODetail
+    public class SalleDetailDTO
     {
         private int idSalle;
         private string nomSalle;
