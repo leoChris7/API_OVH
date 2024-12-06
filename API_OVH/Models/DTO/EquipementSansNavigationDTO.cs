@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API_OVH.Models.DTO
 {
-    public class EquipementSansNavigation
+    public class EquipementSansNavigationDTO
     {
         public int IdEquipement { get; set; }
 
