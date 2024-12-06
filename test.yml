@@ -1,0 +1,43 @@
+name: Run Tests on Push
+
+# Déclencher l'action sur un push ou une pull request
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Vérifier le code source
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Installer le SDK .NET
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0' # Remplacez par votre version de .NET
+
+    # Restaurer les dépendances
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    # Exécuter les tests
+    - name: Run Tests
+      run: dotnet test API_OVHTests/API_OVHTests.csproj --no-build --verbosity normal
+
+    # Ajouter des informations sur les résultats des tests
+    - name: Publish Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: '**/TestResults/*.trx'
