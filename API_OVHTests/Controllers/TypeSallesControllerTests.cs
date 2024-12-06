@@ -45,19 +45,27 @@ namespace TypeSallesControllerTests{
         public async Task GetTypeSalleById_Returns_TypeSalle()
         {
             // Arrange
-            var typeSalle = new TypeSalle { IdTypeSalle=1, NomTypeSalle="TD" };
+            var expectedTypeSalle = new TypeSalle { IdTypeSalle = 1, NomTypeSalle = "TD" };
 
-            _mockRepository.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(typeSalle);
+            // Configure le mock
+            _mockRepository.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(expectedTypeSalle);
 
             // Act
             var actionResult = await _typeSalleController.GetTypeSalleById(1);
+
+            // Assert - Vérifier que le résultat n'est pas null
+            Assert.IsNotNull(actionResult, "GetTypeSalleById: La réponse ActionResult est null.");
+
+            // Extraire le type d'ActionResult
             var result = actionResult.Result as OkObjectResult;
 
             // Assert
-            Assert.IsNotNull(result, "GetTypeSalleById: La réponse n'est pas de type OkObjectResult.");
-            var returnedTypeSalle = result.Value as TypeSalle;
-            Assert.IsNotNull(returnedTypeSalle, "GetTypeSalleById: Le type de salle retourné est null.");
-            Assert.AreEqual(typeSalle.NomTypeSalle, returnedTypeSalle.NomTypeSalle, "GetTypeSalleById: Les types de salles ne sont pas égaux.");
+            Assert.IsNotNull(result, "GetProduitById: La réponse n'est pas de type OkObjectResult.");
+            var returnedProduit = result.Value as TypeSalle;
+            Assert.IsNotNull(returnedProduit, "GetProduitById: Le produit retourné est null.");
+            Assert.AreEqual(returnedProduit.NomTypeSalle, expectedTypeSalle.NomTypeSalle, "GetProduitById: Les produits ne sont pas égaux.");
         }
+
+
     }
 }
