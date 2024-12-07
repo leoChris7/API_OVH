@@ -73,7 +73,7 @@ namespace API_OVH.Controllers
 
             var leSalle = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (leSalle == null)
+            if (leSalle.Result == null)
             {
                 return NotFound("Id incorrect: Le Salle na pas été trouvé");
             }

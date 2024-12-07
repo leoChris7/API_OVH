@@ -17,6 +17,7 @@ namespace API_OVH.Models.EntityFramework
         [Column("idmur")]
         public int IdMur { get; set; }
 
+        [Range(1, 8, ErrorMessage = "L'ID de la direction doit être entre 1 et 8 (N, S, E, O, NO, NE, SE, SO)")]
         [Column("iddirection")]
         public short IdDirection { get; set; }
 

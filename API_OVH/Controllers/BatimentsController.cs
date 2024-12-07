@@ -72,7 +72,7 @@ namespace API_OVH.Controllers
 
             var leBatiment = dataRepository.GetByIdAsync(id);
 
-            if (leBatiment == null)
+            if (leBatiment.Result == null)
             {
                 return NotFound("Id incorrect: Le batiment na pas été trouvé");
             }

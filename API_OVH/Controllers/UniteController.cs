@@ -88,7 +88,7 @@ namespace API_OVH.Controllers
 
             var leUnite = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (leUnite == null)
+            if (leUnite.Result == null)
             {
                 return NotFound("Id incorrect: Le Unite na pas été trouvé");
             }

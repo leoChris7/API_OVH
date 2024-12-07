@@ -22,27 +22,36 @@ namespace API_OVH.Models.EntityFramework
         public int IdTypeEquipement { get; set; }
 
         [Required]
+        [MaxLength(20, ErrorMessage = "Le nom ne doit pas dépasser 20 caractères.")]
         [Column("nomequipement", TypeName = "varchar(20)")]
         public string NomEquipement { get; set; }
 
-        [Column("longueur", TypeName = "numeric")]
+        [Range(0.0, 999999999.9, ErrorMessage = "La longueur doit être comprise entre 0 et 999,999,999.9cm.")]
+        [Column("longueur", TypeName = "numeric(10,1)")]
         public decimal Longueur { get; set; } = 0;
 
-        [Column("largeur", TypeName = "numeric")]
+        [Range(0.0, 999999999.9, ErrorMessage = "La largeur doit être comprise entre 0 et 999,999,999.9cm.")]
+        [Column("largeur", TypeName = "numeric(10,1)")]
         public decimal Largeur { get; set; } = 0;
 
-        [Column("hauteur", TypeName = "numeric")]
+        [Range(0.0, 999999999.9, ErrorMessage = "La hauteur doit être comprise entre 0 et 999,999,999.9cm.")]
+        [Column("hauteur", TypeName = "numeric(10,1)")]
         public decimal Hauteur { get; set; } = 0;
 
+        [Range(0.0, 999999999.9, ErrorMessage = "Les coordonnées doivent être comprises entre 0 et 999,999,999.9cm.")]
         [Column("xequipement", TypeName = "numeric(10,1)")]
         public decimal XEquipement { get; set; } = 0;
 
+        [Range(0.0, 999999999.9, ErrorMessage = "Les coordonnées doivent être comprises entre 0 et 999,999,999.9cm.")]
         [Column("yequipement", TypeName = "numeric(10,1)")]
         public decimal YEquipement { get; set; } = 0;
 
+        [Range(0.0, 999999999.9, ErrorMessage = "Les coordonnées doivent être comprises entre 0 et 999,999,999.9cm.")]
         [Column("zequipement", TypeName = "numeric(10,1)")]
         public decimal ZEquipement { get; set; } = 0;
 
+        [EtatValidation(ErrorMessage = "L'état doit être à OUI, NON ou NSP")]
+        [Length(3, 3, ErrorMessage = "L'état doit être de 3 lettres")]
         [Column("estactif", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";
 

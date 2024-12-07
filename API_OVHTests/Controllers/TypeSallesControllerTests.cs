@@ -70,6 +70,34 @@ namespace TypeSallesControllerTests{
         }
 
         [TestMethod]
+        public async Task GetTypeSalleByName_Returns_TypeSalle()
+        {
+            // Arrange
+            var expectedTypeSalle = new TypeSalle { IdTypeSalle = 1, NomTypeSalle = "TD" };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("TD")).ReturnsAsync(expectedTypeSalle);
+
+            // Act
+            var actionResult = _typeSalleController.GetTypeSalleByName("TD").Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetTypeSalleByName objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetTypeSalleByName valeur retournée null");
+            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalle, "GetTypeSalleByName: types salles non égaux, objet incohérent retourné");
+        }
+
+
+        [TestMethod]
+        public async Task GetTypeSalleByName_Returns_NotFound_When_TypeSalle_NotFound()
+        {
+            // Act
+            var actionResult = await _typeSalleController.GetTypeSalleByName("Salle inconnue");
+
+            // Assert
+            Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetTypeSalleByName not found a échoué");
+        }
+
+        [TestMethod]
         public async Task PostTypeSalle_ModelValidated_CreationOK()
         {
             // Arrange
@@ -80,7 +108,7 @@ namespace TypeSallesControllerTests{
             };
 
             // Act
-            var actionResult = _typeSalleController.PostTypeSalle(typeSalleDTO).Result;
+            var actionResult = await _typeSalleController.PostTypeSalle(typeSalleDTO);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<TypeSalleDTO>), "Pas un ActionResult<TypeSalle>");
@@ -89,6 +117,20 @@ namespace TypeSallesControllerTests{
             Assert.IsInstanceOfType(result.Value, typeof(TypeSalleDTO), "Pas un type de salle");
             Assert.AreEqual(typeSalleDTO, (TypeSalleDTO)result.Value, "Types de salle non identiques");
 
+        }
+
+        [TestMethod]
+        public async Task PostTypeSalle_ModelInvalid_ReturnsBadRequest()
+        {
+            // Arrange
+            var invalidDto = new TypeSalleDTO(); // Missing required fields
+            _typeSalleController.ModelState.AddModelError("Nom", "Nom is required.");
+
+            // Act
+            var result = await _typeSalleController.PostTypeSalle(invalidDto);
+
+            // Assert
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
         }
 
         [TestMethod]
@@ -129,6 +171,34 @@ namespace TypeSallesControllerTests{
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+        }
+
+        [TestMethod]
+        public async Task Pututilisateur_ModelValidated_ReturnsBadRequest()
+        {
+            // Act
+            var actionResult = _typeSalleController.PutTypeSalle(3, new TypeSalle
+            {
+                IdTypeSalle = 1,
+                NomTypeSalle = "AAA"
+            }).Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest"); // Test du type de retour
+        }
+
+        [TestMethod]
+        public async Task Pututilisateur_ModelValidated_ReturnsNotFound()
+        {
+            // Act
+            var actionResult = _typeSalleController.PutTypeSalle(3, new TypeSalle
+            {
+                IdTypeSalle = 3,
+                NomTypeSalle = "AAA"
+            }).Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound"); // Test du type de retour
         }
 
         [TestMethod]

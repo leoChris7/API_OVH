@@ -73,7 +73,7 @@ namespace API_OVH.Controllers
 
             var leTypeSalle = dataRepository.GetByIdAsync(id);
 
-            if (leTypeSalle == null)
+            if (leTypeSalle.Result == null)
             {
                 return NotFound("Id incorrect: Le TypeSalle na pas été trouvé");
             }

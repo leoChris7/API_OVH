@@ -59,7 +59,7 @@ namespace API_OVH.Controllers
 
             var leMur = dataRepository.GetByIdAsync(id);
 
-            if (leMur == null)
+            if (leMur.Result == null)
             {
                 return NotFound("Id incorrect: Le Mur na pas été trouvé");
             }

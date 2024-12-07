@@ -73,7 +73,7 @@ namespace API_OVH.Controllers
 
             var leTypeEquipement = dataRepository.GetByIdAsync(id);
 
-            if (leTypeEquipement == null)
+            if (leTypeEquipement.Result == null)
             {
                 return NotFound("Id incorrect: Le TypeEquipement na pas été trouvé");
             }

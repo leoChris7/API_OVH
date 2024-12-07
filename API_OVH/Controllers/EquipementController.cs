@@ -87,7 +87,7 @@ namespace API_OVH.Controllers
 
             var equipement = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (equipement == null)
+            if (equipement.Result == null)
             {
                 return NotFound("Id incorrect: L'équipement na pas été trouvé");
             }
