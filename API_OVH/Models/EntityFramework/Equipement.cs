@@ -50,7 +50,7 @@ namespace API_OVH.Models.EntityFramework
         [Column("zequipement", TypeName = "numeric(10,1)")]
         public decimal ZEquipement { get; set; } = 0;
 
-        [EtatValidation(ErrorMessage = "L'état doit être à OUI, NON ou NSP")]
+        [EtatValidationAttribute(ErrorMessage = "L'état doit être à OUI, NON ou NSP")]
         [Length(3, 3, ErrorMessage = "L'état doit être de 3 lettres")]
         [Column("estactif", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";

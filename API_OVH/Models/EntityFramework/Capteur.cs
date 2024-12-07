@@ -24,7 +24,7 @@ namespace API_OVH.Models.EntityFramework
         public string NomCapteur { get; set; }
 
         [Length(3, 3, ErrorMessage = "L'état doit être de 3 caractères")]
-        [EtatValidation(ErrorMessage = "Etat invalide")]
+        [EtatValidationAttribute(ErrorMessage = "Etat invalide")]
         [Column("estactif", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";
 
