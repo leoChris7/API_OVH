@@ -1,1 +1,1 @@
-![Tests](https://github.com/<VOTRE_NOM_UTILISATEUR>/<VOTRE_DEPOT>/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/leoChris7/API_OVH/actions/workflows/test.yml/badge.svg)
