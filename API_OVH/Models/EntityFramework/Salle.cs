@@ -25,6 +25,7 @@ namespace API_OVH.Models.EntityFramework
         public int IdTypeSalle { get; set; }
 
         [Required]
+        [MaxLength(20, ErrorMessage = "Le nom ne doit pas dépasser 20 caractères.")]
         [Column("nomsalle", TypeName = "varchar(20)")]
         public string NomSalle { get; set; }
 

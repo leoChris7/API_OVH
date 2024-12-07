@@ -14,10 +14,12 @@ namespace API_OVH.Models.EntityFramework
         [Column("idunite")]
         public int IdUnite { get; set; }
 
+        [MaxLength(50, ErrorMessage = "Le nom de l'unité ne doit pas dépasser 50 caractères.")]
         [Required]
         [Column("nomunite", TypeName = "varchar(50)")]
         public string NomUnite { get; set; }
 
+        [MaxLength(10, ErrorMessage = "Le sigle ne doit pas dépasser 10 caractères.")]
         [Column("sigleunite", TypeName = "varchar(10)")]
         public string? SigleUnite { get; set; }
 
