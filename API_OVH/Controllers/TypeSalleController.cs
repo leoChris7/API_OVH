@@ -43,7 +43,7 @@ namespace API_OVH.Controllers
                 return NotFound("getTypeSallebyid: le TypeSalle n'a pas été trouvé.");
             }
 
-            return Ok(leTypeSalle.Value);
+            return leTypeSalle;
         }
 
 
@@ -102,7 +102,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteTypeSalle(int id)
         {
             var leTypeSalle = await dataRepository.GetByIdAsync(id);
-            if (leTypeSalle.Value == null)
+            if (leTypeSalle == null)
             {
                 return NotFound("delete TypeSalle: TypeSalle non trouvé");
             }

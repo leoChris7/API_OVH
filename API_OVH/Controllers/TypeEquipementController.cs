@@ -104,7 +104,7 @@ namespace API_OVH.Controllers
         {
             var leTypeEquipement = await dataRepository.GetByIdAsync(id);
 
-            if (leTypeEquipement.Value == null)
+            if (leTypeEquipement == null)
             {
                 return NotFound("delete TypeEquipement: TypeEquipement non trouvé");
             }

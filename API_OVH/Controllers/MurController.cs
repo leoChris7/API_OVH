@@ -88,7 +88,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteMur(int id)
         {
             var leMur = await dataRepository.GetByIdAsync(id);
-            if (leMur.Value == null)
+            if (leMur == null)
             {
                 return NotFound("delete Mur: Mur non trouvé");
             }

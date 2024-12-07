@@ -116,7 +116,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteEquipement(int id)
         {
             var equipement = await dataRepository.GetByIdWithoutDTOAsync(id);
-            if (equipement.Value == null)
+            if (equipement == null)
             {
                 return NotFound("delete Equipement: Equipement non trouvé");
             }

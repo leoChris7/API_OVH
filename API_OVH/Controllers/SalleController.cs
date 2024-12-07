@@ -102,7 +102,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteSalle(int id)
         {
             var leSalle = await dataRepository.GetByIdWithoutDTOAsync(id);
-            if (leSalle.Value == null)
+            if (leSalle == null)
             {
                 return NotFound("delete Salle: Salle non trouvé");
             }

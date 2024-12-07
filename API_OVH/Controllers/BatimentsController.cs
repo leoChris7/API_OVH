@@ -101,7 +101,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteBatiment(int id)
         {
             var leBatiment = await dataRepository.GetByIdAsync(id);
-            if (leBatiment.Value == null)
+            if (leBatiment == null)
             {
                 return NotFound("delete batiment: batiment non trouvé");
             }

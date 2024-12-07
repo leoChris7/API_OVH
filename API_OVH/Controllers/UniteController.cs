@@ -117,7 +117,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteUnite(int id)
         {
             var leUnite = await dataRepository.GetByIdWithoutDTOAsync(id);
-            if (leUnite.Value == null)
+            if (leUnite == null)
             {
                 return NotFound("delete Unite: Unite non trouvé");
             }
