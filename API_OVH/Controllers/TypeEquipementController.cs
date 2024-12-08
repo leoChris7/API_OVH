@@ -86,7 +86,7 @@ namespace API_OVH.Controllers
         // POST: api/TypeEquipements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TypeEquipement>> PostTypeEquipement(TypeEquipementDTO TypeEquipement)
+        public async Task<ActionResult<TypeEquipementDTO>> PostTypeEquipement(TypeEquipementDTO TypeEquipement)
         {
             if (!ModelState.IsValid)
             {

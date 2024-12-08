@@ -134,7 +134,7 @@ namespace TypeSallesControllerTests{
         }
 
         [TestMethod]
-        public async Task Pututilisateur_ModelValidated_UpdateOK()
+        public async Task PutTypeSalle_ModelValidated_UpdateOK()
         {
             // Arrange
             TypeSalle typeSalle = new TypeSalle
@@ -174,7 +174,7 @@ namespace TypeSallesControllerTests{
         }
 
         [TestMethod]
-        public async Task Pututilisateur_ModelValidated_ReturnsBadRequest()
+        public async Task PutTypeSalle_ModelValidated_ReturnsBadRequest()
         {
             // Act
             var actionResult = _typeSalleController.PutTypeSalle(3, new TypeSalle
@@ -188,7 +188,7 @@ namespace TypeSallesControllerTests{
         }
 
         [TestMethod]
-        public async Task Pututilisateur_ModelValidated_ReturnsNotFound()
+        public async Task PutTypeSalle_ModelValidated_ReturnsNotFound()
         {
             // Act
             var actionResult = _typeSalleController.PutTypeSalle(3, new TypeSalle
