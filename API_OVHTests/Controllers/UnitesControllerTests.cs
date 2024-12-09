@@ -6,7 +6,7 @@ using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using static API_OVH.Models.Repository.IUniteRepository;
 
-namespace UnitesControllerTest
+namespace API_OVH.Controllers.Tests
 {
     [TestClass]
     public class UnitesControllerTest

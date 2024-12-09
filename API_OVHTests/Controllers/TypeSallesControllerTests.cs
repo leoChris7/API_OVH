@@ -5,7 +5,8 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeSalleControllerTest{
+namespace API_OVH.Controllers.Tests
+{
     [TestClass]
     public class TypeSalleControllerTest
     {
@@ -33,7 +34,7 @@ namespace TypeSalleControllerTest{
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesSalle);
 
             // Act
-            var actionResult = await _typeSalleController.GetTypeSalles();
+            var actionResult = await _typeSalleController.GetTypesSalle();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "GetTypesSalle: La liste des types de salle est null.");

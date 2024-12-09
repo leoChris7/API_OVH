@@ -43,7 +43,7 @@ namespace API_OVH.Controllers
         }
 
         // DELETE: api/Unites/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{idCapt}-{idUnite}")]
         public async Task<IActionResult> DeleteUnite(int idCapt, int idUnite)
         {
             var liaison = await dataRepository.GetByIdAsync(idCapt, idUnite);

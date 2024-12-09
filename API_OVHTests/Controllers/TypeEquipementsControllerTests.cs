@@ -5,7 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeEquipementsControllerTest
+namespace API_OVH.Controllers.Tests
 {
     [TestClass]
     public class TypeEquipementsControllerTest
@@ -34,7 +34,7 @@ namespace TypeEquipementsControllerTest
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
 
             // Act
-            var actionResult = await _typeEquipementController.GetTypeEquipements();
+            var actionResult = await _typeEquipementController.GetTypesEquipement();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "GetTypesEquipement: La liste des types d'équipement est null.");

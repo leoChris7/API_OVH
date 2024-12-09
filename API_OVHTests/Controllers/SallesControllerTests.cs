@@ -5,7 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SallesControllerTest
+namespace API_OVH.Controllers.Tests
 {
     [TestClass]
     public class SallesControllerTest
