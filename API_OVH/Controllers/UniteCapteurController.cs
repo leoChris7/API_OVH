@@ -19,10 +19,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class UniteCapteurController : ControllerBase
     {
-        private readonly IUniteCapteurRepository<UniteCapteur> dataRepository;
+        private readonly IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public UniteCapteurController(IUniteCapteurRepository<UniteCapteur> manager)
+        public UniteCapteurController(IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO> manager)
         {
             dataRepository = manager;
         }
@@ -30,7 +30,7 @@ namespace API_OVH.Controllers
         // POST: api/Unites
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UniteCapteur>> PostUniteCapteur(UniteCapteur uniteCapteur)
+        public async Task<ActionResult<UniteCapteurSansNavigationDTO>> PostUniteCapteur(UniteCapteurSansNavigationDTO uniteCapteur)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +43,7 @@ namespace API_OVH.Controllers
         }
 
         // DELETE: api/Unites/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{idCapt}-{idUnite}")]
         public async Task<IActionResult> DeleteUnite(int idCapt, int idUnite)
         {
             var liaison = await dataRepository.GetByIdAsync(idCapt, idUnite);

@@ -194,6 +194,16 @@ namespace API_OVH
                 .ForMember(dest => dest.SigleUnite, opt => opt.MapFrom(src => src.SigleUnite))
                 .ForMember(dest => dest.UnitesCapteur, opt => opt.Ignore());
 
+            // UniteCapteur - UniteCapteurSansNavigationDTO
+            CreateMap<UniteCapteur, UniteCapteurSansNavigationDTO>()
+                .ForMember(dest => dest.IdCapteur, opt => opt.MapFrom(src => src.IdCapteur))
+                .ForMember(dest => dest.IdUnite, opt => opt.MapFrom(src => src.IdUnite))
+                .ReverseMap()
+                .ForMember(dest => dest.IdCapteur, opt => opt.MapFrom(src => src.IdCapteur))
+                .ForMember(dest => dest.IdUnite, opt => opt.MapFrom(src => src.IdUnite))
+                .ForMember(dest => dest.CapteurNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.UniteNavigation, opt => opt.Ignore());
+
             // Mapping pour Salle vers SalleDTO
             CreateMap<Salle, SalleDTO>()
                 .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))

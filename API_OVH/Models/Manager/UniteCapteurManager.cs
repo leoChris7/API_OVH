@@ -8,15 +8,17 @@ using API_OVH.Models.Repository;
 
 namespace API_OVH.Models.DataManager
 {
-    public class UniteCapteurManager : IUniteCapteurRepository<UniteCapteur>
+    public class UniteCapteurManager : IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
+        readonly IMapper mapper;
 
         public UniteCapteurManager() { }
 
-        public UniteCapteurManager(SAE5_BD_OVH_DbContext context)
+        public UniteCapteurManager(SAE5_BD_OVH_DbContext context, IMapper mapper)
         {
             dbContext = context;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -32,9 +34,11 @@ namespace API_OVH.Models.DataManager
         /// <summary>
         /// Ajoute une liaison entre un Capteur et une Unite
         /// </summary>
-        public async Task AddAsync(UniteCapteur entity)
+        public async Task AddAsync(UniteCapteurSansNavigationDTO entity)
         {
-            await dbContext.UnitesCapteur.AddAsync(entity);
+            var uniteCapteur = mapper.Map<UniteCapteur>(entity);
+
+            await dbContext.UnitesCapteur.AddAsync(uniteCapteur);
             await dbContext.SaveChangesAsync();
         }
 

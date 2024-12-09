@@ -31,7 +31,7 @@ builder.Services.AddScoped<ISalleRepository<Salle, SalleSansNavigationDTO, Salle
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
 builder.Services.AddScoped<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>, UniteManager>();
-builder.Services.AddScoped<IUniteCapteurRepository<UniteCapteur>, UniteCapteurManager>();
+builder.Services.AddScoped<IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO>, UniteCapteurManager>();
 builder.Services.AddScoped<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>, MurManager>();
 builder.Services.AddScoped<IDirectionRepository<Direction>, DirectionManager>();
 
