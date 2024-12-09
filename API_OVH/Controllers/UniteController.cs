@@ -29,7 +29,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Unites
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UniteDTO>>> GetUnite()
+        public async Task<ActionResult<IEnumerable<UniteDTO>>> GetUnites()
         {
             return await dataRepository.GetAllAsync();
         }

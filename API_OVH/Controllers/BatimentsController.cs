@@ -10,6 +10,7 @@ using API_OVH.Models.Repository;
 using AutoMapper;
 using API_OVH.Models.Manager;
 using Microsoft.AspNetCore.Http.HttpResults;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
 {
@@ -17,17 +18,17 @@ namespace API_OVH.Controllers
     [ApiController]
     public class BatimentsController : ControllerBase
     {
-        private readonly IDataRepository<Batiment> dataRepository;
+        private readonly IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public BatimentsController(IDataRepository<Batiment> manager)
+        public BatimentsController(IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO> manager)
         {
             dataRepository = manager;
         }
 
         // GET: api/Batiments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Batiment>>> GetBatiment()
+        public async Task<ActionResult<IEnumerable<BatimentDTO>>> GetBatiment()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -84,7 +85,7 @@ namespace API_OVH.Controllers
         // POST: api/Batiments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Batiment>> PostBatiment(Batiment batiment)
+        public async Task<ActionResult<BatimentSansNavigationDTO>> PostBatiment(BatimentSansNavigationDTO batiment)
         {
             if (!ModelState.IsValid)
             {

@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
 using AutoMapper;
+using API_OVH.Models.DTO;
+using AutoMapper.QueryableExtensions;
 
 namespace API_OVH.Models.Manager
 {
     /// <summary>
     /// Manager pour gérer les opérations liées aux batiments
     /// </summary>
-    public class BatimentManager : IDataRepository<Batiment>
+    public class BatimentManager : IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO>
     {
         private readonly SAE5_BD_OVH_DbContext dbContext;
         private readonly IMapper mapper;
@@ -26,9 +28,11 @@ namespace API_OVH.Models.Manager
         /// Retourne la liste de tous les batiments de façon asynchrone
         /// </summary>
         /// <returns>La liste de tous les batiments</returns>
-        public async Task<ActionResult<IEnumerable<Batiment>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<BatimentDTO>>> GetAllAsync()
         {
-            return await dbContext.Batiments.ToListAsync();
+            return await dbContext.Batiments
+                .ProjectTo<BatimentDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         /// <summary>
@@ -56,9 +60,11 @@ namespace API_OVH.Models.Manager
         /// </summary>
         /// <param name="entity">Batiment à rajouter</param>
         /// <returns>Le resultat de la création</returns>
-        public async Task AddAsync(Batiment entity)
+        public async Task AddAsync(BatimentSansNavigationDTO entity)
         {
-            await dbContext.Batiments.AddAsync(entity);
+            var batiment = mapper.Map<Batiment>(entity);
+
+            await dbContext.Batiments.AddAsync(batiment);
             await dbContext.SaveChangesAsync();
         }
 

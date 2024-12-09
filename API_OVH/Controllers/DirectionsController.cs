@@ -9,6 +9,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Manager;
 using AutoMapper;
 using API_OVH.Models.Repository;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
 {
@@ -16,7 +17,7 @@ namespace API_OVH.Controllers
     [ApiController]
     public class DirectionController : ControllerBase
     {
-        private readonly IReadOnlyDataRepository<Direction> directionManager;
+        private readonly IDirectionRepository<Direction> directionManager;
 
         [ActivatorUtilitiesConstructor]
         public DirectionController(DirectionManager manager)
@@ -45,11 +46,11 @@ namespace API_OVH.Controllers
             return direction;
         }
 
-        // GET: api/Directions/S
-        [HttpGet("(GetByLetters/{letters})")]
-        public async Task<ActionResult<Direction>> GetDirectionByLetters(String letters)
+        // GET: api/Directions/69
+        [HttpGet("(GetByDegre/{degre})")]
+        public async Task<ActionResult<Direction>> GetDirectionByDegre(decimal degre)
         {
-            var lettreDirection = await directionManager.GetByStringAsync(letters);
+            var lettreDirection = await directionManager.GetByDegreAsync(degre);
 
             if (lettreDirection == null)
             {
