@@ -33,7 +33,7 @@ namespace TypeSallesControllerTests{
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesSalle);
 
             // Act
-            var actionResult = await _typeSalleController.GetTypeSalle();
+            var actionResult = await _typeSalleController.GetTypeSalles();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "GetTypesSalle: La liste des types de salle est null.");

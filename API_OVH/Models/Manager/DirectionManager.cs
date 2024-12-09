@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
 using AutoMapper;
 using API_OVH.Models.Repository;
+using API_OVH.Models.DTO;
 
 namespace API_OVH.Models.Manager
 {
     /// <summary>
     /// Manager pour gérer les opérations liées aux Directions.
     /// </summary>
-    public class DirectionManager : IReadOnlyDataRepository<Direction>
+    public class DirectionManager : IDirectionRepository<Direction>
     {
         private readonly SAE5_BD_OVH_DbContext dbContext;
         private readonly IMapper mapper;
@@ -47,13 +48,16 @@ namespace API_OVH.Models.Manager
         }
 
         /// <summary>
-        /// Retourne une direction selon son diminutif (N, S, E, O, SE, SO, NO, NE)
+        /// Retourne une direction selon un degre (la direction se rapprochant le plus du degre) de façon asynchrone
         /// </summary>
-        /// <param name="diminutif">diminutif correspondant à la direction</param>
-        /// <returns>La Direction correspondante au nom spécifié</returns>
-        public async Task<ActionResult<Direction>> GetByStringAsync(string diminutif)
+        /// <param name="deg">(Decimal) Degre recherche</param>
+        /// <returns>La Direction correspondante au degre</returns>
+        public async Task<ActionResult<Direction>> GetByDegreAsync(decimal deg)
         {
-            return await dbContext.Directions.FirstOrDefaultAsync(t => t.LettresDirection.ToUpper() == diminutif.ToUpper());
+            string[] dir = { "N", "NE", "E", "SE", "S", "SO", "O", "NO" };
+            string dirCorresp = dir[(int)Math.Round(((deg % 360 + 360) % 360) / 45) % 8]; // deg % 360 + 360 : Normalisation de l'angle pour gérer les angles négatifs et / 45 chaque secteur
+
+            return await dbContext.Directions.FirstOrDefaultAsync(t => t.LettresDirection == dirCorresp);
         }
     }
 }

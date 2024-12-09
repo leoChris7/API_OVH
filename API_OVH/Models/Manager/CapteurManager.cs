@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API_OVH.Models.EntityFramework;
 using AutoMapper;
+using API_OVH.Models.DTO;
+using AutoMapper.QueryableExtensions;
 
 namespace API_OVH.Models.Manager
 {
     /// <summary>
     /// Manager pour gérer les opérations liées aux capteurs.
     /// </summary>
-    public class CapteurManager : IDataRepository<Capteur>
+    public class CapteurManager : ICapteurRepository<Capteur, CapteurDTO, CapteurDetailDTO, CapteurSansNavigationDTO>
     {
         private readonly SAE5_BD_OVH_DbContext dbContext;
         private readonly IMapper mapper;
@@ -31,47 +33,49 @@ namespace API_OVH.Models.Manager
         /// Retourne la liste de tous les capteurs de façon asynchrone
         /// </summary>
         /// <returns>La liste des capteurs</returns>
-        public async Task<ActionResult<IEnumerable<Capteur>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<CapteurDTO>>> GetAllAsync()
         {
-            var capteurs = await dbContext.Capteurs.ToListAsync();
+            var capteurs = await dbContext.Capteurs
+                .ProjectTo<CapteurDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
 
             return capteurs;
         }
 
         /// <summary>
-        /// Retourne un capteur selon son id de façon asynchrone
+        /// Retourne un DTO détaillé du capteur selon son id de façon asynchrone
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant du capteur</param>
+        /// <returns>Les détails du capteur correspondant à l'ID</returns>
+        public async Task<ActionResult<CapteurDetailDTO>> GetByIdAsync(int id)
+        {
+            return await dbContext.Capteurs
+                .Where(t => t.IdCapteur == id)
+                .ProjectTo<CapteurDetailDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Retourne un Capteur selon son id de façon asynchrone
         /// </summary>
         /// <param name="id">(Entier) Identifiant du capteur</param>
         /// <returns>Le capteur correspondant à l'ID</returns>
-        public async Task<ActionResult<Capteur>> GetByIdAsync(int id)
+        public async Task<ActionResult<Capteur>> GetByIdWithoutDTOAsync(int id)
         {
-            var leCapteur = await dbContext.Capteurs.FirstOrDefaultAsync(x => x.IdCapteur == id);
-
-            // S'il n'est pas trouvé
-            if (leCapteur == null)
-            {
-                return new NotFoundResult();
-            }
-
-            return leCapteur;
+            return await dbContext.Capteurs.FirstOrDefaultAsync(x => x.IdCapteur == id);
         }
 
         /// <summary>
         /// Retourne un capteur selon son nom de façon asynchrone
         /// </summary>
-        /// <param name="str">Nom du capteur</param>
+        /// <param name="nom">Nom du capteur</param>
         /// <returns>Le capteur correspondant au nom spécifié</returns>
-        public async Task<ActionResult<Capteur>> GetByStringAsync(string str)
+        public async Task<ActionResult<CapteurDetailDTO>> GetByStringAsync(string nom)
         {
-            var leCapteur = await dbContext.Capteurs.FirstOrDefaultAsync(x => x.NomCapteur == str);
-
-            // Si non trouvé
-            if (leCapteur == null)
-            {
-                return new NotFoundResult();
-            }
-
-            return leCapteur;
+            return await dbContext.Capteurs
+                .Where(t => t.NomCapteur == nom)
+                .ProjectTo<CapteurDetailDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -79,9 +83,11 @@ namespace API_OVH.Models.Manager
         /// </summary>
         /// <param name="entity">capteur à rajouter</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task AddAsync(Capteur entity)
+        public async Task AddAsync(CapteurSansNavigationDTO entity)
         {
-            await dbContext.Capteurs.AddAsync(entity);
+            var capteur = mapper.Map<Capteur>(entity);
+
+            await dbContext.Capteurs.AddAsync(capteur);
             await dbContext.SaveChangesAsync();
         }
 

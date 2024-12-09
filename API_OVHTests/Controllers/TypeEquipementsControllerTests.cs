@@ -34,7 +34,7 @@ namespace TypeSallesControllerTests
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
 
             // Act
-            var actionResult = await _typeEquipementController.GetTypeEquipement();
+            var actionResult = await _typeEquipementController.GetTypeEquipements();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "GetTypesEquipement: La liste des types d'équipement est null.");
