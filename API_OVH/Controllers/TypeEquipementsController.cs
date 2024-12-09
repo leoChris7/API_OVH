@@ -28,7 +28,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeEquipements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TypeEquipementDTO>>> GetTypeEquipements()
+        public async Task<ActionResult<IEnumerable<TypeEquipementDTO>>> GetTypesEquipement()
         {
             return await dataRepository.GetAllAsync();
         }

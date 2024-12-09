@@ -31,9 +31,8 @@ builder.Services.AddScoped<ISalleRepository<Salle, SalleSansNavigationDTO, Salle
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
 builder.Services.AddScoped<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>, UniteManager>();
+builder.Services.AddScoped<IUniteCapteurRepository<UniteCapteur>, UniteCapteurManager>();
 builder.Services.AddScoped<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>, MurManager>();
-
-// Managers ReadOnly
 builder.Services.AddScoped<IDirectionRepository<Direction>, DirectionManager>();
 
 // Auto Mapping
