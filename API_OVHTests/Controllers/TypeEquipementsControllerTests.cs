@@ -27,8 +27,8 @@ namespace API_OVH.Controllers.Tests
             // Arrange
             var typesEquipement = new List<TypeEquipementDTO>
                 {
-                    new TypeEquipementDTO { IdTypeEquipement = 1, NomTypeEquipement = "Type Equipement A" },
-                    new TypeEquipementDTO { IdTypeEquipement = 2, NomTypeEquipement = "Type Equipement B" }
+                    new () { IdTypeEquipement = 1, NomTypeEquipement = "Type Equipement A" },
+                    new () { IdTypeEquipement = 2, NomTypeEquipement = "Type Equipement B" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
@@ -51,7 +51,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedTypeEquipement);
 
             // Act
-            var actionResult = _typeEquipementController.GetTypeEquipementById(1).Result;
+            var actionResult = await _typeEquipementController.GetTypeEquipementById(1);
 
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeEquipementById: objet retourné null");
@@ -80,7 +80,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByStringAsync("Fenetre")).ReturnsAsync(expectedTypeEquipement);
 
             // Act
-            var actionResult = _typeEquipementController.GetTypeEquipementByName("Fenetre").Result;
+            var actionResult = await _typeEquipementController.GetTypeEquipementByName("Fenetre");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeEquipementByName: objet retourné null");
@@ -114,7 +114,7 @@ namespace API_OVH.Controllers.Tests
             var actionResult = await _typeEquipementController.PostTypeEquipement(typeEquipementDTO);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<TypeEquipementDTO>), "PostTypeEquipement: Pas un ActionResult<TypeEquipement>");
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<TypeEquipementDTO>), "PostTypeEquipement: Pas un ActionResult<TypeEquipementDTO>");
             Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "PostTypeEquipement: Pas un CreatedAtActionResult");
             var result = actionResult.Result as CreatedAtActionResult;
             Assert.IsInstanceOfType(result.Value, typeof(TypeEquipementDTO), "PostTypeEquipement: Pas un type d'équipement");
@@ -155,38 +155,38 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeEquipement);
 
             // Act
-            var actionResult = _typeEquipementController.PutTypeEquipement(newTypeEquipement.IdTypeEquipement, newTypeEquipement).Result;
+            var actionResult = await _typeEquipementController.PutTypeEquipement(newTypeEquipement.IdTypeEquipement, newTypeEquipement);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
         public async Task PutTypeEquipement_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = _typeEquipementController.PutTypeEquipement(3, new TypeEquipement
+            var actionResult = await _typeEquipementController.PutTypeEquipement(3, new TypeEquipement
             {
                 IdTypeEquipement = 1,
                 NomTypeEquipement = "Type échoué"
-            }).Result;
+            });
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
         }
 
         [TestMethod]
         public async Task PutTypeEquipement_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = _typeEquipementController.PutTypeEquipement(3, new TypeEquipement
+            var actionResult = await _typeEquipementController.PutTypeEquipement(3, new TypeEquipement
             {
                 IdTypeEquipement = 3,
                 NomTypeEquipement = "Type non trouvé"
-            }).Result;
+            });
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound");
         }
 
         [TestMethod]
@@ -202,20 +202,20 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeEquipement);
 
             // Act
-            var actionResult = _typeEquipementController.DeleteTypeEquipement(1).Result;
+            var actionResult = await _typeEquipementController.DeleteTypeEquipement(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
         public async Task DeleteTypeEquipementTest_Returns_NotFound()
         {
             // Act
-            var actionResult = _typeEquipementController.DeleteTypeEquipement(1);
+            var actionResult = await _typeEquipementController.DeleteTypeEquipement(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult), "Pas un NotFoundResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
         }
     }
 }

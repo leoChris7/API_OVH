@@ -80,7 +80,7 @@ namespace API_OVH.Controllers
 
             if (leUnite.Result == null)
             {
-                return NotFound("Id incorrect: Le Unite na pas été trouvé");
+                return NotFound("Id incorrect: L'unite na pas été trouvé");
             }
 
             await dataRepository.UpdateAsync(leUnite.Result.Value, Unite);

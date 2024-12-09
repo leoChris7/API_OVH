@@ -27,8 +27,8 @@ namespace API_OVH.Controllers.Tests
             // Arrange
             var typesSalle = new List<TypeSalleDTO>
                 {
-                    new TypeSalleDTO { IdTypeSalle = 1, NomTypeSalle = "Type Salle A" },
-                    new TypeSalleDTO { IdTypeSalle = 2, NomTypeSalle = "Type Salle B" }
+                    new () { IdTypeSalle = 1, NomTypeSalle = "Type Salle A" },
+                    new () { IdTypeSalle = 2, NomTypeSalle = "Type Salle B" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesSalle);
@@ -51,12 +51,12 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedTypeSalle);
 
             // Act
-            var actionResult = _typeSalleController.GetTypeSalleById(1).Result;
+            var actionResult = await _typeSalleController.GetTypeSalleById(1);
 
             // Assert
-            Assert.IsNotNull(actionResult, "Gettypesallebyid objet retourné null");
+            Assert.IsNotNull(actionResult, "GetTypeSalleById objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetTypeSalleById valeur retournée null");
-            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalle, "GetTypeSalle: types salles non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalle, "GetTypeSalleById: types salles non égaux, objet incohérent retourné");
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace API_OVH.Controllers.Tests
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetTypeSalleById: objet retourné non null");
-            Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "Test GetById not found a échoué");
+            Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetTypeSalleById not found a échoué");
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByStringAsync("TD")).ReturnsAsync(expectedTypeSalle);
 
             // Act
-            var actionResult = _typeSalleController.GetTypeSalleByName("TD").Result;
+            var actionResult = await _typeSalleController.GetTypeSalleByName("TD");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeSalleByName objet retourné null");
@@ -125,7 +125,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PostTypeSalle_ModelInvalid_ReturnsBadRequest()
         {
             // Arrange
-            var invalidDto = new TypeSalleDTO(); // Missing required fields
+            var invalidDto = new TypeSalleDTO();
             _typeSalleController.ModelState.AddModelError("Nom", "Nom is required.");
 
             // Act
@@ -169,38 +169,38 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeSalle);
 
             // Act
-            var actionResult = _typeSalleController.PutTypeSalle(typeSalleUpdated.IdTypeSalle, typeSalleUpdated).Result;
+            var actionResult = await _typeSalleController.PutTypeSalle(typeSalleUpdated.IdTypeSalle, typeSalleUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
         public async Task PutTypeSalle_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = _typeSalleController.PutTypeSalle(3, new TypeSalle
+            var actionResult = await _typeSalleController.PutTypeSalle(3, new TypeSalle
             {
                 IdTypeSalle = 1,
                 NomTypeSalle = "AAA"
-            }).Result;
+            });
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
         }
 
         [TestMethod]
         public async Task PutTypeSalle_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = _typeSalleController.PutTypeSalle(3, new TypeSalle
+            var actionResult = await _typeSalleController.PutTypeSalle(3, new TypeSalle
             {
                 IdTypeSalle = 3,
                 NomTypeSalle = "AAA"
-            }).Result;
+            });
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound");
         }
 
         [TestMethod]
@@ -230,20 +230,20 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeSalle);
 
             // Act
-            var actionResult = _typeSalleController.DeleteTypeSalle(1).Result;
+            var actionResult = await _typeSalleController.DeleteTypeSalle(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
         public async Task DeleteTypeSalleTest_Returns_NotFound()
         {
             // Act
-            var actionResult = _typeSalleController.DeleteTypeSalle(1);
+            var actionResult = await _typeSalleController.DeleteTypeSalle(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult), "Pas un NotFoundResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
         }
     }
 }

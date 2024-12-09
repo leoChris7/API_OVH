@@ -11,14 +11,14 @@ namespace API_OVH.Controllers.Tests
     public class BatimentsControllerTest
     {
         private Mock<IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO>> _mockRepository;
-        private BatimentsController _BatimentController;
+        private BatimentsController _batimentController;
 
         [TestInitialize]
         public void Setup()
         {
             _mockRepository = new Mock<IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO>>();
 
-            _BatimentController = new BatimentsController(_mockRepository.Object);
+            _batimentController = new BatimentsController(_mockRepository.Object);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
 
             // Act
-            var actionResult = await _BatimentController.GetBatiments();
+            var actionResult = await _batimentController.GetBatiments();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "La liste des batiments est null.");
@@ -51,7 +51,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedBatiment);
 
             // Act
-            var actionResult = _BatimentController.GetBatimentById(1).Result;
+            var actionResult = await _batimentController.GetBatimentById(1);
 
             // Assert
             Assert.IsNotNull(actionResult, "GetBatimentById: objet retourné null");
@@ -64,7 +64,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetBatimentById_Returns_NotFound_When_Batiment_NotFound()
         {
             // Act
-            var actionResult = await _BatimentController.GetBatimentById(0);
+            var actionResult = await _batimentController.GetBatimentById(0);
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetBatimentById: objet retourné non null");
@@ -80,12 +80,12 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByStringAsync("Tetras")).ReturnsAsync(expectedBatiment);
 
             // Act
-            var actionResult = _BatimentController.GetBatimentByName("Tetras").Result;
+            var actionResult = await _batimentController.GetBatimentByName("Tetras");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetBatimentByName: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetBatimentByName: valeur retournée null");
-            Assert.AreEqual(expectedBatiment, actionResult.Value as Batiment, "GetBatimentByName: types d'équipements non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedBatiment, actionResult.Value as Batiment, "GetBatimentByName: batiments non égaux, objet incohérent retourné");
         }
 
 
@@ -93,7 +93,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetBatimentByName_Returns_NotFound_When_Batiment_NotFound()
         {
             // Act
-            var actionResult = await _BatimentController.GetBatimentByName("Batiment inconnu");
+            var actionResult = await _batimentController.GetBatimentByName("Batiment inconnu");
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetByName: objet retourné non null");
@@ -111,7 +111,7 @@ namespace API_OVH.Controllers.Tests
             };
 
             // Act
-            var actionResult = await _BatimentController.PostBatiment(BatimentDTO);
+            var actionResult = await _batimentController.PostBatiment(BatimentDTO);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<BatimentSansNavigationDTO>), "PostBatiment: Pas un ActionResult<BatimentSansNavigationDTO>");
@@ -126,11 +126,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PostBatiment_ModelInvalid_ReturnsBadRequest()
         {
             // Arrange
-            var invalidDto = new BatimentSansNavigationDTO(); // Missing required fields
-            _BatimentController.ModelState.AddModelError("NomBatiment", "NomBatiment est requis.");
+            var invalidDto = new BatimentSansNavigationDTO();
+            _batimentController.ModelState.AddModelError("NomBatiment", "NomBatiment est requis.");
 
             // Act
-            var result = await _BatimentController.PostBatiment(invalidDto);
+            var result = await _batimentController.PostBatiment(invalidDto);
 
             // Assert
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
@@ -143,50 +143,50 @@ namespace API_OVH.Controllers.Tests
             Batiment Batiment = new Batiment
             {
                 IdBatiment = 1,
-                NomBatiment = "A"
+                NomBatiment = "IUT"
             };
 
             Batiment newBatiment = new Batiment
             {
                 IdBatiment = 1,
-                NomBatiment = "B"
+                NomBatiment = "IUT - Batiment D"
             };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Batiment);
 
             // Act
-            var actionResult = _BatimentController.PutBatiment(newBatiment.IdBatiment, newBatiment).Result;
+            var actionResult = await _batimentController.PutBatiment(newBatiment.IdBatiment, newBatiment);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
         public async Task PutBatiment_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = _BatimentController.PutBatiment(3, new Batiment
+            var actionResult = await _batimentController.PutBatiment(3, new Batiment
             {
                 IdBatiment = 1,
-                NomBatiment = "Type échoué"
-            }).Result;
+                NomBatiment = "Batiment échoué"
+            });
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
         }
 
         [TestMethod]
         public async Task PutBatiment_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = _BatimentController.PutBatiment(3, new Batiment
+            var actionResult = await _batimentController.PutBatiment(3, new Batiment
             {
                 IdBatiment = 3,
-                NomBatiment = "Type non trouvé"
-            }).Result;
+                NomBatiment = "Batiment non trouvé"
+            });
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound");
         }
 
         [TestMethod]
@@ -202,20 +202,20 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Batiment);
 
             // Act
-            var actionResult = _BatimentController.DeleteBatiment(1).Result;
+            var actionResult = await _batimentController.DeleteBatiment(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
         public async Task DeleteBatimentTest_Returns_NotFound()
         {
             // Act
-            var actionResult = _BatimentController.DeleteBatiment(1);
+            var actionResult = await _batimentController.DeleteBatiment(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult), "Pas un NotFoundResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
         }
     }
 }

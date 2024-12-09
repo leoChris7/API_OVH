@@ -11,14 +11,14 @@ namespace API_OVH.Controllers.Tests
     public class MursControllerTest
     {
         private Mock<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>> _mockRepository;
-        private MursController _MurController;
+        private MursController _murController;
 
         [TestInitialize]
         public void Setup()
         {
             _mockRepository = new Mock<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>>();
 
-            _MurController = new MursController(_mockRepository.Object);
+            _murController = new MursController(_mockRepository.Object);
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(MursDTO);
 
             // Act
-            var actionResult = await _MurController.GetMurs();
+            var actionResult = await _murController.GetMurs();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "La liste des murs est null.");
@@ -58,7 +58,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedMur);
 
             // Act
-            var actionResult = _MurController.GetMurById(1).Result;
+            var actionResult = await _murController.GetMurById(1);
 
             // Assert
             Assert.IsNotNull(actionResult, "GetMurById: objet retourné null");
@@ -71,7 +71,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetMurById_Returns_NotFound_When_Mur_NotFound()
         {
             // Act
-            var actionResult = await _MurController.GetMurById(0);
+            var actionResult = await _murController.GetMurById(0);
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetMurById: objet retourné non null");
@@ -88,7 +88,7 @@ namespace API_OVH.Controllers.Tests
             };
 
             // Act
-            var actionResult = await _MurController.PostMur(murAjoute);
+            var actionResult = await _murController.PostMur(murAjoute);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<MurSansNavigationDTO>), "PostMur: Pas un ActionResult<MurSansNavigation>");
@@ -104,10 +104,10 @@ namespace API_OVH.Controllers.Tests
         {
             // Arrange
             var invalidDto = new MurSansNavigationDTO();
-            _MurController.ModelState.AddModelError("IdDirection", "IdDirection est requis.");
+            _murController.ModelState.AddModelError("IdDirection", "IdDirection est requis.");
 
             // Act
-            var result = await _MurController.PostMur(invalidDto);
+            var result = await _murController.PostMur(invalidDto);
 
             // Assert
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
@@ -144,7 +144,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Mur);
 
             // Act
-            var actionResult = _MurController.PutMur(newMur.IdMur, newMur).Result;
+            var actionResult = await _murController.PutMur(newMur.IdMur, newMur);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
@@ -154,10 +154,10 @@ namespace API_OVH.Controllers.Tests
         public async Task PutMur_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = _MurController.PutMur(3, new Mur
+            var actionResult = await _murController.PutMur(3, new Mur
             {
                 IdMur = 1
-            }).Result;
+            });
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
@@ -167,10 +167,10 @@ namespace API_OVH.Controllers.Tests
         public async Task PutMur_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = _MurController.PutMur(3, new Mur
+            var actionResult = await _murController.PutMur(3, new Mur
             {
                 IdMur = 3
-            }).Result;
+            });
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound");
@@ -188,7 +188,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Mur);
 
             // Act
-            var actionResult = _MurController.DeleteMur(1).Result;
+            var actionResult = await _murController.DeleteMur(1);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
@@ -198,10 +198,10 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteMurTest_Returns_NotFound()
         {
             // Act
-            var actionResult = _MurController.DeleteMur(1);
+            var actionResult = await _murController.DeleteMur(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
         }
     }
 }

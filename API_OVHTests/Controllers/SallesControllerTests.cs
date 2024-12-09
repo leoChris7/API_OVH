@@ -11,30 +11,30 @@ namespace API_OVH.Controllers.Tests
     public class SallesControllerTest
     {
         private Mock<ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO>> _mockRepository;
-        private SallesController _SalleController;
+        private SallesController _salleController;
 
         [TestInitialize]
         public void Setup()
         {
             _mockRepository = new Mock<ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO>>();
 
-            _SalleController = new SallesController(_mockRepository.Object);
+            _salleController = new SallesController(_mockRepository.Object);
         }
 
         [TestMethod]
         public async Task GetSalles_ReturnsListOfSalle()
         {
             // Arrange
-            var typesEquipement = new List<SalleDTO>
+            var salles = new List<SalleDTO>
                 {
                     new SalleDTO { IdSalle = 1, NomSalle = "D101" },
                     new SalleDTO { IdSalle = 2, NomSalle = "D351" }
                 };
 
-            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(salles);
 
             // Act
-            var actionResult = await _SalleController.GetSalles();
+            var actionResult = await _salleController.GetSalles();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "GetSalles: La liste des salles est null.");
@@ -46,12 +46,12 @@ namespace API_OVH.Controllers.Tests
         public async Task GetSalleById_Returns_Salle()
         {
             // Arrange
-            var expectedSalle = new SalleDetailDTO { IdSalle = 1, NomSalle = "Fenetre" };
+            var expectedSalle = new SalleDetailDTO { IdSalle = 1, NomSalle = "D101" };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedSalle);
 
             // Act
-            var actionResult = _SalleController.GetSalleById(1).Result;
+            var actionResult = await _salleController.GetSalleById(1);
 
             // Assert
             Assert.IsNotNull(actionResult, "GetSalleById: objet retourné null");
@@ -64,10 +64,10 @@ namespace API_OVH.Controllers.Tests
         public async Task GetSalleById_Returns_NotFound_When_Salle_NotFound()
         {
             // Act
-            var actionResult = await _SalleController.GetSalleById(0);
+            var actionResult = await _salleController.GetSalleById(0);
 
             // Assert
-            Assert.IsNull(actionResult.Value, "Salles: objet retourné non null");
+            Assert.IsNull(actionResult.Value, "GetSalleById: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetSalleById: pas Not Found");
         }
 
@@ -80,7 +80,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByStringAsync("D101")).ReturnsAsync(expectedSalle);
 
             // Act
-            var actionResult = _SalleController.GetSalleByName("D101").Result;
+            var actionResult = await _salleController.GetSalleByName("D101");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetSalleByName: objet retourné null");
@@ -93,7 +93,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetSalleByName_Returns_NotFound_When_Salle_NotFound()
         {
             // Act
-            var actionResult = await _SalleController.GetSalleByName("Salle inconnue");
+            var actionResult = await _salleController.GetSalleByName("Salle inconnue");
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetSalleByName: objet retourné non null");
@@ -111,7 +111,7 @@ namespace API_OVH.Controllers.Tests
             };
 
             // Act
-            var actionResult = await _SalleController.PostSalle(SalleDTO);
+            var actionResult = await _salleController.PostSalle(SalleDTO);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<SalleSansNavigationDTO>), "PostSalle: Pas un ActionResult<SalleSansNavigationDTO>");
@@ -126,11 +126,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PostSalle_ModelInvalid_ReturnsBadRequest()
         {
             // Arrange
-            var invalidDto = new SalleSansNavigationDTO(); // Missing required fields
-            _SalleController.ModelState.AddModelError("NomSalle", "Nom est requis.");
+            var invalidDto = new SalleSansNavigationDTO();
+            _salleController.ModelState.AddModelError("NomSalle", "Nom est requis.");
 
             // Act
-            var result = await _SalleController.PostSalle(invalidDto);
+            var result = await _salleController.PostSalle(invalidDto);
 
             // Assert
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
@@ -155,7 +155,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Salle);
 
             // Act
-            var actionResult = _SalleController.PutSalle(newSalle.IdSalle, newSalle).Result;
+            var actionResult = await _salleController.PutSalle(newSalle.IdSalle, newSalle);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
@@ -165,11 +165,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PutSalle_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = _SalleController.PutSalle(3, new Salle
+            var actionResult = await _salleController.PutSalle(3, new Salle
             {
                 IdSalle = 1,
                 NomSalle = "Type échoué"
-            }).Result;
+            });
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
@@ -179,11 +179,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PutSalle_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = _SalleController.PutSalle(3, new Salle
+            var actionResult = await _salleController.PutSalle(3, new Salle
             {
                 IdSalle = 3,
                 NomSalle = "Type non trouvé"
-            }).Result;
+            });
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound"); // Test du type de retour
@@ -205,7 +205,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Salle);
 
             // Act
-            var actionResult = _SalleController.DeleteSalle(1).Result;
+            var actionResult = await _salleController.DeleteSalle(1);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
@@ -215,10 +215,10 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteSalleTest_Returns_NotFound()
         {
             // Act
-            var actionResult = _SalleController.DeleteSalle(1);
+            var actionResult = await _salleController.DeleteSalle(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
         }
     }
 }

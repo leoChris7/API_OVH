@@ -12,14 +12,14 @@ namespace API_OVH.Controllers.Tests
     public class UnitesControllerTest
     {
         private Mock<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>> _mockRepository;
-        private UnitesController _UniteController;
+        private UnitesController _uniteController;
 
         [TestInitialize]
         public void Setup()
         {
             _mockRepository = new Mock<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>>();
 
-            _UniteController = new UnitesController(_mockRepository.Object);
+            _uniteController = new UnitesController(_mockRepository.Object);
         }
 
         [TestMethod]
@@ -28,14 +28,14 @@ namespace API_OVH.Controllers.Tests
             // Arrange
             var uniteDTO = new List<UniteDTO>
                 {
-                    new UniteDTO { IdUnite = 1, NomUnite = "Centimètre", SigleUnite="Cm" },
-                    new UniteDTO { IdUnite = 2, NomUnite = "Kilomètre", SigleUnite="Km" }
+                    new () { IdUnite = 1, NomUnite = "Centimètre", SigleUnite="Cm" },
+                    new () { IdUnite = 2, NomUnite = "Kilomètre", SigleUnite="Km" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(uniteDTO);
 
             // Act
-            var actionResult = await _UniteController.GetUnites();
+            var actionResult = await _uniteController.GetUnites();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "La liste des unités est null.");
@@ -52,7 +52,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedUnite);
 
             // Act
-            var actionResult = _UniteController.GetUniteById(1).Result;
+            var actionResult = await _uniteController.GetUniteById(1);
 
             // Assert
             Assert.IsNotNull(actionResult, "GetUniteById: objet retourné null");
@@ -65,7 +65,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetUniteById_Returns_NotFound_When_Unite_NotFound()
         {
             // Act
-            var actionResult = await _UniteController.GetUniteById(0);
+            var actionResult = await _uniteController.GetUniteById(0);
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetUniteById: objet retourné non null");
@@ -81,7 +81,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByStringAsync("Ultraviolets")).ReturnsAsync(expectedUnite);
 
             // Act
-            var actionResult = _UniteController.GetUniteByName("Ultraviolets").Result;
+            var actionResult = await _uniteController.GetUniteByName("Ultraviolets");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetUniteByName: objet retourné null");
@@ -94,7 +94,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetUniteByName_Returns_NotFound_When_Unite_NotFound()
         {
             // Act
-            var actionResult = await _UniteController.GetUniteByName("Unité inconnue");
+            var actionResult = await _uniteController.GetUniteByName("Unité inconnue");
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetUniteByName: objet retourné non null");
@@ -110,7 +110,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByStringAsync("UV")).ReturnsAsync(expectedUnite);
 
             // Act
-            var actionResult = _UniteController.GetUniteByName("UV").Result;
+            var actionResult = await _uniteController.GetUniteByName("UV");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetUniteBySigle: objet retourné null");
@@ -123,7 +123,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetUniteBySigle_Returns_NotFound_When_Unite_NotFound()
         {
             // Act
-            var actionResult = await _UniteController.GetUniteBySigle("Unité inconnue");
+            var actionResult = await _uniteController.GetUniteBySigle("Unité inconnue");
 
             // Assert
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetUniteBySigle: not found a échoué");
@@ -133,7 +133,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PostUniteDTO_ModelValidated_CreationOK()
         {
             // Arrange
-            UniteDTO UniteDTO = new UniteDTO
+            var uniteDTO = new UniteDTO
             {
                 IdUnite = 1,
                 NomUnite = "Kilogrammes",
@@ -141,14 +141,14 @@ namespace API_OVH.Controllers.Tests
             };
 
             // Act
-            var actionResult = await _UniteController.PostUnite(UniteDTO);
+            var actionResult = await _uniteController.PostUnite(uniteDTO);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<UniteDTO>), "PostUnite: Pas un ActionResult<UniteDTO>");
             Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "PostUnite: Pas un CreatedAtActionResult");
             var result = actionResult.Result as CreatedAtActionResult;
             Assert.IsInstanceOfType(result.Value, typeof(UniteDTO), "PostUnite: Pas un uniteDTO");
-            Assert.AreEqual(UniteDTO, (UniteDTO)result.Value, "PostUnite: Unités non identiques");
+            Assert.AreEqual(uniteDTO, (UniteDTO)result.Value, "PostUnite: Unités non identiques");
 
         }
 
@@ -156,11 +156,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PostUnite_ModelInvalid_ReturnsBadRequest()
         {
             // Arrange
-            var invalidDto = new UniteDTO(); // Missing required fields
-            _UniteController.ModelState.AddModelError("NomUnite", "NomUnite est requis.");
+            var invalidDto = new UniteDTO();
+            _uniteController.ModelState.AddModelError("NomUnite", "NomUnite est requis.");
 
             // Act
-            var result = await _UniteController.PostUnite(invalidDto);
+            var result = await _uniteController.PostUnite(invalidDto);
 
             // Assert
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
@@ -170,14 +170,14 @@ namespace API_OVH.Controllers.Tests
         public async Task PutUnite_ModelValidated_UpdateOK()
         {
             // Arrange
-            Unite Unite = new Unite
+            Unite Unite = new ()
             {
                 IdUnite = 1,
                 NomUnite = "Ultraviolets",
                 SigleUnite = "UV"
             };
 
-            Unite newUnite = new Unite
+            Unite newUnite = new ()
             {
                 IdUnite = 1,
                 NomUnite = "Température",
@@ -187,7 +187,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Unite);
 
             // Act
-            var actionResult = _UniteController.PutUnite(newUnite.IdUnite, newUnite).Result;
+            var actionResult = await _uniteController.PutUnite(newUnite.IdUnite, newUnite);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
@@ -197,11 +197,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PutUnite_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = _UniteController.PutUnite(3, new Unite
+            var actionResult = await _uniteController.PutUnite(3, new Unite
             {
                 IdUnite = 1,
                 NomUnite = "Type échoué"
-            }).Result;
+            });
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
@@ -211,11 +211,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PutUnite_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = _UniteController.PutUnite(3, new Unite
+            var actionResult = await _uniteController.PutUnite(3, new Unite
             {
                 IdUnite = 3,
                 NomUnite = "Type non trouvé"
-            }).Result;
+            });
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound");
@@ -225,7 +225,7 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteUniteTest_OK()
         {
             // Arrange
-            Unite Unite = new Unite
+            Unite Unite = new ()
             {
                 IdUnite = 1,
                 NomUnite = "TD"
@@ -234,7 +234,7 @@ namespace API_OVH.Controllers.Tests
             _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Unite);
 
             // Act
-            var actionResult = _UniteController.DeleteUnite(1).Result;
+            var actionResult = await _uniteController.DeleteUnite(1);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
@@ -244,10 +244,10 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteUniteTest_Returns_NotFound()
         {
             // Act
-            var actionResult = _UniteController.DeleteUnite(1);
+            var actionResult = await _uniteController.DeleteUnite(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
+            Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
         }
     }
 }
