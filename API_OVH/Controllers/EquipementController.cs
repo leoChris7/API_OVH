@@ -28,7 +28,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Equipements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EquipementDTO>>> GetEquipement()
+        public async Task<ActionResult<IEnumerable<EquipementDTO>>> GetEquipements()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -87,7 +87,7 @@ namespace API_OVH.Controllers
 
             var equipement = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (equipement == null)
+            if (equipement.Result == null)
             {
                 return NotFound("Id incorrect: L'équipement na pas été trouvé");
             }
@@ -116,7 +116,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteEquipement(int id)
         {
             var equipement = await dataRepository.GetByIdWithoutDTOAsync(id);
-            if (equipement.Value == null)
+            if (equipement == null)
             {
                 return NotFound("delete Equipement: Equipement non trouvé");
             }

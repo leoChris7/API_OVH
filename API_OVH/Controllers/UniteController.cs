@@ -29,7 +29,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Unites
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UniteDTO>>> GetUnite()
+        public async Task<ActionResult<IEnumerable<UniteDTO>>> GetUnites()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -88,7 +88,7 @@ namespace API_OVH.Controllers
 
             var leUnite = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (leUnite == null)
+            if (leUnite.Result == null)
             {
                 return NotFound("Id incorrect: Le Unite na pas été trouvé");
             }
@@ -100,7 +100,7 @@ namespace API_OVH.Controllers
         // POST: api/Unites
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Unite>> PostUnite(UniteDTO Unite)
+        public async Task<ActionResult<UniteDTO>> PostUnite(UniteDTO Unite)
         {
             if (!ModelState.IsValid)
             {
@@ -117,7 +117,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteUnite(int id)
         {
             var leUnite = await dataRepository.GetByIdWithoutDTOAsync(id);
-            if (leUnite.Value == null)
+            if (leUnite == null)
             {
                 return NotFound("delete Unite: Unite non trouvé");
             }

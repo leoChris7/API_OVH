@@ -59,7 +59,7 @@ namespace API_OVH.Controllers
 
             var leMur = dataRepository.GetByIdAsync(id);
 
-            if (leMur == null)
+            if (leMur.Result == null)
             {
                 return NotFound("Id incorrect: Le Mur na pas été trouvé");
             }
@@ -71,7 +71,7 @@ namespace API_OVH.Controllers
         // POST: api/Murs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MurDTO>> PostMur(MurSansNavigationDTO mur)
+        public async Task<ActionResult<MurSansNavigationDTO>> PostMur(MurSansNavigationDTO mur)
         {
             if (!ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteMur(int id)
         {
             var leMur = await dataRepository.GetByIdAsync(id);
-            if (leMur.Value == null)
+            if (leMur == null)
             {
                 return NotFound("delete Mur: Mur non trouvé");
             }

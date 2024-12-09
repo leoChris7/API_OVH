@@ -27,7 +27,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Batiments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Batiment>>> GetBatiment()
+        public async Task<ActionResult<IEnumerable<Batiment>>> GetBatiments()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -72,7 +72,7 @@ namespace API_OVH.Controllers
 
             var leBatiment = dataRepository.GetByIdAsync(id);
 
-            if (leBatiment == null)
+            if (leBatiment.Result == null)
             {
                 return NotFound("Id incorrect: Le batiment na pas été trouvé");
             }
@@ -101,7 +101,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteBatiment(int id)
         {
             var leBatiment = await dataRepository.GetByIdAsync(id);
-            if (leBatiment.Value == null)
+            if (leBatiment == null)
             {
                 return NotFound("delete batiment: batiment non trouvé");
             }

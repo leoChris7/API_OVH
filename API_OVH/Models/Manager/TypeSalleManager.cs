@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux types de salle
     /// </summary>
-    public class TypeSalleManager : ITypeSalleRepository<TypeSalle, TypeSalleDTO>
+    public class TypeSalleManager : ITypeEquipementRepository<TypeSalle, TypeSalleDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;

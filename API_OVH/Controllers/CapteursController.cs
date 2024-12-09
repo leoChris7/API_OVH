@@ -70,7 +70,7 @@ namespace API_OVH.Controllers
 
             var capteurToUpdate = dataRepository.GetByIdAsync(id);
 
-            if (capteurToUpdate == null)
+            if (capteurToUpdate.Result == null)
             {
                 return NotFound("Id incorrect: Le capteur na pas été trouvé");
             }

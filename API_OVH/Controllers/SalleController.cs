@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
-using AutoMapper;
-using API_OVH.Models.Manager;
-using Microsoft.AspNetCore.Http.HttpResults;
 using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers
@@ -28,7 +19,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Salles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SalleDTO>>> GetSalle()
+        public async Task<ActionResult<IEnumerable<SalleDTO>>> GetSalles()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -73,7 +64,7 @@ namespace API_OVH.Controllers
 
             var leSalle = dataRepository.GetByIdWithoutDTOAsync(id);
 
-            if (leSalle == null)
+            if (leSalle.Result == null)
             {
                 return NotFound("Id incorrect: Le Salle na pas été trouvé");
             }
@@ -85,7 +76,7 @@ namespace API_OVH.Controllers
         // POST: api/Salles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Salle>> PostSalle(SalleSansNavigationDTO Salle)
+        public async Task<ActionResult<SalleSansNavigationDTO>> PostSalle(SalleSansNavigationDTO Salle)
         {
             if (!ModelState.IsValid)
             {
@@ -102,7 +93,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteSalle(int id)
         {
             var leSalle = await dataRepository.GetByIdWithoutDTOAsync(id);
-            if (leSalle.Value == null)
+            if (leSalle == null)
             {
                 return NotFound("delete Salle: Salle non trouvé");
             }

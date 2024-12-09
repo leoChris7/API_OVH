@@ -28,7 +28,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeSalles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TypeSalleDTO>>> GetTypeSalle()
+        public async Task<ActionResult<IEnumerable<TypeSalleDTO>>> GetTypeSalles()
         {
             return await dataRepository.GetAllAsync();
         }
@@ -43,7 +43,7 @@ namespace API_OVH.Controllers
                 return NotFound("getTypeSallebyid: le TypeSalle n'a pas été trouvé.");
             }
 
-            return Ok(leTypeSalle.Value);
+            return leTypeSalle;
         }
 
 
@@ -73,7 +73,7 @@ namespace API_OVH.Controllers
 
             var leTypeSalle = dataRepository.GetByIdAsync(id);
 
-            if (leTypeSalle == null)
+            if (leTypeSalle.Result == null)
             {
                 return NotFound("Id incorrect: Le TypeSalle na pas été trouvé");
             }
@@ -102,7 +102,7 @@ namespace API_OVH.Controllers
         public async Task<IActionResult> DeleteTypeSalle(int id)
         {
             var leTypeSalle = await dataRepository.GetByIdAsync(id);
-            if (leTypeSalle.Value == null)
+            if (leTypeSalle == null)
             {
                 return NotFound("delete TypeSalle: TypeSalle non trouvé");
             }
