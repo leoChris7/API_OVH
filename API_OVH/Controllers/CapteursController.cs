@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
-using AutoMapper;
 using API_OVH.Models.DTO;
 
 namespace API_OVH.Controllers

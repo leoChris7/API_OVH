@@ -5,7 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeSallesControllerTests
+namespace MursControllerTest
 {
     [TestClass]
     public class MursControllerTest
@@ -74,6 +74,7 @@ namespace TypeSallesControllerTests
             var actionResult = await _MurController.GetMurById(0);
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetMurById: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetMurById: pas Not Found");
         }
 

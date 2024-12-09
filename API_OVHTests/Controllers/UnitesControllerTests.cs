@@ -6,7 +6,7 @@ using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using static API_OVH.Models.Repository.IUniteRepository;
 
-namespace TypeSallesControllerTests
+namespace UnitesControllerTest
 {
     [TestClass]
     public class UnitesControllerTest
@@ -68,6 +68,7 @@ namespace TypeSallesControllerTests
             var actionResult = await _UniteController.GetUniteById(0);
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetUniteById: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetUniteById: pas Not Found");
         }
 
@@ -96,6 +97,7 @@ namespace TypeSallesControllerTests
             var actionResult = await _UniteController.GetUniteByName("Unité inconnue");
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetUniteByName: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetUniteByName: not found a échoué");
         }
 

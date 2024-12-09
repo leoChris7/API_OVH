@@ -5,7 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeSallesControllerTests
+namespace SallesControllerTest
 {
     [TestClass]
     public class SallesControllerTest
@@ -22,13 +22,13 @@ namespace TypeSallesControllerTests
         }
 
         [TestMethod]
-        public async Task GetTypesEquipement_ReturnsListOfTypesEquipements()
+        public async Task GetSalles_ReturnsListOfSalle()
         {
             // Arrange
             var typesEquipement = new List<SalleDTO>
                 {
-                    new SalleDTO { IdSalle = 1, NomSalle = "Type Equipement A" },
-                    new SalleDTO { IdSalle = 2, NomSalle = "Type Equipement B" }
+                    new SalleDTO { IdSalle = 1, NomSalle = "D101" },
+                    new SalleDTO { IdSalle = 2, NomSalle = "D351" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
@@ -37,9 +37,9 @@ namespace TypeSallesControllerTests
             var actionResult = await _SalleController.GetSalles();
 
             // Assert
-            Assert.IsNotNull(actionResult.Value, "GetTypesEquipement: La liste des types d'équipement est null.");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<SalleDTO>), "GetTypesEquipement: La liste retournée  n'est pas une liste de types d'équipement.");
-            Assert.AreEqual(2, ((IEnumerable<SalleDTO>)actionResult.Value).Count(), "GetTypesEquipement: Le nombre de types d'équipements retourné est incorrect.");
+            Assert.IsNotNull(actionResult.Value, "GetSalles: La liste des salles est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<SalleDTO>), "GetSalles: La liste retournée n'est pas une liste de salles.");
+            Assert.AreEqual(2, ((IEnumerable<SalleDTO>)actionResult.Value).Count(), "GetSalles: Le nombre de salles retournées est incorrect.");
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@ namespace TypeSallesControllerTests
             // Assert
             Assert.IsNotNull(actionResult, "GetSalleById: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetSalleById: valeur retournée null");
-            Assert.AreEqual(expectedSalle, actionResult.Value as SalleDetailDTO, "GetSalleById: types d'équipements non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedSalle, actionResult.Value as SalleDetailDTO, "GetSalleById:Salles non égales, objet incohérent retourné");
         }
 
 
@@ -67,6 +67,7 @@ namespace TypeSallesControllerTests
             var actionResult = await _SalleController.GetSalleById(0);
 
             // Assert
+            Assert.IsNull(actionResult.Value, "Salles: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetSalleById: pas Not Found");
         }
 
@@ -74,17 +75,17 @@ namespace TypeSallesControllerTests
         public async Task GetSalleByName_Returns_Salle()
         {
             // Arrange
-            var expectedSalle = new SalleDetailDTO { IdSalle = 1, NomSalle = "Fenetre" };
+            var expectedSalle = new SalleDetailDTO { IdSalle = 1, NomSalle = "D101" };
 
-            _mockRepository.Setup(x => x.GetByStringAsync("Fenetre")).ReturnsAsync(expectedSalle);
+            _mockRepository.Setup(x => x.GetByStringAsync("D101")).ReturnsAsync(expectedSalle);
 
             // Act
-            var actionResult = _SalleController.GetSalleByName("Fenetre").Result;
+            var actionResult = _SalleController.GetSalleByName("D101").Result;
 
             // Assert
             Assert.IsNotNull(actionResult, "GetSalleByName: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetSalleByName: valeur retournée null");
-            Assert.AreEqual(expectedSalle, actionResult.Value as SalleDetailDTO, "GetSalleByName: types d'équipements non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedSalle, actionResult.Value as SalleDetailDTO, "GetSalleByName: salles non égales, objet incohérent retourné");
         }
 
 
@@ -92,9 +93,10 @@ namespace TypeSallesControllerTests
         public async Task GetSalleByName_Returns_NotFound_When_Salle_NotFound()
         {
             // Act
-            var actionResult = await _SalleController.GetSalleByName("Type d'équipement inconnue");
+            var actionResult = await _SalleController.GetSalleByName("Salle inconnue");
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetSalleByName: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetSalleByName: not found a échoué");
         }
 
@@ -105,18 +107,18 @@ namespace TypeSallesControllerTests
             SalleSansNavigationDTO SalleDTO = new SalleSansNavigationDTO
             {
                 IdSalle = 1,
-                NomSalle = "Electronique"
+                NomSalle = "D101"
             };
 
             // Act
             var actionResult = await _SalleController.PostSalle(SalleDTO);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<SalleSansNavigationDTO>), "PostSalle: Pas un ActionResult<Salle>");
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<SalleSansNavigationDTO>), "PostSalle: Pas un ActionResult<SalleSansNavigationDTO>");
             Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "PostSalle: Pas un CreatedAtActionResult");
             var result = actionResult.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(result.Value, typeof(SalleSansNavigationDTO), "PostSalle: Pas un type d'équipement");
-            Assert.AreEqual(SalleDTO, (SalleSansNavigationDTO)result.Value, "PostSalle: Types d'équipement non identiques");
+            Assert.IsInstanceOfType(result.Value, typeof(SalleSansNavigationDTO), "PostSalle: Pas une salle");
+            Assert.AreEqual(SalleDTO, (SalleSansNavigationDTO)result.Value, "PostSalle: Salles non identiques");
 
         }
 
@@ -156,7 +158,7 @@ namespace TypeSallesControllerTests
             var actionResult = _SalleController.PutSalle(newSalle.IdSalle, newSalle).Result;
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod]
@@ -170,7 +172,7 @@ namespace TypeSallesControllerTests
             }).Result;
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest"); // Test du type de retour
+            Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
         }
 
         [TestMethod]

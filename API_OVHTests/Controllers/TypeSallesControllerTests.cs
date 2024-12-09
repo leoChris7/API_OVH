@@ -5,7 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeSallesControllerTests{
+namespace TypeSalleControllerTest{
     [TestClass]
     public class TypeSalleControllerTest
     {
@@ -65,6 +65,7 @@ namespace TypeSallesControllerTests{
             var actionResult = await _typeSalleController.GetTypeSalleById(0);
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetTypeSalleById: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "Test GetById not found a échoué");
         }
 
@@ -93,6 +94,7 @@ namespace TypeSallesControllerTests{
             var actionResult = await _typeSalleController.GetTypeSalleByName("Salle inconnue");
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetTypeSalleByName: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetTypeSalleByName not found a échoué");
         }
 
