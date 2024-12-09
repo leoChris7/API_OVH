@@ -28,7 +28,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Batiments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BatimentDTO>>> GetBatiment()
+        public async Task<ActionResult<IEnumerable<BatimentDTO>>> GetBatiments()
         {
             return await dataRepository.GetAllAsync();
         }

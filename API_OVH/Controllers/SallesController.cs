@@ -28,7 +28,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Salles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SalleDTO>>> GetSalle()
+        public async Task<ActionResult<IEnumerable<SalleDTO>>> GetSalles()
         {
             return await dataRepository.GetAllAsync();
         }

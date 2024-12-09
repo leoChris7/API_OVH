@@ -16,14 +16,16 @@ namespace API_OVH.Models.EntityFramework
         public virtual DbSet<TypeEquipement> TypesEquipement { get; set; }
         public virtual DbSet<TypeSalle> TypesSalle { get; set; }
         public virtual DbSet<Unite> Unites { get; set; }
+        public virtual DbSet<UniteCapteur> UnitesCapteur { get; set; }
 
-/*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql("Server=51.83.36.122;port=5432;Database=SAE5_BD_OVH; uid=gehdor; password=postgres;");
-            }
-        }*/
+
+        /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+                {
+                    if (!optionsBuilder.IsConfigured)
+                    {
+                        optionsBuilder.UseNpgsql("Server=51.83.36.122;port=5432;Database=SAE5_BD_OVH; uid=gehdor; password=postgres;");
+                    }
+                }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
