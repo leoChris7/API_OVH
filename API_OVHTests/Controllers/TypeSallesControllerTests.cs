@@ -33,7 +33,7 @@ namespace TypeSallesControllerTests{
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesSalle);
 
             // Act
-            var actionResult = await _typeSalleController.GetTypeSalle();
+            var actionResult = await _typeSalleController.GetTypeSalles();
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "GetTypesSalle: La liste des types de salle est null.");
@@ -57,7 +57,6 @@ namespace TypeSallesControllerTests{
             Assert.IsNotNull(actionResult.Value, "GetTypeSalleById valeur retournée null");
             Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalle, "GetTypeSalle: types salles non égaux, objet incohérent retourné");
         }
-
 
         [TestMethod]
         public async Task GetTypeSalleById_Returns_NotFound_When_TypeSalle_NotFound()

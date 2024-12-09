@@ -71,7 +71,7 @@ namespace API_OVH.Controllers
         // POST: api/Murs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MurDTO>> PostMur(MurSansNavigationDTO mur)
+        public async Task<ActionResult<MurSansNavigationDTO>> PostMur(MurSansNavigationDTO mur)
         {
             if (!ModelState.IsValid)
             {

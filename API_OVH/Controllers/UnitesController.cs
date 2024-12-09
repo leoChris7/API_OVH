@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using API_OVH.Models.EntityFramework;
-using API_OVH.Models.Repository;
-using AutoMapper;
-using API_OVH.Models.Manager;
-using Microsoft.AspNetCore.Http.HttpResults;
 using API_OVH.Models.DTO;
 using static API_OVH.Models.Repository.IUniteRepository;
 
@@ -100,7 +90,7 @@ namespace API_OVH.Controllers
         // POST: api/Unites
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Unite>> PostUnite(UniteDTO Unite)
+        public async Task<ActionResult<UniteDTO>> PostUnite(UniteDTO Unite)
         {
             if (!ModelState.IsValid)
             {
