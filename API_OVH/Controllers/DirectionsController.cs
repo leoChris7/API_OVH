@@ -20,7 +20,7 @@ namespace API_OVH.Controllers
         private readonly IDirectionRepository<Direction> directionManager;
 
         [ActivatorUtilitiesConstructor]
-        public DirectionController(DirectionManager manager)
+        public DirectionController(IDirectionRepository<Direction> manager)
         {
             directionManager = manager;
         }

@@ -107,7 +107,7 @@ namespace API_OVH.Controllers
 
             await dataRepository.AddAsync(capteur);
 
-            return CreatedAtAction("GetById", new { id = capteur.IdCapteur }, capteur);
+            return CreatedAtAction("GetCapteurById", new { id = capteur.IdCapteur }, capteur);
         }
 
         // DELETE: api/Capteurs/5

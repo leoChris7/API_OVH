@@ -108,7 +108,7 @@ namespace API_OVH.Controllers
 
             await dataRepository.AddAsync(Equipement);
 
-            return CreatedAtAction("GetEquipementByIdWithoutDTO", new { id = Equipement.IdEquipement }, Equipement);
+            return CreatedAtAction("GetEquipementById", new { id = Equipement.IdEquipement }, Equipement);
         }
 
         // DELETE: api/Equipements/5
