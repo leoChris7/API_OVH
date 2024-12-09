@@ -65,7 +65,5 @@ namespace TypeSallesControllerTests{
             Assert.IsNotNull(returnedProduit, "GetProduitById: Le produit retourné est null.");
             Assert.AreEqual(returnedProduit.NomTypeSalle, expectedTypeSalle.NomTypeSalle, "GetProduitById: Les produits ne sont pas égaux.");
         }
-
-
     }
 }
