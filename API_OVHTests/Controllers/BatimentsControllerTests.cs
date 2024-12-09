@@ -5,7 +5,7 @@ using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TypeSallesControllerTests
+namespace BatimentsControllerTest
 {
     [TestClass]
     public class BatimentsControllerTest
@@ -22,13 +22,13 @@ namespace TypeSallesControllerTests
         }
 
         [TestMethod]
-        public async Task GetTypesEquipement_ReturnsListOfTypesEquipements()
+        public async Task GetBatiments_ReturnsListOfBatiments()
         {
             // Arrange
             var typesEquipement = new List<BatimentDTO>
                 {
-                    new BatimentDTO { IdBatiment = 1, NomBatiment = "Type Equipement A" },
-                    new BatimentDTO { IdBatiment = 2, NomBatiment = "Type Equipement B" }
+                    new() { IdBatiment = 1, NomBatiment = "IUT" },
+                    new() { IdBatiment = 2, NomBatiment = "Tetras" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
@@ -37,9 +37,9 @@ namespace TypeSallesControllerTests
             var actionResult = await _BatimentController.GetBatiments();
 
             // Assert
-            Assert.IsNotNull(actionResult.Value, "GetTypesEquipement: La liste des types d'équipement est null.");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<BatimentDTO>), "GetTypesEquipement: La liste retournée  n'est pas une liste de types d'équipement.");
-            Assert.AreEqual(2, ((IEnumerable<BatimentDTO>)actionResult.Value).Count(), "GetTypesEquipement: Le nombre de types d'équipements retourné est incorrect.");
+            Assert.IsNotNull(actionResult.Value, "La liste des batiments est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<BatimentDTO>), "La liste retournée n'est pas une liste de types de batiments.");
+            Assert.AreEqual(2, ((IEnumerable<BatimentDTO>)actionResult.Value).Count(), "Le nombre de batiments retourné est incorrect.");
         }
 
         [TestMethod]
@@ -67,6 +67,7 @@ namespace TypeSallesControllerTests
             var actionResult = await _BatimentController.GetBatimentById(0);
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetBatimentById: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetBatimentById: pas Not Found");
         }
 
@@ -74,12 +75,12 @@ namespace TypeSallesControllerTests
         public async Task GetBatimentByName_Returns_Batiment()
         {
             // Arrange
-            var expectedBatiment = new Batiment { IdBatiment = 1, NomBatiment = "Fenetre" };
+            var expectedBatiment = new Batiment { IdBatiment = 1, NomBatiment = "Tetras" };
 
-            _mockRepository.Setup(x => x.GetByStringAsync("Fenetre")).ReturnsAsync(expectedBatiment);
+            _mockRepository.Setup(x => x.GetByStringAsync("Tetras")).ReturnsAsync(expectedBatiment);
 
             // Act
-            var actionResult = _BatimentController.GetBatimentByName("Fenetre").Result;
+            var actionResult = _BatimentController.GetBatimentByName("Tetras").Result;
 
             // Assert
             Assert.IsNotNull(actionResult, "GetBatimentByName: objet retourné null");
@@ -92,9 +93,10 @@ namespace TypeSallesControllerTests
         public async Task GetBatimentByName_Returns_NotFound_When_Batiment_NotFound()
         {
             // Act
-            var actionResult = await _BatimentController.GetBatimentByName("Type d'équipement inconnue");
+            var actionResult = await _BatimentController.GetBatimentByName("Batiment inconnu");
 
             // Assert
+            Assert.IsNull(actionResult.Value, "GetByName: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetBatimentByName: not found a échoué");
         }
 
@@ -105,18 +107,18 @@ namespace TypeSallesControllerTests
             BatimentSansNavigationDTO BatimentDTO = new BatimentSansNavigationDTO
             {
                 IdBatiment = 1,
-                NomBatiment = "Electronique"
+                NomBatiment = "Tetras"
             };
 
             // Act
             var actionResult = await _BatimentController.PostBatiment(BatimentDTO);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<BatimentSansNavigationDTO>), "PostBatiment: Pas un ActionResult<Batiment>");
+            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<BatimentSansNavigationDTO>), "PostBatiment: Pas un ActionResult<BatimentSansNavigationDTO>");
             Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "PostBatiment: Pas un CreatedAtActionResult");
             var result = actionResult.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(result.Value, typeof(BatimentSansNavigationDTO), "PostBatiment: Pas un type d'équipement");
-            Assert.AreEqual(BatimentDTO, (BatimentSansNavigationDTO)result.Value, "PostBatiment: Types d'équipement non identiques");
+            Assert.IsInstanceOfType(result.Value, typeof(BatimentSansNavigationDTO), "PostBatiment: Pas un batiment");
+            Assert.AreEqual(BatimentDTO, (BatimentSansNavigationDTO)result.Value, "PostBatiment: Batiments non identiques");
 
         }
 
@@ -125,7 +127,7 @@ namespace TypeSallesControllerTests
         {
             // Arrange
             var invalidDto = new BatimentSansNavigationDTO(); // Missing required fields
-            _BatimentController.ModelState.AddModelError("NomBatiment", "Nom est requis.");
+            _BatimentController.ModelState.AddModelError("NomBatiment", "NomBatiment est requis.");
 
             // Act
             var result = await _BatimentController.PostBatiment(invalidDto);
@@ -194,7 +196,7 @@ namespace TypeSallesControllerTests
             Batiment Batiment = new Batiment
             {
                 IdBatiment = 1,
-                NomBatiment = "TD"
+                NomBatiment = "Tetras"
             };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Batiment);
