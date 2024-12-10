@@ -104,7 +104,7 @@ namespace API_OVH.Models.DataManager
             Equipement.XEquipement = entity.XEquipement;
             Equipement.YEquipement = entity.YEquipement;
             Equipement.ZEquipement = entity.ZEquipement;
-            dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>

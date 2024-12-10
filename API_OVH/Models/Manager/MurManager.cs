@@ -72,7 +72,7 @@ namespace API_OVH.Models.DataManager
             Mur.Longueur = entity.Longueur;
             Mur.Hauteur = entity.Hauteur;
             Mur.Orientation = entity.Orientation;
-            dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>

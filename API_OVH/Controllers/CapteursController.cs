@@ -24,7 +24,7 @@ namespace API_OVH.Controllers
         }
 
         // GET: api/Capteurs/5
-        [HttpGet("(GetById/{id})")]
+        [HttpGet("GetById/{id}")]
         public async Task<ActionResult<CapteurDetailDTO>> GetCapteurById(int id)
         {
             var leCapteur = await dataRepository.GetByIdAsync(id);
@@ -37,23 +37,8 @@ namespace API_OVH.Controllers
             return leCapteur;
         }
 
-        // GET: api/Capteurs/5
-        [HttpGet("GetByIdWithoutDTO/{id}")]
-        public async Task<ActionResult<Capteur>> GetCapteurByIdWithoutDTO(int id)
-        {
-            var leCapteur = await dataRepository.GetByIdWithoutDTOAsync(id);
-
-            if (leCapteur == null)
-            {
-                return NotFound("getCapteurById: le capteur n'a pas été trouvé.");
-            }
-
-            return leCapteur;
-        }
-
-
         // GET: api/Capteurs/CapteurCO2
-        [HttpGet("(GetByName/{name})")]
+        [HttpGet("GetByName/{name}")]
         public async Task<ActionResult<CapteurDetailDTO>> GetCapteurByName(String name)
         {
             var leCapteur = await dataRepository.GetByStringAsync(name);

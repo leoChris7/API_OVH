@@ -48,20 +48,6 @@ namespace API_OVH.Controllers
         }
 
         // GET: api/Equipements/5
-        [HttpGet("GetByIdWithoutDTO/{id}")]
-        public async Task<ActionResult<Equipement>> GetByIdWithoutDTOAsync(int id)
-        {
-            var equipement = await dataRepository.GetByIdWithoutDTOAsync(id);
-
-            if (equipement == null)
-            {
-                return NotFound("getEquipementByIDWithoutDTO: l'équipement n'a pas été trouvé.");
-            }
-
-            return equipement;
-        }
-
-        // GET: api/Equipements/5
         [HttpGet("GetByName/{name}")]
         public async Task<ActionResult<EquipementDetailDTO>> GetEquipementByString(string name)
         {

@@ -72,35 +72,6 @@ namespace API_OVH.Controllers.Tests
         }
 
         [TestMethod]
-        public async Task GetCapteurByIdWithoutDTO_Returns_Capteur()
-        {
-            // Arrange
-            var expectedCapteur = new Capteur { IdCapteur = 1, NomCapteur = "CO2 Maximum Detection" };
-
-            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(expectedCapteur);
-
-            // Act
-            var actionResult = await _capteurController.GetCapteurByIdWithoutDTO(1);
-
-            // Assert
-            Assert.IsNotNull(actionResult, "GetCapteurByIdWithoutDTO: objet retourné null");
-            Assert.IsNotNull(actionResult.Value, "GetCapteurByIdWithoutDTO: valeur retournée null");
-            Assert.AreEqual(expectedCapteur, actionResult.Value as Capteur, "GetCapteurByIdWithoutDTO: capteurs non égaux, objet incohérent retourné");
-        }
-
-
-        [TestMethod]
-        public async Task GetCapteurByIdWithoutDTO_Returns_NotFound_When_Capteur_NotFound()
-        {
-            // Act
-            var actionResult = await _capteurController.GetCapteurByIdWithoutDTO(0);
-
-            // Assert
-            Assert.IsNull(actionResult.Value, "GetCapteurByIdWithoutDTO: objet retourné non null");
-            Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetCapteurByIdWithoutDTO: pas Not Found");
-        }
-
-        [TestMethod]
         public async Task GetCapteurByName_Returns_Capteur()
         {
             // Arrange

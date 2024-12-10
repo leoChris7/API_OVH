@@ -33,7 +33,7 @@ namespace API_OVH.Controllers
         }
 
         // GET: api/Directions/5
-        [HttpGet("(GetById/{id})")]
+        [HttpGet("GetById/{id}")]
         public async Task<ActionResult<Direction>> GetDirection(int id)
         {
             var direction = await directionManager.GetByIdAsync(id);
@@ -47,7 +47,7 @@ namespace API_OVH.Controllers
         }
 
         // GET: api/Directions/69
-        [HttpGet("(GetByDegre/{degre})")]
+        [HttpGet("GetByDegre/{degre}")]
         public async Task<ActionResult<Direction>> GetDirectionByDegre(decimal degre)
         {
             var lettreDirection = await directionManager.GetByDegreAsync(degre);

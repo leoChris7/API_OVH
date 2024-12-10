@@ -62,7 +62,10 @@ namespace API_OVH.Models.Manager
         /// <returns>Le capteur correspondant à l'ID</returns>
         public async Task<ActionResult<Capteur>> GetByIdWithoutDTOAsync(int id)
         {
-            return await dbContext.Capteurs.FirstOrDefaultAsync(x => x.IdCapteur == id);
+            return await dbContext.Capteurs
+                .Include(t => t.MurNavigation)
+                .Include(t => t.UnitesCapteur)
+                .FirstOrDefaultAsync(x => x.IdCapteur == id);
         }
 
         /// <summary>
