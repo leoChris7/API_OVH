@@ -90,7 +90,7 @@ namespace API_OVH.Models.DataManager
 
             TypeEquipement.NomTypeEquipement = entity.NomTypeEquipement;
 
-            dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>

@@ -43,15 +43,12 @@ namespace API_OVH.Models.DataManager
         {
             var result = await dbContext.Salles
                 .Where(u => u.IdSalle == id)
-                .Include(s => s.Murs) // Inclure les murs
-                    .ThenInclude(m => m.Capteurs) // Inclure les capteurs pour chaque mur
                 .Include(s => s.Murs)
-                    .ThenInclude(m => m.Equipements) // Inclure les équipements pour chaque mur
+                    .ThenInclude(m => m.Capteurs)
+                .Include(s => s.Murs)
+                    .ThenInclude(m => m.Equipements)
                 .ProjectTo<SalleDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
-
-            if (result == null)
-                return new NotFoundResult();
 
             return result;
         }
@@ -67,8 +64,6 @@ namespace API_OVH.Models.DataManager
             var salle = await dbContext.Salles
                 .FirstOrDefaultAsync(t => t.IdSalle == id);
 
-            if (salle == null) return new NotFoundResult();
-
             return salle;
         }
 
@@ -83,9 +78,6 @@ namespace API_OVH.Models.DataManager
                 .Where(u => u.NomSalle.ToUpper() == nom.ToUpper())
                 .ProjectTo<SalleDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
                 .FirstOrDefaultAsync();
-
-            if (salle == null)
-                return new NotFoundResult();
 
             return new ActionResult<SalleDetailDTO>(salle);
         }

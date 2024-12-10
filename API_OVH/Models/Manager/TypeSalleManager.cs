@@ -84,9 +84,11 @@ namespace API_OVH.Models.DataManager
         public async Task UpdateAsync(TypeSalle TypeSalle, TypeSalle entity)
         {
             dbContext.Entry(TypeSalle).State = EntityState.Modified;
+
             TypeSalle.IdTypeSalle = entity.IdTypeSalle;
             TypeSalle.NomTypeSalle = entity.NomTypeSalle;
-            dbContext.SaveChangesAsync();
+
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>

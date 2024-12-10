@@ -41,11 +41,8 @@ namespace API_OVH.Models.DataManager
         {
             var result = await dbContext.Unites
                 .Where(u => u.IdUnite == id)
-                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
-
-            if (result == null)
-                return new NotFoundResult();
 
             return new ActionResult<UniteDetailDTO>(result);
         }
@@ -58,9 +55,6 @@ namespace API_OVH.Models.DataManager
             var result = await dbContext.Unites
                 .FirstOrDefaultAsync( u => u.IdUnite == id);
 
-            if (result == null)
-                return new NotFoundResult();
-
             return new ActionResult<Unite>(result);
         }
 
@@ -71,11 +65,8 @@ namespace API_OVH.Models.DataManager
         {
             var result = await dbContext.Unites
                 .Where(u => u.NomUnite.ToUpper() == nom.ToUpper())
-                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
-
-            if (result == null)
-                return new NotFoundResult();
 
             return new ActionResult<UniteDetailDTO>(result);
         }
@@ -87,11 +78,8 @@ namespace API_OVH.Models.DataManager
         {
             var result = await dbContext.Unites
                 .Where(u => u.SigleUnite.ToUpper() == sigle.ToUpper())
-                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider) // Mapper vers UniteDetailDTO
+                .ProjectTo<UniteDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
-
-            if (result == null)
-                return new NotFoundResult();
 
             return new ActionResult<UniteDetailDTO>(result);
         }
@@ -114,9 +102,11 @@ namespace API_OVH.Models.DataManager
         public async Task UpdateAsync(Unite unite, Unite entity)
         {
             dbContext.Entry(unite).State = EntityState.Modified;
+
             unite.IdUnite = entity.IdUnite;
             unite.NomUnite = entity.NomUnite;
             unite.SigleUnite = entity.SigleUnite;
+
             await dbContext.SaveChangesAsync();
         }
 
