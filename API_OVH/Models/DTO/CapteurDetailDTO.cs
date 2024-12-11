@@ -18,7 +18,6 @@ namespace API_OVH.Models.DTO
 
         public int IdCapteur { get => idCapteur; set => idCapteur = value; }
         public string NomCapteur { get => nomCapteur; set => nomCapteur = value; }
-        public string NomSalle { get => nomSalle; set => nomSalle = value; }
         public string EstActif { get => estActif; set => estActif = value; }
         public decimal XCapteur { get => xCapteur; set => xCapteur = value; }
         public decimal YCapteur { get => yCapteur; set => yCapteur = value; }

@@ -91,7 +91,7 @@ namespace API_OVH
             CreateMap<Equipement, EquipementDetailDTO>()
                 .ForMember(dest => dest.IdEquipement, opt => opt.MapFrom(src => src.IdEquipement))
                 .ForMember(dest => dest.NomEquipement, opt => opt.MapFrom(src => src.NomEquipement))
-                .ForMember(dest => dest.NomTypeEquipement, opt => opt.MapFrom(src => src.TypeEquipementNavigation.NomTypeEquipement))
+                .ForMember(dest => dest.TypeEquipement, opt => opt.MapFrom(src => src.TypeEquipementNavigation))
                 .ForMember(dest => dest.Dimensions, opt => opt.MapFrom(src => "" + src.Longueur + "x" + src.Largeur + "x" + src.Hauteur))
                 .ForMember(dest => dest.EstActif, opt => opt.MapFrom(src => src.EstActif))
                 .ForMember(dest => dest.PositionX, opt => opt.MapFrom(src => src.XEquipement))

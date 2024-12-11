@@ -6,10 +6,10 @@ namespace API_OVH.Models.DTO
     {
         private int idEquipement;
         private String nomEquipement;
-        private Salle salle;
-        private String nomTypeEquipement;
         private String dimensions; // L*l*H
-        private String estActif; 
+        private String estActif;
+        private Salle salle;
+        private TypeEquipement typeEquipement;
 
         private decimal positionX;
         private decimal positionY;
@@ -17,12 +17,12 @@ namespace API_OVH.Models.DTO
 
         public int IdEquipement { get => idEquipement; set => idEquipement = value; }
         public string NomEquipement { get => nomEquipement; set => nomEquipement = value; }
-        public string NomTypeEquipement { get => nomTypeEquipement; set => nomTypeEquipement = value; }
         public string Dimensions { get => dimensions; set => dimensions = value; }
         public string EstActif { get => estActif; set => estActif = value; }
         public decimal PositionX { get => positionX; set => positionX = value; }
         public decimal PositionY { get => positionY; set => positionY = value; }
         public decimal PositionZ { get => positionZ; set => positionZ = value; }
         public Salle Salle { get => salle; set => salle = value; }
+        public TypeEquipement TypeEquipement { get => typeEquipement; set => typeEquipement = value; }
     }
 }
