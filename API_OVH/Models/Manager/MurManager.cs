@@ -41,7 +41,12 @@ namespace API_OVH.Models.DataManager
         /// <returns>Le Mur correspondant à l'ID</returns>
         public async Task<ActionResult<Mur>> GetByIdAsync(int id)
         {
-            return await dbContext.Murs.FirstOrDefaultAsync(t => t.IdMur == id);
+            return await dbContext.Murs
+                .Include(m => m.DirectionNavigation)
+                .Include(m => m.SalleNavigation)
+                .Include(m => m.Capteurs)
+                .Include(m => m.Equipements)
+                .FirstOrDefaultAsync(t => t.IdMur == id);
         }
 
         /// <summary>

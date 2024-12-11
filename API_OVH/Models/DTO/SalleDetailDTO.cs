@@ -8,8 +8,8 @@ namespace API_OVH.Models.DTO
     {
         private int idSalle;
         private string nomSalle;
-        private String nomBatiment;
-        private String nomTypeSalle;
+        private TypeSalle typeSalle;
+        private Batiment batiment;
         private List<Capteur> capteurs;
         private List<Equipement> equipements;
         private List<Mur> murs;
@@ -19,7 +19,7 @@ namespace API_OVH.Models.DTO
         public List<Mur> Murs { get => murs; set => murs = value; }
         public List<Equipement> Equipements { get => equipements; set => equipements = value; }
         public List<Capteur> Capteurs { get => capteurs; set => capteurs = value; }
-        public string NomBatiment { get => nomBatiment; set => nomBatiment = value; }
-        public string NomTypeSalle { get => nomTypeSalle; set => nomTypeSalle = value; }
+        public TypeSalle TypeSalle { get => typeSalle; set => typeSalle = value; }
+        public Batiment Batiment { get => batiment; set => batiment = value; }
     }
 }

@@ -122,6 +122,14 @@ namespace API_OVH.Models.Manager
         /// <returns>Le résultat de l'opération</returns>
         public async Task DeleteAsync(Capteur entity)
         {
+            List<UniteCapteur> listeLiaisons = entity.UnitesCapteur.ToList();
+
+            foreach(UniteCapteur liaison in listeLiaisons)
+            {
+                dbContext.UnitesCapteur.Remove(liaison);
+                await dbContext.SaveChangesAsync();
+            }
+
             dbContext.Capteurs.Remove(entity);
             await dbContext.SaveChangesAsync();
         }
