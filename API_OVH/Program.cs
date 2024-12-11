@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(MyAllowSpecificOrigins, builder =>
     {
-        builder.WithOrigins("http://localhost:5258", "https://localhost:5258") // Allow this origin
+        builder.WithOrigins("http://localhost:5258", "https://localhost:5258", "https://localhost:7283") // Allow this origin
                .AllowAnyMethod()                     // Allow any HTTP methods
                .AllowAnyHeader();                    // Allow any headers
     });
@@ -29,7 +29,7 @@ builder.Services.AddScoped<ICapteurRepository<Capteur, CapteurDTO, CapteurDetail
 builder.Services.AddScoped<IEquipementRepository<Equipement, EquipementDTO, EquipementDetailDTO, EquipementSansNavigationDTO>, EquipementManager>();
 builder.Services.AddScoped<ISalleRepository<Salle, SalleSansNavigationDTO, SalleDTO, SalleDetailDTO>, SalleManager>();
 builder.Services.AddScoped<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>, TypeEquipementManager>();
-builder.Services.AddScoped<ITypeEquipementRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
+builder.Services.AddScoped<ITypeSalleRepository<TypeSalle, TypeSalleDTO>, TypeSalleManager>();
 builder.Services.AddScoped<IUniteRepository<Unite, UniteDTO, UniteDetailDTO>, UniteManager>();
 builder.Services.AddScoped<IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO>, UniteCapteurManager>();
 builder.Services.AddScoped<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>, MurManager>();
