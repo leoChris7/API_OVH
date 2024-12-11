@@ -36,21 +36,17 @@ namespace API_OVH.Models.EntityFramework
         [Column("orientation", TypeName = "numeric(9,6)")]
         public decimal Orientation { get; set; } = 0;
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdSalle))]
         [InverseProperty(nameof(Salle.Murs))]
         public Salle? SalleNavigation { get => salleNavigation; set => salleNavigation = value; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdDirection))]
         [InverseProperty(nameof(Direction.Murs))]
         public Direction? DirectionNavigation { get => directionNavigation; set => directionNavigation = value; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(Capteur.MurNavigation))]
         public virtual ICollection<Capteur> Capteurs { get => capteurs; set => capteurs = value; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(Equipement.MurNavigation))]
         public virtual ICollection<Equipement> Equipements { get => equipements; set => equipements = value; }
     }

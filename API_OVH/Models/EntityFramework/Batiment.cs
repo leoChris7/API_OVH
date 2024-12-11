@@ -19,7 +19,6 @@ namespace API_OVH.Models.EntityFramework
         [Column("nombatiment", TypeName = "varchar(20)")]
         public string NomBatiment { get; set; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(Salle.BatimentNavigation))]
         public ICollection<Salle> Salles { get => salles; set => salles = value; }
     }

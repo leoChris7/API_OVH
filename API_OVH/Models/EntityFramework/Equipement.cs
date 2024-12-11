@@ -55,12 +55,10 @@ namespace API_OVH.Models.EntityFramework
         [Column("estactif", TypeName = "char(3)")]
         public string EstActif { get; set; } = "NSP";
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdTypeEquipement))]
         [InverseProperty(nameof(TypeEquipement.Equipements))]
         public virtual TypeEquipement? TypeEquipementNavigation { get => typeEquipementNavigation; set => typeEquipementNavigation = value; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdMur))]
         [InverseProperty(nameof(Mur.Equipements))]
         public virtual Mur? MurNavigation { get => murNavigation; set => murNavigation = value; }

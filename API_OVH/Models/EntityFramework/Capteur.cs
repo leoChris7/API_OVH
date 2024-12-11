@@ -61,12 +61,10 @@ namespace API_OVH.Models.EntityFramework
         [Column("zcapteur", TypeName = "numeric(10,1)")]
         public decimal ZCapteur { get; set; } = 0;
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdMur))]
         [InverseProperty(nameof(Mur.Capteurs))]
         public Mur? MurNavigation { get => murNavigation; set => murNavigation = value; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(UniteCapteur.CapteurNavigation))]
         public virtual ICollection<UniteCapteur> UnitesCapteur { get => unitesCapteur; set => unitesCapteur = value; }
     }

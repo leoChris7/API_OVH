@@ -1,8 +1,6 @@
 ﻿using API_OVH.Models.DTO;
 using API_OVH.Models.EntityFramework;
 using AutoMapper;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace API_OVH
 {

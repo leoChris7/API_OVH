@@ -23,7 +23,6 @@ namespace API_OVH.Models.EntityFramework
         [Column("sigleunite", TypeName = "varchar(10)")]
         public string? SigleUnite { get; set; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(UniteCapteur.UniteNavigation))]
         public virtual ICollection<UniteCapteur> UnitesCapteur { get => unitesCapteur; set => unitesCapteur = value; }
     }

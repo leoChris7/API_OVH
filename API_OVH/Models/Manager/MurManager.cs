@@ -59,6 +59,7 @@ namespace API_OVH.Models.DataManager
             var mur = mapper.Map<Mur>(entity);
 
             await dbContext.Murs.AddAsync(mur);
+
             await dbContext.SaveChangesAsync();
         }
 
@@ -71,12 +72,14 @@ namespace API_OVH.Models.DataManager
         public async Task UpdateAsync(Mur Mur, Mur entity)
         {
             dbContext.Entry(Mur).State = EntityState.Modified;
+
             Mur.IdMur = entity.IdMur;
             Mur.IdDirection = entity.IdDirection;
             Mur.IdSalle = entity.IdSalle;
             Mur.Longueur = entity.Longueur;
             Mur.Hauteur = entity.Hauteur;
             Mur.Orientation = entity.Orientation;
+
             await dbContext.SaveChangesAsync();
         }
 

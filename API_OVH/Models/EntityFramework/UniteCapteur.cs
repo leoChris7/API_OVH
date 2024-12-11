@@ -21,12 +21,10 @@ namespace API_OVH.Models.EntityFramework
         [Column("idunite")]
         public int IdUnite { get; set; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdCapteur))]
         [InverseProperty(nameof(Capteur.UnitesCapteur))]
         public virtual Capteur CapteurNavigation { get => capteurNavigation; set => capteurNavigation = value; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdUnite))]
         [InverseProperty(nameof(Unite.UnitesCapteur))]
         public virtual Unite UniteNavigation { get => uniteNavigation; set => uniteNavigation = value; }

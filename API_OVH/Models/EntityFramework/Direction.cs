@@ -20,7 +20,6 @@ namespace API_OVH.Models.EntityFramework
         [Column("lettres_direction", TypeName = "varchar(2)")]
         public string LettresDirection { get; set; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(Mur.DirectionNavigation))]
         public ICollection<Mur> Murs { get => murs; set => murs = value; }
     }

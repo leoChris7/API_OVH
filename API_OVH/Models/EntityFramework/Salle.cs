@@ -29,17 +29,14 @@ namespace API_OVH.Models.EntityFramework
         [Column("nomsalle", TypeName = "varchar(20)")]
         public string NomSalle { get; set; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdBatiment))]
         [InverseProperty(nameof(Batiment.Salles))]
         public Batiment? BatimentNavigation { get => batimentNavigation; set => batimentNavigation = value; }
 
-        [JsonIgnore]
         [ForeignKey(nameof(IdTypeSalle))]
         [InverseProperty(nameof(TypeSalle.Salles))]
         public TypeSalle? TypeSalleNavigation { get => typeSalleNavigation; set => typeSalleNavigation = value; }
 
-        [JsonIgnore]
         [InverseProperty(nameof(Mur.SalleNavigation))]
         public virtual ICollection<Mur> Murs { get => murs; set => murs = value; }
     }
