@@ -18,10 +18,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class TypeEquipementsController : ControllerBase
     {
-        private readonly ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO> dataRepository;
+        private readonly ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public TypeEquipementsController(ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO> manager)
+        public TypeEquipementsController(ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO> manager)
         {
             dataRepository = manager;
         }
@@ -35,7 +35,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeEquipements/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TypeEquipement>> GetTypeEquipementById(int id)
+        public async Task<ActionResult<TypeEquipementDetailDTO>> GetTypeEquipementById(int id)
         {
             var leTypeEquipement = await dataRepository.GetByIdAsync(id);
 
@@ -49,7 +49,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeEquipements/TETRAS
         [HttpGet("GetByName/{name}")]
-        public async Task<ActionResult<TypeEquipement>> GetTypeEquipementByName(string name)
+        public async Task<ActionResult<TypeEquipementDetailDTO>> GetTypeEquipementByName(string name)
         {
             var leTypeEquipement = await dataRepository.GetByStringAsync(name);
 
@@ -64,14 +64,14 @@ namespace API_OVH.Controllers
         // PUT: api/TypeEquipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeEquipement(int id, TypeEquipement TypeEquipement)
+        public async Task<IActionResult> PutTypeEquipement(int id, TypeEquipementDTO TypeEquipement)
         {
             if (id != TypeEquipement.IdTypeEquipement)
             {
                 return BadRequest("Id ne correspondent pas");
             }
 
-            var leTypeEquipement = dataRepository.GetByIdAsync(id);
+            var leTypeEquipement = dataRepository.GetByIdWithoutDTOAsync(id);
 
             if (leTypeEquipement.Result == null)
             {
@@ -102,7 +102,7 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTypeEquipement(int id)
         {
-            var leTypeEquipement = await dataRepository.GetByIdAsync(id);
+            var leTypeEquipement = await dataRepository.GetByIdWithoutDTOAsync(id);
 
             if (leTypeEquipement == null)
             {

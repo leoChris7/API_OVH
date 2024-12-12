@@ -100,7 +100,7 @@ namespace API_OVH.Models.Manager
         /// <param name="entityToUpdate">capteur à mettre à jour</param>
         /// <param name="entity">capteur avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Capteur entityToUpdate, Capteur entity)
+        public async Task UpdateAsync(Capteur entityToUpdate, CapteurSansNavigationDTO entity)
         {
             dbContext.Entry(entityToUpdate).State = EntityState.Modified;
 

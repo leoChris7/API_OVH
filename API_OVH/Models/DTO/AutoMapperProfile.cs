@@ -208,6 +208,31 @@ namespace API_OVH
                 .ForMember(dest => dest.CapteurNavigation, opt => opt.Ignore())
                 .ForMember(dest => dest.UniteNavigation, opt => opt.Ignore());
 
+            // UniteCapteur - UniteCapteurSansNavigationDTO
+            CreateMap<UniteCapteur, UniteCapteurDetailDTO>()
+                .ForMember(dest => dest.Capteur, opt => opt.MapFrom(src => new Capteur{
+                    IdCapteur = src.CapteurNavigation.IdCapteur,
+                    NomCapteur = src.CapteurNavigation.NomCapteur,
+                    EstActif = src.CapteurNavigation.EstActif,
+                    IdMur = src.CapteurNavigation.IdMur,
+                    XCapteur = src.CapteurNavigation.XCapteur,
+                    YCapteur = src.CapteurNavigation.YCapteur,
+                    ZCapteur = src.CapteurNavigation.ZCapteur
+                }
+                ))
+                .ForMember(dest => dest.Unite, opt => opt.MapFrom(src => new Unite
+                {
+                    IdUnite = src.UniteNavigation.IdUnite,
+                    NomUnite = src.UniteNavigation.NomUnite,
+                    SigleUnite = src.UniteNavigation.SigleUnite
+                }
+                 ))
+                .ReverseMap()
+                .ForMember(dest => dest.IdCapteur, opt => opt.MapFrom(src => src.Unite.IdUnite))
+                .ForMember(dest => dest.IdUnite, opt => opt.MapFrom(src => src.Capteur.IdCapteur))
+                .ForMember(dest => dest.CapteurNavigation, opt => opt.Ignore())
+                .ForMember(dest => dest.UniteNavigation, opt => opt.Ignore());
+
             // Mapping pour Salle vers SalleDTO
             CreateMap<Salle, SalleDTO>()
                 .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))

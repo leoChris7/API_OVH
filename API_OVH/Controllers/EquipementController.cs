@@ -64,7 +64,7 @@ namespace API_OVH.Controllers
         // PUT: api/Equipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEquipement(int id, Equipement Equipement)
+        public async Task<IActionResult> PutEquipement(int id, EquipementSansNavigationDTO Equipement)
         {
             if (id != Equipement.IdEquipement)
             {

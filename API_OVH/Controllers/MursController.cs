@@ -18,10 +18,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class MursController : ControllerBase
     {
-        private readonly IMurRepository<Mur, MurDTO, MurSansNavigationDTO> dataRepository;
+        private readonly IMurRepository<Mur, MurDTO, MurDetailDTO, MurSansNavigationDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public MursController(IMurRepository<Mur, MurDTO, MurSansNavigationDTO> manager)
+        public MursController(IMurRepository<Mur, MurDTO, MurDetailDTO, MurSansNavigationDTO> manager)
         {
             dataRepository = manager;
         }
@@ -35,7 +35,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Murs/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Mur>> GetMurById(int id)
+        public async Task<ActionResult<MurDetailDTO>> GetMurById(int id)
         {
             var leMur = await dataRepository.GetByIdAsync(id);
 
@@ -50,14 +50,14 @@ namespace API_OVH.Controllers
         // PUT: api/Murs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMur(int id, Mur Mur)
+        public async Task<IActionResult> PutMur(int id, MurSansNavigationDTO Mur)
         {
             if (id != Mur.IdMur)
             {
                 return BadRequest("Id ne correspondent pas");
             }
 
-            var leMur = dataRepository.GetByIdAsync(id);
+            var leMur = dataRepository.GetByIdWithoutDTOAsync(id);
 
             if (leMur.Result == null)
             {
@@ -87,7 +87,7 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMur(int id)
         {
-            var leMur = await dataRepository.GetByIdAsync(id);
+            var leMur = await dataRepository.GetByIdWithoutDTOAsync(id);
             if (leMur == null)
             {
                 return NotFound("delete Mur: Mur non trouvé");

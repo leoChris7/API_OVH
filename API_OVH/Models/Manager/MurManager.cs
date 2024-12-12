@@ -11,7 +11,7 @@ namespace API_OVH.Models.DataManager
     /// <summary>
     /// Manager pour gérer les opérations liées aux murs
     /// </summary>
-    public class MurManager : IMurRepository<Mur, MurDTO, MurSansNavigationDTO>
+    public class MurManager : IMurRepository<Mur, MurDTO, MurDetailDTO, MurSansNavigationDTO>
     {
         readonly SAE5_BD_OVH_DbContext? dbContext;
         readonly IMapper mapper;
@@ -39,7 +39,23 @@ namespace API_OVH.Models.DataManager
         /// </summary>
         /// <param name="id">(Entier) Identifiant du Mur</param>
         /// <returns>Le Mur correspondant à l'ID</returns>
-        public async Task<ActionResult<Mur>> GetByIdAsync(int id)
+        public async Task<ActionResult<MurDetailDTO>> GetByIdAsync(int id)
+        {
+            return await dbContext.Murs
+                .Include(m => m.DirectionNavigation)
+                .Include(m => m.SalleNavigation)
+                .Include(m => m.Capteurs)
+                .Include(m => m.Equipements)
+                .ProjectTo<MurDetailDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(t => t.IdMur == id);
+        }
+
+        /// <summary>
+        /// Retourne un Mur selon son id de façon asynchrone sans DTO
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant du Mur</param>
+        /// <returns>Le Mur correspondant à l'ID</returns>
+        public async Task<ActionResult<Mur>> GetByIdWithoutDTOAsync(int id)
         {
             return await dbContext.Murs
                 .Include(m => m.DirectionNavigation)
@@ -69,7 +85,7 @@ namespace API_OVH.Models.DataManager
         /// <param name="entityToUpdate">Mur à mettre à jour</param>
         /// <param name="entity">Mur avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Mur Mur, Mur entity)
+        public async Task UpdateAsync(Mur Mur, MurSansNavigationDTO entity)
         {
             dbContext.Entry(Mur).State = EntityState.Modified;
 

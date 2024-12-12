@@ -101,7 +101,7 @@ namespace API_OVH.Models.DataManager
         /// <param name="entityToUpdate">Salle existante</param>
         /// <param name="entity">Salle avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Salle entityToUpdate, Salle entity)
+        public async Task UpdateAsync(Salle entityToUpdate, SalleSansNavigationDTO entity)
         {
             dbContext.Entry(entityToUpdate).State = EntityState.Modified;
 

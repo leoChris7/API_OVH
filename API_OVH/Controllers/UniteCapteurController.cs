@@ -19,10 +19,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class UniteCapteurController : ControllerBase
     {
-        private readonly IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO> dataRepository;
+        private readonly IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO, UniteCapteurDetailDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public UniteCapteurController(IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO> manager)
+        public UniteCapteurController(IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO, UniteCapteurDetailDTO> manager)
         {
             dataRepository = manager;
         }
@@ -46,7 +46,7 @@ namespace API_OVH.Controllers
         [HttpDelete("{idCapt}-{idUnite}")]
         public async Task<IActionResult> DeleteUnite(int idCapt, int idUnite)
         {
-            var liaison = await dataRepository.GetByIdAsync(idCapt, idUnite);
+            var liaison = await dataRepository.GetByIdWithoutDTOAsync(idCapt, idUnite);
             if (liaison == null)
             {
                 return NotFound("delete liaison Unite Capteur non trouvé");
