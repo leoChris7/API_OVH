@@ -10,13 +10,13 @@ namespace API_OVH.Controllers.Tests
     [TestClass]
     public class MursControllerTest
     {
-        private Mock<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>> _mockRepository;
+        private Mock<IMurRepository<Mur, MurDTO, MurDetailDTO, MurSansNavigationDTO>> _mockRepository;
         private MursController _murController;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepository = new Mock<IMurRepository<Mur, MurDTO, MurSansNavigationDTO>>();
+            _mockRepository = new Mock<IMurRepository<Mur, MurDTO, MurDetailDTO, MurSansNavigationDTO>>();
 
             _murController = new MursController(_mockRepository.Object);
         }
@@ -27,8 +27,8 @@ namespace API_OVH.Controllers.Tests
             // Arrange
             var MursDTO = new List<MurDTO>
                 {
-                    new MurDTO { IdMur = 1, NomSalle = "D101", Direction="N", Orientation=60 },
-                    new MurDTO { IdMur = 2, NomSalle = "D351", Direction="S", Orientation=180 }
+                    new () { IdMur = 1, NomSalle = "D101", Direction="N", Orientation=60 },
+                    new () { IdMur = 2, NomSalle = "D351", Direction="S", Orientation=180 }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(MursDTO);
@@ -46,7 +46,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetMurById_Returns_Mur()
         {
             // Arrange
-            var expectedMur = new Mur { IdMur = 1, 
+            var expectedMur = new MurDetailDTO { IdMur = 1, 
                                         Hauteur = 100, 
                                         Longueur = 200, 
                                         Equipements = [], 
@@ -63,7 +63,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetMurById: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetMurById: valeur retournée null");
-            Assert.AreEqual(expectedMur, actionResult.Value as Mur, "GetMurById: Murs non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedMur, actionResult.Value as MurDetailDTO, "GetMurById: Murs non égaux, objet incohérent retourné");
         }
 
 
@@ -82,7 +82,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PostMurDTO_ModelValidated_CreationOK()
         {
             // Arrange
-            MurSansNavigationDTO murAjoute = new MurSansNavigationDTO
+            MurSansNavigationDTO murAjoute = new ()
             {
                 IdMur = 1, Hauteur = 100, Longueur = 100, Orientation = 3, IdSalle = 1, IdDirection = 1
             };
@@ -117,7 +117,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutMur_ModelValidated_UpdateOK()
         {
             // Arrange
-            Mur Mur = new Mur
+            Mur Mur = new ()
             {
                 IdMur = 1,
                 IdDirection = 1,
@@ -129,19 +129,17 @@ namespace API_OVH.Controllers.Tests
                 IdSalle = 1
             };
 
-            Mur newMur = new Mur
+            MurSansNavigationDTO newMur = new ()
             {
                 IdMur = 1,
                 IdDirection = 1,
                 Hauteur = 1020,
                 Longueur = 3000,
                 Orientation = 120,
-                Capteurs = [],
-                Equipements = [],
                 IdSalle = 1
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Mur);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Mur);
 
             // Act
             var actionResult = await _murController.PutMur(newMur.IdMur, newMur);
@@ -154,7 +152,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutMur_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _murController.PutMur(3, new Mur
+            var actionResult = await _murController.PutMur(3, new MurSansNavigationDTO
             {
                 IdMur = 1
             });
@@ -167,7 +165,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutMur_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _murController.PutMur(3, new Mur
+            var actionResult = await _murController.PutMur(3, new MurSansNavigationDTO
             {
                 IdMur = 3
             });
@@ -185,7 +183,7 @@ namespace API_OVH.Controllers.Tests
                 IdMur = 1
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Mur);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Mur);
 
             // Act
             var actionResult = await _murController.DeleteMur(1);

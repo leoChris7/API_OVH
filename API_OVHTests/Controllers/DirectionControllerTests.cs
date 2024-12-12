@@ -18,13 +18,13 @@ namespace API_OVH.Controllers.Tests
     public class DirectionControllerTests
     {
 
-        private Mock<IDirectionRepository<Direction>> _mockRepository;
+        private Mock<IDirectionRepository<DirectionDetailDTO, DirectionSansNavigationDTO>> _mockRepository;
         private DirectionController _directionsController;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepository = new Mock<IDirectionRepository<Direction>>();
+            _mockRepository = new Mock<IDirectionRepository<DirectionDetailDTO, DirectionSansNavigationDTO>> ();
 
             _directionsController = new DirectionController(_mockRepository.Object);
         }
@@ -33,12 +33,12 @@ namespace API_OVH.Controllers.Tests
         public async Task GetDirectionsTest()
         {
             // Arrange
-            var directionDTO = new List<Direction>
+            var directionDTO = new List<DirectionSansNavigationDTO>
                 {
-                    new Direction { IdDirection = 1, LettresDirection = "N" },
-                    new Direction { IdDirection = 2, LettresDirection = "S" },
-                    new Direction { IdDirection = 3, LettresDirection = "E" },
-                    new Direction { IdDirection = 4, LettresDirection = "O" }
+                    new DirectionSansNavigationDTO { IdDirection = 1, LettresDirection = "N" },
+                    new DirectionSansNavigationDTO { IdDirection = 2, LettresDirection = "S" },
+                    new DirectionSansNavigationDTO { IdDirection = 3, LettresDirection = "E" },
+                    new DirectionSansNavigationDTO { IdDirection = 4, LettresDirection = "O" }
             };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(directionDTO);
@@ -56,7 +56,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetDirectionByIdTest_ReturnsDirection_OK()
         {
             // Arrange
-            var directionExpected = new Direction
+            var directionExpected = new DirectionDetailDTO
             {
                 IdDirection = 1,
                 LettresDirection = "N",
@@ -73,7 +73,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "Direction: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "Direction: valeur retournée null");
-            Assert.AreEqual(directionExpected, actionResult.Value as Direction, "Direction: directions non égales, objet incohérent retourné");
+            Assert.AreEqual(directionExpected, actionResult.Value as DirectionDetailDTO, "Direction: directions non égales, objet incohérent retourné");
         }
 
         [TestMethod()]
@@ -110,15 +110,15 @@ namespace API_OVH.Controllers.Tests
             foreach (var (degrees, expectedDirection) in degreesToTest)
             {
                 // Arrange
-                _mockRepository.Setup(x => x.GetByDegreAsync(degrees)).ReturnsAsync(new Direction { LettresDirection = expectedDirection});
+                _mockRepository.Setup(x => x.GetByDegreAsync(degrees)).ReturnsAsync(new DirectionDetailDTO { LettresDirection = expectedDirection});
 
                 // Act
                 var actualDirectionResult = await _directionsController.GetDirectionByDegre(degrees);
 
                 // Assert
                 Assert.IsNotNull(actualDirectionResult, "GetDirectionByDegres: direction obtenue null");
-                Assert.IsInstanceOfType(((Direction)actualDirectionResult.Value), typeof(Direction));
-                Assert.AreEqual(expectedDirection, ((Direction)actualDirectionResult.Value).LettresDirection,
+                Assert.IsInstanceOfType(((DirectionDetailDTO)actualDirectionResult.Value), typeof(Direction));
+                Assert.AreEqual(expectedDirection, ((DirectionDetailDTO)actualDirectionResult.Value).LettresDirection,
                     $"Erreur pour {degrees}° : attendu {expectedDirection}, obtenu {actualDirectionResult}");
             }
         }

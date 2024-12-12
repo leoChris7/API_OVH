@@ -10,13 +10,13 @@ namespace API_OVH.Controllers.Tests
     [TestClass]
     public class TypeSalleControllerTest
     {
-        private Mock<ITypeSalleRepository<TypeSalle, TypeSalleDTO>> _mockRepository;
+        private Mock<ITypeSalleRepository<TypeSalle, TypeSalleDTO, TypeSalleDetailDTO>> _mockRepository;
         private TypeSallesController _typeSalleController;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepository = new Mock<ITypeSalleRepository<TypeSalle, TypeSalleDTO>>();
+            _mockRepository = new Mock<ITypeSalleRepository<TypeSalle, TypeSalleDTO, TypeSalleDetailDTO>>();
 
             _typeSalleController = new TypeSallesController(_mockRepository.Object);
         }
@@ -46,7 +46,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetTypeSalleById_Returns_TypeSalle()
         {
             // Arrange
-            var expectedTypeSalle = new TypeSalle { IdTypeSalle = 1, NomTypeSalle = "TD" };
+            var expectedTypeSalle = new TypeSalleDetailDTO { IdTypeSalle = 1, NomTypeSalle = "TD" };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedTypeSalle);
 
@@ -56,7 +56,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeSalleById objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetTypeSalleById valeur retournée null");
-            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalle, "GetTypeSalleById: types salles non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalleDetailDTO, "GetTypeSalleById: types salles non égaux, objet incohérent retourné");
         }
 
         [TestMethod]
@@ -74,7 +74,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetTypeSalleByName_Returns_TypeSalle()
         {
             // Arrange
-            var expectedTypeSalle = new TypeSalle { IdTypeSalle = 1, NomTypeSalle = "TD" };
+            var expectedTypeSalle = new TypeSalleDetailDTO { IdTypeSalle = 1, NomTypeSalle = "TD" };
 
             _mockRepository.Setup(x => x.GetByStringAsync("TD")).ReturnsAsync(expectedTypeSalle);
 
@@ -84,7 +84,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeSalleByName objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetTypeSalleByName valeur retournée null");
-            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalle, "GetTypeSalleByName: types salles non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalleDetailDTO, "GetTypeSalleByName: types salles non égaux, objet incohérent retourné");
         }
 
 
@@ -159,11 +159,10 @@ namespace API_OVH.Controllers.Tests
                 ]
             };
 
-            TypeSalle typeSalleUpdated = new TypeSalle
+            TypeSalleDTO typeSalleUpdated = new ()
             {
                 IdTypeSalle = 1,
-                NomTypeSalle = "TP",
-                Salles = []
+                NomTypeSalle = "TP"
             };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeSalle);

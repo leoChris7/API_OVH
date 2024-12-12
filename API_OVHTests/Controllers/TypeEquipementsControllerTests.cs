@@ -10,13 +10,13 @@ namespace API_OVH.Controllers.Tests
     [TestClass]
     public class TypeEquipementsControllerTest
     {
-        private Mock<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>> _mockRepository;
+        private Mock<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO>> _mockRepository;
         private TypeEquipementsController _typeEquipementController;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepository = new Mock<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO>>();
+            _mockRepository = new Mock<ITypeEquipementRepository<TypeEquipement, TypeEquipementDTO, TypeEquipementDetailDTO>>();
 
             _typeEquipementController = new TypeEquipementsController(_mockRepository.Object);
         }
@@ -46,7 +46,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetTypeEquipementById_Returns_TypeEquipement()
         {
             // Arrange
-            var expectedTypeEquipement = new TypeEquipement { IdTypeEquipement = 1, NomTypeEquipement = "Fenetre" };
+            var expectedTypeEquipement = new TypeEquipementDetailDTO { IdTypeEquipement = 1, NomTypeEquipement = "Fenetre" };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedTypeEquipement);
 
@@ -56,7 +56,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeEquipementById: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetTypeEquipementById: valeur retournée null");
-            Assert.AreEqual(expectedTypeEquipement, actionResult.Value as TypeEquipement, "GetTypeEquipementById: types d'équipements non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedTypeEquipement, actionResult.Value as TypeEquipementDetailDTO, "GetTypeEquipementById: types d'équipements non égaux, objet incohérent retourné");
         }
 
 
@@ -75,7 +75,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetTypeEquipementByName_Returns_TypeEquipement()
         {
             // Arrange
-            var expectedTypeEquipement = new TypeEquipement { IdTypeEquipement = 1, NomTypeEquipement = "Fenetre" };
+            var expectedTypeEquipement = new TypeEquipementDetailDTO { IdTypeEquipement = 1, NomTypeEquipement = "Fenetre" };
 
             _mockRepository.Setup(x => x.GetByStringAsync("Fenetre")).ReturnsAsync(expectedTypeEquipement);
 
@@ -85,7 +85,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeEquipementByName: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetTypeEquipementByName: valeur retournée null");
-            Assert.AreEqual(expectedTypeEquipement, actionResult.Value as TypeEquipement, "GetTypeEquipementByName: types d'équipements non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedTypeEquipement, actionResult.Value as TypeEquipementDetailDTO, "GetTypeEquipementByName: types d'équipements non égaux, objet incohérent retourné");
         }
 
 
