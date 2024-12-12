@@ -99,7 +99,7 @@ namespace API_OVH.Models.DataManager
         /// <summary>
         /// Met à jour une unité existante
         /// </summary>
-        public async Task UpdateAsync(Unite unite, Unite entity)
+        public async Task UpdateAsync(Unite unite, UniteDTO entity)
         {
             dbContext.Entry(unite).State = EntityState.Modified;
 

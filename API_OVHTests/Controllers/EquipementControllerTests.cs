@@ -153,7 +153,7 @@ namespace API_OVH.Controllers.Tests
                 Longueur = 1
             };
 
-            Equipement newEquipement = new Equipement
+            EquipementSansNavigationDTO newEquipement = new ()
             {
                 IdEquipement = 1,
                 Hauteur = 1020,
@@ -173,7 +173,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutEquipement_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _equipementController.PutEquipement(3, new Equipement
+            var actionResult = await _equipementController.PutEquipement(3, new EquipementSansNavigationDTO
             {
                 IdEquipement = 1
             });
@@ -186,7 +186,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutEquipement_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _equipementController.PutEquipement(3, new Equipement
+            var actionResult = await _equipementController.PutEquipement(3, new EquipementSansNavigationDTO
             {
                 IdEquipement = 3
             });

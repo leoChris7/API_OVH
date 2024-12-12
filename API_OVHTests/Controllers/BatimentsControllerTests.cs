@@ -10,13 +10,13 @@ namespace API_OVH.Controllers.Tests
     [TestClass]
     public class BatimentsControllerTest
     {
-        private Mock<IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO>> _mockRepository;
+        private Mock<IBatimentRepository<Batiment, BatimentDTO, BatimentDetailDTO, BatimentSansNavigationDTO>> _mockRepository;
         private BatimentsController _batimentController;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepository = new Mock<IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO>>();
+            _mockRepository = new Mock<IBatimentRepository<Batiment, BatimentDTO, BatimentDetailDTO, BatimentSansNavigationDTO>>();
 
             _batimentController = new BatimentsController(_mockRepository.Object);
         }
@@ -46,7 +46,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetBatimentById_Returns_Batiment()
         {
             // Arrange
-            var expectedBatiment = new Batiment { IdBatiment = 1, NomBatiment = "Fenetre" };
+            var expectedBatiment = new BatimentDetailDTO { IdBatiment = 1, NomBatiment = "Fenetre" };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedBatiment);
 
@@ -56,7 +56,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetBatimentById: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetBatimentById: valeur retournée null");
-            Assert.AreEqual(expectedBatiment, actionResult.Value as Batiment, "GetBatimentById: types d'équipements non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedBatiment, actionResult.Value as BatimentDetailDTO, "GetBatimentById: types d'équipements non égaux, objet incohérent retourné");
         }
 
 
@@ -75,7 +75,7 @@ namespace API_OVH.Controllers.Tests
         public async Task GetBatimentByName_Returns_Batiment()
         {
             // Arrange
-            var expectedBatiment = new Batiment { IdBatiment = 1, NomBatiment = "Tetras" };
+            var expectedBatiment = new BatimentDetailDTO { IdBatiment = 1, NomBatiment = "Tetras" };
 
             _mockRepository.Setup(x => x.GetByStringAsync("Tetras")).ReturnsAsync(expectedBatiment);
 
@@ -85,7 +85,7 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult, "GetBatimentByName: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetBatimentByName: valeur retournée null");
-            Assert.AreEqual(expectedBatiment, actionResult.Value as Batiment, "GetBatimentByName: batiments non égaux, objet incohérent retourné");
+            Assert.AreEqual(expectedBatiment, actionResult.Value as BatimentDetailDTO, "GetBatimentByName: batiments non égaux, objet incohérent retourné");
         }
 
 
@@ -146,13 +146,13 @@ namespace API_OVH.Controllers.Tests
                 NomBatiment = "IUT"
             };
 
-            Batiment newBatiment = new Batiment
+            BatimentSansNavigationDTO newBatiment = new BatimentSansNavigationDTO
             {
                 IdBatiment = 1,
                 NomBatiment = "IUT - Batiment D"
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Batiment);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Batiment);
 
             // Act
             var actionResult = await _batimentController.PutBatiment(newBatiment.IdBatiment, newBatiment);
@@ -165,7 +165,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutBatiment_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _batimentController.PutBatiment(3, new Batiment
+            var actionResult = await _batimentController.PutBatiment(3, new BatimentSansNavigationDTO
             {
                 IdBatiment = 1,
                 NomBatiment = "Batiment échoué"
@@ -179,7 +179,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutBatiment_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _batimentController.PutBatiment(3, new Batiment
+            var actionResult = await _batimentController.PutBatiment(3, new BatimentSansNavigationDTO
             {
                 IdBatiment = 3,
                 NomBatiment = "Batiment non trouvé"
@@ -199,7 +199,7 @@ namespace API_OVH.Controllers.Tests
                 NomBatiment = "Tetras"
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Batiment);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Batiment);
 
             // Act
             var actionResult = await _batimentController.DeleteBatiment(1);

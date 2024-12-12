@@ -13,7 +13,7 @@ namespace API_OVH.Models.Manager
     /// <summary>
     /// Manager pour gérer les opérations liées aux batiments
     /// </summary>
-    public class BatimentManager : IBatimentRepository<Batiment, BatimentDTO, BatimentSansNavigationDTO>
+    public class BatimentManager : IBatimentRepository<Batiment, BatimentDTO, BatimentDetailDTO, BatimentSansNavigationDTO>
     {
         private readonly SAE5_BD_OVH_DbContext dbContext;
         private readonly IMapper mapper;
@@ -40,9 +40,30 @@ namespace API_OVH.Models.Manager
         /// </summary>
         /// <param name="id">(Entier) Identifiant du batiment</param>
         /// <returns>Le batiment correspondant à l'ID</returns>
-        public async Task<ActionResult<Batiment>> GetByIdAsync(int id)
+        public async Task<ActionResult<BatimentDetailDTO>> GetByIdAsync(int id)
         {
-            return await dbContext.Batiments.FirstOrDefaultAsync(x => x.IdBatiment == id);
+            var batiment = await dbContext.Batiments
+                .Include(t=>t.Salles)
+                .FirstOrDefaultAsync(t=>t.IdBatiment == id);
+
+            var batimentDetailDTO = mapper.Map<BatimentDetailDTO>(batiment);
+
+            return batimentDetailDTO;
+            //return await dbContext.Batiments
+            //    .Where(t => t.IdBatiment == id)
+            //    .ProjectTo<BatimentDetailDTO>(mapper.ConfigurationProvider)
+            //    .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Retourne un batiment selon son id, sans navigation, de façon asynchrone
+        /// </summary>
+        /// <param name="id">(Entier) Identifiant du batiment</param>
+        /// <returns>Le batiment correspondant à l'ID</returns>
+        public async Task<ActionResult<Batiment>> GetByIdWithoutDTOAsync(int id)
+        {
+            return await dbContext.Batiments
+                .FirstOrDefaultAsync(t => t.IdBatiment == id);
         }
 
         /// <summary>
@@ -50,9 +71,12 @@ namespace API_OVH.Models.Manager
         /// </summary>
         /// <param name="str">Nom du batiment</param>
         /// <returns>Le batiment correspondant au nom spécifié</returns>
-        public async Task<ActionResult<Batiment>> GetByStringAsync(string str)
+        public async Task<ActionResult<BatimentDetailDTO>> GetByStringAsync(string str)
         {
-            return await dbContext.Batiments.FirstOrDefaultAsync(x => x.NomBatiment == str);
+            return await dbContext.Batiments
+                .Where(t => t.NomBatiment == str)
+                .ProjectTo<BatimentDetailDTO>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -74,7 +98,7 @@ namespace API_OVH.Models.Manager
         /// <param name="entityToUpdate">Batiment à mettre à jour</param>
         /// <param name="entity">Batiment avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Batiment entityToUpdate, Batiment entity)
+        public async Task UpdateAsync(Batiment entityToUpdate, BatimentSansNavigationDTO entity)
         {
             dbContext.Entry(entityToUpdate).State = EntityState.Modified;
 

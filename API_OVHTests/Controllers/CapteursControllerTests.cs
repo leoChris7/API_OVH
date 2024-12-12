@@ -53,26 +53,7 @@ namespace API_OVH.Controllers.Tests
                 EstActif = "OUI",
                 XCapteur = 0,
                 YCapteur = 0,
-                ZCapteur = 0,
-                Mur = new Mur
-                {
-                    IdMur = 1,
-                    Longueur = 100,
-                    Hauteur = 100,
-                    IdDirection = 1,
-                    IdSalle = 1,
-                    Capteurs = [],
-                    Equipements = [],
-                    Orientation = 300
-                },
-                Salle = new Salle
-                {
-                    IdSalle = 1,
-                    IdBatiment = 1,
-                    IdTypeSalle = 1,
-                    NomSalle = "D101",
-                    Murs = []
-                }
+                ZCapteur = 0
             };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedCapteur);
@@ -109,26 +90,7 @@ namespace API_OVH.Controllers.Tests
                 EstActif = "OUI",
                 XCapteur = 0,
                 YCapteur = 0,
-                ZCapteur = 0,
-                Mur = new Mur
-                {
-                    IdMur = 1,
-                    Longueur = 100,
-                    Hauteur = 100,
-                    IdDirection = 1,
-                    IdSalle = 1,
-                    Capteurs = [],
-                    Equipements = [],
-                    Orientation = 300
-                },
-                Salle = new Salle
-                {
-                    IdSalle = 1,
-                    IdBatiment = 1,
-                    IdTypeSalle = 1,
-                    NomSalle = "D101",
-                    Murs = []
-                }
+                ZCapteur = 0
             };
 
             _mockRepository.Setup(x => x.GetByStringAsync("Max Humidico 3000")).ReturnsAsync(expectedCapteur);
@@ -205,7 +167,7 @@ namespace API_OVH.Controllers.Tests
                 NomCapteur = "A"
             };
 
-            Capteur newCapteur = new Capteur
+            CapteurSansNavigationDTO newCapteur = new CapteurSansNavigationDTO
             {
                 IdCapteur = 1,
                 NomCapteur = "B"
@@ -224,7 +186,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutCapteur_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _capteurController.PutCapteur(3, new Capteur
+            var actionResult = await _capteurController.PutCapteur(3, new CapteurSansNavigationDTO
             {
                 IdCapteur = 1,
                 NomCapteur = "Type échoué"
@@ -238,7 +200,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutCapteur_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _capteurController.PutCapteur(3, new Capteur
+            var actionResult = await _capteurController.PutCapteur(3, new CapteurSansNavigationDTO
             {
                 IdCapteur = 3,
                 NomCapteur = "Type non trouvé"

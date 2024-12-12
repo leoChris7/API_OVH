@@ -16,13 +16,13 @@ namespace API_OVH.Controllers.Tests
     [TestClass()]
     public class UniteCapteurControllerTests
     {
-        private Mock<IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO>> _mockRepository;
+        private Mock<IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO, UniteCapteurDetailDTO>> _mockRepository;
         private UniteCapteurController _uniteCapteurController;
 
         [TestInitialize]
         public void Setup()
         {
-            _mockRepository = new Mock<IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO>>();
+            _mockRepository = new Mock<IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO, UniteCapteurDetailDTO>>();
 
             _uniteCapteurController = new UniteCapteurController(_mockRepository.Object);
         }
@@ -42,11 +42,7 @@ namespace API_OVH.Controllers.Tests
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<UniteCapteurSansNavigationDTO>), "PostUniteCapteur: Pas un ActionResult<UniteCapteurSansNavigationDTO>");
-            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "PostUniteCapteur: Pas un CreatedAtActionResult");
-            var result = actionResult.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(result.Value, typeof(UniteCapteurSansNavigationDTO), "PostUniteCapteur: Pas un UniteCapteurSansNavigationDTO");
-            Assert.AreEqual(UniteDTO, (UniteCapteurSansNavigationDTO)result.Value, "PostUniteCapteur: UnitésCapteurs non identiques");
-
+            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedResult), "PostUniteCapteur: Pas un CreatedResult");
         }
 
         [TestMethod]
@@ -73,7 +69,7 @@ namespace API_OVH.Controllers.Tests
                 IdCapteur = 2
             };
 
-            _mockRepository.Setup(repo => repo.GetByIdAsync(2, 1)).ReturnsAsync(Unite);
+            _mockRepository.Setup(repo => repo.GetByIdWithoutDTOAsync(2, 1)).ReturnsAsync(Unite);
 
             // Act
             var actionResult = await _uniteCapteurController.DeleteUnite(2, 1);

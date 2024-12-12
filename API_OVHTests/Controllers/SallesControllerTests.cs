@@ -146,7 +146,7 @@ namespace API_OVH.Controllers.Tests
                 NomSalle = "A"
             };
 
-            Salle newSalle = new Salle
+            SalleSansNavigationDTO newSalle = new SalleSansNavigationDTO
             {
                 IdSalle = 1,
                 NomSalle = "B"
@@ -165,7 +165,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutSalle_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _salleController.PutSalle(3, new Salle
+            var actionResult = await _salleController.PutSalle(3, new SalleSansNavigationDTO
             {
                 IdSalle = 1,
                 NomSalle = "Type échoué"
@@ -179,7 +179,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutSalle_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _salleController.PutSalle(3, new Salle
+            var actionResult = await _salleController.PutSalle(3, new SalleSansNavigationDTO
             {
                 IdSalle = 3,
                 NomSalle = "Type non trouvé"

@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using API_OVH.Models.EntityFramework;
 using API_OVH.Models.Repository;
-using AutoMapper;
-using API_OVH.Models.Manager;
-using Microsoft.AspNetCore.Http.HttpResults;
 using API_OVH.Models.DTO;
-using static API_OVH.Models.Repository.IUniteRepository;
 
 namespace API_OVH.Controllers
 {
@@ -19,10 +9,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class UniteCapteurController : ControllerBase
     {
-        private readonly IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO> dataRepository;
+        private readonly IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO, UniteCapteurDetailDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public UniteCapteurController(IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO> manager)
+        public UniteCapteurController(IUniteCapteurRepository<UniteCapteur, UniteCapteurSansNavigationDTO, UniteCapteurDetailDTO> manager)
         {
             dataRepository = manager;
         }
@@ -39,14 +29,14 @@ namespace API_OVH.Controllers
 
             await dataRepository.AddAsync(uniteCapteur);
 
-            return CreatedAtAction("GetUniteCapteurById", new { id = uniteCapteur.IdUnite }, uniteCapteur);
+            return Created("", new { idUnite = uniteCapteur.IdUnite, idCapteur = uniteCapteur.IdCapteur });
         }
 
         // DELETE: api/Unites/5
         [HttpDelete("{idCapt}-{idUnite}")]
         public async Task<IActionResult> DeleteUnite(int idCapt, int idUnite)
         {
-            var liaison = await dataRepository.GetByIdAsync(idCapt, idUnite);
+            var liaison = await dataRepository.GetByIdWithoutDTOAsync(idCapt, idUnite);
             if (liaison == null)
             {
                 return NotFound("delete liaison Unite Capteur non trouvé");

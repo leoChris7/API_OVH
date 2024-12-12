@@ -2,10 +2,10 @@
 
 namespace API_OVH.Models.Repository
 {
-    public interface IDirectionRepository<TEntity>
-    {
-        Task<ActionResult<IEnumerable<TEntity>>> GetAllAsync();
-        Task<ActionResult<TEntity>> GetByIdAsync(int id);
-        Task<ActionResult<TEntity>> GetByDegreAsync(decimal deg);
+    public interface IDirectionRepository<TEntityDetailDTO, TEntitySansNavigationDTO>
+    { 
+        Task<ActionResult<IEnumerable<TEntitySansNavigationDTO>>> GetAllAsync();
+        Task<ActionResult<TEntityDetailDTO>> GetByIdAsync(int id);
+        Task<ActionResult<TEntityDetailDTO>> GetByDegreAsync(decimal deg);
     }
 }

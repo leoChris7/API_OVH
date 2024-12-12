@@ -177,7 +177,7 @@ namespace API_OVH.Controllers.Tests
                 SigleUnite = "UV"
             };
 
-            Unite newUnite = new ()
+            UniteDTO newUnite = new ()
             {
                 IdUnite = 1,
                 NomUnite = "Température",
@@ -197,7 +197,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutUnite_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _uniteController.PutUnite(3, new Unite
+            var actionResult = await _uniteController.PutUnite(3, new UniteDTO
             {
                 IdUnite = 1,
                 NomUnite = "Type échoué"
@@ -211,7 +211,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutUnite_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _uniteController.PutUnite(3, new Unite
+            var actionResult = await _uniteController.PutUnite(3, new UniteDTO
             {
                 IdUnite = 3,
                 NomUnite = "Type non trouvé"

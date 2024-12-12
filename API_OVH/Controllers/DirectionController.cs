@@ -17,24 +17,24 @@ namespace API_OVH.Controllers
     [ApiController]
     public class DirectionController : ControllerBase
     {
-        private readonly IDirectionRepository<Direction> directionManager;
+        private readonly IDirectionRepository<DirectionDetailDTO, DirectionSansNavigationDTO> directionManager;
 
         [ActivatorUtilitiesConstructor]
-        public DirectionController(IDirectionRepository<Direction> manager)
+        public DirectionController(IDirectionRepository<DirectionDetailDTO, DirectionSansNavigationDTO> manager)
         {
             directionManager = manager;
         }
 
         // GET: api/Directions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Direction>>> GetDirections()
+        public async Task<ActionResult<IEnumerable<DirectionSansNavigationDTO>>> GetDirections()
         {
             return await directionManager.GetAllAsync();
         }
 
         // GET: api/Directions/5
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<Direction>> GetDirection(int id)
+        public async Task<ActionResult<DirectionDetailDTO>> GetDirection(int id)
         {
             var direction = await directionManager.GetByIdAsync(id);
 
@@ -48,7 +48,7 @@ namespace API_OVH.Controllers
 
         // GET: api/Directions/69
         [HttpGet("GetByDegre/{degre}")]
-        public async Task<ActionResult<Direction>> GetDirectionByDegre(decimal degre)
+        public async Task<ActionResult<DirectionDetailDTO>> GetDirectionByDegre(decimal degre)
         {
             var lettreDirection = await directionManager.GetByDegreAsync(degre);
 

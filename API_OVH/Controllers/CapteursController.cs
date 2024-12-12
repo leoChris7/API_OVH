@@ -55,7 +55,7 @@ namespace API_OVH.Controllers
         // PUT: api/Capteurs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCapteur(int id, Capteur capteur)
+        public async Task<IActionResult> PutCapteur(int id, CapteurSansNavigationDTO capteur)
         {
             if (id != capteur.IdCapteur)
             {

@@ -90,9 +90,10 @@ namespace API_OVH.Models.DataManager
         /// <param name="entityToUpdate">Equipement à mettre à jour</param>
         /// <param name="entity">Equipement avec les nouvelles valeurs</param>
         /// <returns>Résultat de l'opération</returns>
-        public async Task UpdateAsync(Equipement Equipement, Equipement entity)
+        public async Task UpdateAsync(Equipement Equipement, EquipementSansNavigationDTO entity)
         {
             dbContext.Entry(Equipement).State = EntityState.Modified;
+
             Equipement.IdEquipement = entity.IdEquipement;
             Equipement.IdMur = entity.IdMur;
             Equipement.IdTypeEquipement = entity.IdTypeEquipement;
@@ -104,6 +105,7 @@ namespace API_OVH.Models.DataManager
             Equipement.XEquipement = entity.XEquipement;
             Equipement.YEquipement = entity.YEquipement;
             Equipement.ZEquipement = entity.ZEquipement;
+
             await dbContext.SaveChangesAsync();
         }
 

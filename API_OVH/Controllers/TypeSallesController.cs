@@ -18,10 +18,10 @@ namespace API_OVH.Controllers
     [ApiController]
     public class TypeSallesController : ControllerBase
     {
-        private readonly ITypeSalleRepository<TypeSalle, TypeSalleDTO> dataRepository;
+        private readonly ITypeSalleRepository<TypeSalle, TypeSalleDTO, TypeSalleDetailDTO> dataRepository;
 
         [ActivatorUtilitiesConstructor]
-        public TypeSallesController(ITypeSalleRepository<TypeSalle, TypeSalleDTO> manager)
+        public TypeSallesController(ITypeSalleRepository<TypeSalle, TypeSalleDTO, TypeSalleDetailDTO> manager)
         {
             dataRepository = manager;
         }
@@ -34,7 +34,7 @@ namespace API_OVH.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<TypeSalle>> GetTypeSalleById(int id)
+        public async Task<ActionResult<TypeSalleDetailDTO>> GetTypeSalleById(int id)
         {
             var leTypeSalle = await dataRepository.GetByIdAsync(id);
 
@@ -49,7 +49,7 @@ namespace API_OVH.Controllers
 
         // GET: api/TypeSalles/TETRAS
         [HttpGet("GetByName/{name}")]
-        public async Task<ActionResult<TypeSalle>> GetTypeSalleByName(string name)
+        public async Task<ActionResult<TypeSalleDetailDTO>> GetTypeSalleByName(string name)
         {
             var leTypeSalle = await dataRepository.GetByStringAsync(name);
 
@@ -64,14 +64,14 @@ namespace API_OVH.Controllers
         // PUT: api/TypeSalles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeSalle(int id, TypeSalle TypeSalle)
+        public async Task<IActionResult> PutTypeSalle(int id, TypeSalleDTO TypeSalle)
         {
             if (id != TypeSalle.IdTypeSalle)
             {
                 return BadRequest("Id ne correspondent pas");
             }
 
-            var leTypeSalle = dataRepository.GetByIdAsync(id);
+            var leTypeSalle = dataRepository.GetByIdWithoutDTOAsync(id);
 
             if (leTypeSalle.Result == null)
             {
@@ -101,7 +101,7 @@ namespace API_OVH.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTypeSalle(int id)
         {
-            var leTypeSalle = await dataRepository.GetByIdAsync(id);
+            var leTypeSalle = await dataRepository.GetByIdWithoutDTOAsync(id);
             if (leTypeSalle == null)
             {
                 return NotFound("delete TypeSalle: TypeSalle non trouvé");

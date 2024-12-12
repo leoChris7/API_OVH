@@ -55,7 +55,7 @@ namespace API_OVH.Controllers
         // PUT: api/Salles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalle(int id, Salle Salle)
+        public async Task<IActionResult> PutSalle(int id, SalleSansNavigationDTO Salle)
         {
             if (id != Salle.IdSalle)
             {

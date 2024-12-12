@@ -9,7 +9,7 @@ namespace API_OVH.Models.Repository
         Task<ActionResult<TEntity>> GetByIdWithoutDTOAsync(int id);
         Task<ActionResult<TEntityDetailDTO>> GetByStringAsync(string str);
         Task AddAsync(TEntitySansNavigationDTO entity);
-        Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
+        Task UpdateAsync(TEntity entityToUpdate, TEntitySansNavigationDTO entity);
         Task DeleteAsync(TEntity entity);
     }
 }
