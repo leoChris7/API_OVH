@@ -146,13 +146,13 @@ namespace API_OVH.Controllers.Tests
                 NomTypeEquipement = "A"
             };
 
-            TypeEquipement newTypeEquipement = new TypeEquipement
+            TypeEquipementDTO newTypeEquipement = new TypeEquipementDTO
             {
                 IdTypeEquipement = 1,
                 NomTypeEquipement = "B"
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeEquipement);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(typeEquipement);
 
             // Act
             var actionResult = await _typeEquipementController.PutTypeEquipement(newTypeEquipement.IdTypeEquipement, newTypeEquipement);
@@ -165,7 +165,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutTypeEquipement_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _typeEquipementController.PutTypeEquipement(3, new TypeEquipement
+            var actionResult = await _typeEquipementController.PutTypeEquipement(3, new TypeEquipementDTO
             {
                 IdTypeEquipement = 1,
                 NomTypeEquipement = "Type échoué"
@@ -179,7 +179,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutTypeEquipement_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _typeEquipementController.PutTypeEquipement(3, new TypeEquipement
+            var actionResult = await _typeEquipementController.PutTypeEquipement(3, new TypeEquipementDTO
             {
                 IdTypeEquipement = 3,
                 NomTypeEquipement = "Type non trouvé"
@@ -193,13 +193,13 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteTypeEquipementTest_OK()
         {
             // Arrange
-            TypeEquipement typeEquipement = new TypeEquipement
+            TypeEquipement typeEquipement = new ()
             {
                 IdTypeEquipement = 1,
                 NomTypeEquipement = "TD"
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeEquipement);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(typeEquipement);
 
             // Act
             var actionResult = await _typeEquipementController.DeleteTypeEquipement(1);

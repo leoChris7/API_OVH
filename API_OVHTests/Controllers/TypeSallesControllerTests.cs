@@ -139,7 +139,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutTypeSalle_ModelValidated_UpdateOK()
         {
             // Arrange
-            TypeSalle typeSalle = new TypeSalle
+            TypeSalle typeSalle = new ()
             {
                 IdTypeSalle = 1,
                 NomTypeSalle = "TD",
@@ -165,7 +165,7 @@ namespace API_OVH.Controllers.Tests
                 NomTypeSalle = "TP"
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeSalle);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(typeSalle);
 
             // Act
             var actionResult = await _typeSalleController.PutTypeSalle(typeSalleUpdated.IdTypeSalle, typeSalleUpdated);
@@ -178,7 +178,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutTypeSalle_ModelValidated_ReturnsBadRequest()
         {
             // Act
-            var actionResult = await _typeSalleController.PutTypeSalle(3, new TypeSalle
+            var actionResult = await _typeSalleController.PutTypeSalle(3, new TypeSalleDTO
             {
                 IdTypeSalle = 1,
                 NomTypeSalle = "AAA"
@@ -192,7 +192,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PutTypeSalle_ModelValidated_ReturnsNotFound()
         {
             // Act
-            var actionResult = await _typeSalleController.PutTypeSalle(3, new TypeSalle
+            var actionResult = await _typeSalleController.PutTypeSalle(3, new TypeSalleDTO
             {
                 IdTypeSalle = 3,
                 NomTypeSalle = "AAA"
@@ -226,7 +226,7 @@ namespace API_OVH.Controllers.Tests
                 ]
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(typeSalle);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(typeSalle);
 
             // Act
             var actionResult = await _typeSalleController.DeleteTypeSalle(1);

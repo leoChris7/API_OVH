@@ -48,8 +48,8 @@ namespace API_OVH.Controllers.Tests
 
             // Assert
             Assert.IsNotNull(actionResult.Value, "La liste des directions est null.");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<Direction>), "La liste retournée n'est pas une liste de directions.");
-            Assert.AreEqual(4, ((IEnumerable<Direction>)actionResult.Value).Count(), "Le nombre de directions retournées est incorrect.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<DirectionSansNavigationDTO>), "La liste retournée n'est pas une liste de directions.");
+            Assert.AreEqual(4, ((IEnumerable<DirectionSansNavigationDTO>)actionResult.Value).Count(), "Le nombre de directions retournées est incorrect.");
         }
 
         [TestMethod()]
@@ -117,7 +117,7 @@ namespace API_OVH.Controllers.Tests
 
                 // Assert
                 Assert.IsNotNull(actualDirectionResult, "GetDirectionByDegres: direction obtenue null");
-                Assert.IsInstanceOfType(((DirectionDetailDTO)actualDirectionResult.Value), typeof(Direction));
+                Assert.IsInstanceOfType(((DirectionDetailDTO)actualDirectionResult.Value), typeof(DirectionDetailDTO));
                 Assert.AreEqual(expectedDirection, ((DirectionDetailDTO)actualDirectionResult.Value).LettresDirection,
                     $"Erreur pour {degrees}° : attendu {expectedDirection}, obtenu {actualDirectionResult}");
             }

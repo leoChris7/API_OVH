@@ -193,13 +193,13 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteBatimentTest_OK()
         {
             // Arrange
-            BatimentDetailDTO Batiment = new BatimentDetailDTO
+            Batiment Batiment = new Batiment
             {
                 IdBatiment = 1,
                 NomBatiment = "Tetras"
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(Batiment);
+            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Batiment);
 
             // Act
             var actionResult = await _batimentController.DeleteBatiment(1);
