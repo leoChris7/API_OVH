@@ -2,13 +2,13 @@
 
 namespace API_OVH.Models.Repository
 {
-    public interface IMurRepository<TEntity, TEntityDTO, TEntitySansNavigationDTO>
+    public interface IMurRepository<TEntityDTO, TEntityDetailDTO, TEntitySansNavigationDTO>
     {
         Task<ActionResult<IEnumerable<TEntityDTO>>> GetAllAsync();
-        Task<ActionResult<TEntity>> GetByIdAsync(int id);
+        Task<ActionResult<TEntityDetailDTO>> GetByIdAsync(int id);
         Task AddAsync(TEntitySansNavigationDTO entity);
-        Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
-        Task DeleteAsync(TEntity entity);
+        Task UpdateAsync(TEntitySansNavigationDTO entityToUpdate, TEntitySansNavigationDTO entity);
+        Task DeleteAsync(TEntitySansNavigationDTO entity);
     }
 
 }

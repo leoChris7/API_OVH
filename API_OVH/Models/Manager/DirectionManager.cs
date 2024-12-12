@@ -6,6 +6,7 @@ using API_OVH.Models.EntityFramework;
 using AutoMapper;
 using API_OVH.Models.Repository;
 using API_OVH.Models.DTO;
+using AutoMapper.QueryableExtensions;
 
 namespace API_OVH.Models.Manager
 {
@@ -32,9 +33,13 @@ namespace API_OVH.Models.Manager
         /// Retourne la liste de toutes les directions de façon asynchrone
         /// </summary>
         /// <returns>La liste des directions</returns>
-        public async Task<ActionResult<IEnumerable<Direction>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<DirectionSansNavigationDTO>>> GetAllAsync()
         {
-            return await dbContext.Directions.ToListAsync();
+            var capteurs = await dbContext.Directions
+                .ProjectTo<DirectionSansNavigationDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return capteurs;
         }
 
         /// <summary>
@@ -42,7 +47,7 @@ namespace API_OVH.Models.Manager
         /// </summary>
         /// <param name="id">(Entier) Identifiant de la Direction</param>
         /// <returns>La Direction correspondante à l'ID</returns>
-        public async Task<ActionResult<Direction>> GetByIdAsync(int id)
+        public async Task<ActionResult<DirectionDetailDTO>> GetByIdAsync(int id)
         {
             return await dbContext.Directions.FirstOrDefaultAsync(t => t.IdDirection == id);
         }

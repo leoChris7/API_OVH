@@ -2,14 +2,14 @@
 
 namespace API_OVH.Models.Repository
 {
-    public interface ISalleRepository<TEntity, TEntitySansNavigationDTO, TEntityDTO, TEntityDetailDTO>
+    public interface ISalleRepository<TEntitySansNavigationDTO, TEntityDTO, TEntityDetailDTO>
     {
         Task<ActionResult<IEnumerable<TEntityDTO>>> GetAllAsync();
         Task<ActionResult<TEntityDetailDTO>> GetByIdAsync(int id);
-        Task<ActionResult<TEntity>> GetByIdWithoutDTOAsync(int id);
+        Task<ActionResult<TEntitySansNavigationDTO>> GetByIdWithoutDTOAsync(int id);
         Task<ActionResult<TEntityDetailDTO>> GetByStringAsync(string str);
         Task AddAsync(TEntitySansNavigationDTO entity);
-        Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
-        Task DeleteAsync(TEntity entity);
+        Task UpdateAsync(TEntitySansNavigationDTO entityToUpdate, TEntitySansNavigationDTO entity);
+        Task DeleteAsync(TEntitySansNavigationDTO entity);
     }
 }

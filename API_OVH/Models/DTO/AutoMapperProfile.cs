@@ -26,6 +26,12 @@ namespace API_OVH
                 .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.NomBatiment))
                 .ForMember(dest => dest.IdBatiment, opt => opt.MapFrom(src => src.IdBatiment));
 
+            CreateMap<Batiment, BatimentDetailDTO>()
+                .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.NomBatiment))
+                .ForMember(dest => dest.IdBatiment, opt => opt.MapFrom(src => src.IdBatiment))
+                .ForMember(dest => dest.Salles, opt => opt.MapFrom(src => src.Salles))
+                .ReverseMap();
+
             // Capteur - CapteurDetailDTO
             CreateMap<Capteur, CapteurDetailDTO>()
                 .ForMember(dest => dest.IdCapteur, opt => opt.MapFrom(src => src.IdCapteur))
