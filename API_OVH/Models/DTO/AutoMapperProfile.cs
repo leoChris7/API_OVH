@@ -30,7 +30,10 @@ namespace API_OVH
                 .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.NomBatiment))
                 .ForMember(dest => dest.IdBatiment, opt => opt.MapFrom(src => src.IdBatiment))
                 .ForMember(dest => dest.Salles, opt => opt.MapFrom(src => src.Salles))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(dest => dest.NomBatiment, opt => opt.MapFrom(src => src.NomBatiment))
+                .ForMember(dest => dest.IdBatiment, opt => opt.MapFrom(src => src.IdBatiment))
+                .ForMember(dest => dest.Salles, opt => opt.MapFrom(src => src.Salles));
 
             // Capteur - CapteurDetailDTO
             CreateMap<Capteur, CapteurDetailDTO>()
@@ -155,6 +158,48 @@ namespace API_OVH
                 .ForMember(dest => dest.Hauteur, opt => opt.MapFrom(src => src.Hauteur))
                 .ForMember(dest => dest.Orientation, opt => opt.MapFrom(src => src.Orientation));
 
+            // Mur - MurDetailDTO
+            CreateMap<Mur, MurDetailDTO>()
+                .ForMember(dest => dest.IdMur, opt => opt.MapFrom(src => src.IdMur))
+                .ForMember(dest => dest.IdDirection, opt => opt.MapFrom(src => src.IdDirection))
+                .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
+                .ForMember(dest => dest.Longueur, opt => opt.MapFrom(src => src.Longueur))
+                .ForMember(dest => dest.Hauteur, opt => opt.MapFrom(src => src.Hauteur))
+                .ForMember(dest => dest.Orientation, opt => opt.MapFrom(src => src.Orientation))
+                .ForMember(dest => dest.SalleNavigation, opt => opt.MapFrom(src => src.SalleNavigation))
+                .ForMember(dest => dest.DirectionNavigation, opt => opt.MapFrom(src => src.DirectionNavigation))
+                .ForMember(dest => dest.Capteurs, opt => opt.MapFrom(src => src.Capteurs))
+                .ForMember(dest => dest.Equipements, opt => opt.MapFrom(src => src.Equipements))
+                .ReverseMap()
+                .ForMember(dest => dest.IdMur, opt => opt.MapFrom(src => src.IdMur))
+                .ForMember(dest => dest.IdDirection, opt => opt.MapFrom(src => src.IdDirection))
+                .ForMember(dest => dest.IdSalle, opt => opt.MapFrom(src => src.IdSalle))
+                .ForMember(dest => dest.Longueur, opt => opt.MapFrom(src => src.Longueur))
+                .ForMember(dest => dest.Hauteur, opt => opt.MapFrom(src => src.Hauteur))
+                .ForMember(dest => dest.Orientation, opt => opt.MapFrom(src => src.Orientation))
+                .ForMember(dest => dest.SalleNavigation, opt => opt.MapFrom(src => src.SalleNavigation))
+                .ForMember(dest => dest.DirectionNavigation, opt => opt.MapFrom(src => src.DirectionNavigation))
+                .ForMember(dest => dest.Capteurs, opt => opt.MapFrom(src => src.Capteurs))
+                .ForMember(dest => dest.Equipements, opt => opt.MapFrom(src => src.Equipements));
+
+            // Direction - DirectionSansNavigationDTO
+            CreateMap<Direction, DirectionSansNavigationDTO>()
+                .ForMember(dest => dest.IdDirection, opt => opt.MapFrom(src => src.IdDirection))
+                .ForMember(dest => dest.LettresDirection, opt => opt.MapFrom(src => src.LettresDirection))
+                .ReverseMap()
+                .ForMember(dest => dest.IdDirection, opt => opt.MapFrom(src => src.IdDirection))
+                .ForMember(dest => dest.LettresDirection, opt => opt.MapFrom(src => src.LettresDirection));
+
+
+            // Direction - DirectionDetailDTO
+            CreateMap<Direction, DirectionDetailDTO>()
+                .ForMember(dest => dest.IdDirection, opt => opt.MapFrom(src => src.IdDirection))
+                .ForMember(dest => dest.LettresDirection, opt => opt.MapFrom(src => src.LettresDirection))
+                .ForMember(dest => dest.Murs, opt => opt.MapFrom(src => src.Murs))
+                .ReverseMap()
+                .ForMember(dest => dest.IdDirection, opt => opt.MapFrom(src => src.IdDirection))
+                .ForMember(dest => dest.LettresDirection, opt => opt.MapFrom(src => src.LettresDirection))
+                .ForMember(dest => dest.Murs, opt => opt.MapFrom(src => src.Murs));
 
             // TypeEquipement - TypeEquipementDTO
             CreateMap<TypeEquipement, TypeEquipementDTO>()
@@ -165,7 +210,18 @@ namespace API_OVH
                 .ForMember(dest => dest.IdTypeEquipement, opt => opt.MapFrom(src => src.IdTypeEquipement))
                 .ForMember(dest => dest.Equipements, opt => opt.Ignore());
 
-            // TypeSalle
+            // TypeEquipement - TypeEquipementDetailDTO
+            CreateMap<TypeEquipement, TypeEquipementDetailDTO>()
+                .ForMember(dest => dest.NomTypeEquipement, opt => opt.MapFrom(src => src.NomTypeEquipement))
+                .ForMember(dest => dest.IdTypeEquipement, opt => opt.MapFrom(src => src.IdTypeEquipement))
+                .ForMember(dest => dest.Equipements, opt => opt.MapFrom(src => src.Equipements))
+                .ReverseMap()
+                .ForMember(dest => dest.NomTypeEquipement, opt => opt.MapFrom(src => src.NomTypeEquipement))
+                .ForMember(dest => dest.IdTypeEquipement, opt => opt.MapFrom(src => src.IdTypeEquipement))
+                .ForMember(dest => dest.Equipements, opt => opt.MapFrom(src => src.Equipements));
+
+
+            // TypeSalle - TypeSalleDTO
             CreateMap<TypeSalle, TypeSalleDTO>()
                 .ForMember(dest => dest.IdTypeSalle, opt => opt.MapFrom(src => src.IdTypeSalle))
                 .ForMember(dest => dest.NomTypeSalle, opt => opt.MapFrom(src => src.NomTypeSalle))
@@ -173,6 +229,16 @@ namespace API_OVH
                 .ForMember(dest => dest.IdTypeSalle, opt => opt.MapFrom(src => src.IdTypeSalle))
                 .ForMember(dest => dest.NomTypeSalle, opt => opt.MapFrom(src => src.NomTypeSalle))
                 .ForMember(dest => dest.Salles, opt => opt.Ignore());
+
+            // TypeSalle - TypeSalleDetailDTO
+            CreateMap<TypeSalle, TypeSalleDetailDTO>()
+                .ForMember(dest => dest.IdTypeSalle, opt => opt.MapFrom(src => src.IdTypeSalle))
+                .ForMember(dest => dest.NomTypeSalle, opt => opt.MapFrom(src => src.NomTypeSalle))
+                .ForMember(dest => dest.Salles, opt => opt.MapFrom(src => src.Salles))
+                .ReverseMap()
+                .ForMember(dest => dest.IdTypeSalle, opt => opt.MapFrom(src => src.IdTypeSalle))
+                .ForMember(dest => dest.NomTypeSalle, opt => opt.MapFrom(src => src.NomTypeSalle))
+                .ForMember(dest => dest.Salles, opt => opt.MapFrom(src => src.Salles));
 
             // Unite - UniteDTO
             CreateMap<Unite, UniteDTO>()
