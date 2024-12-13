@@ -6,18 +6,50 @@ namespace API_OVH.Models.DTO
 {
     public class TypeEquipementDetailDTO
     {
+        private int idTypeEquipement;
+        private string nomTypeEquipement;
         private ICollection<EquipementSansNavigationDTO> equipements;
 
-        [Key]
-        [Column("idtypeequipement")]
-        public int IdTypeEquipement { get; set; }
+        [Required]
+        public int IdTypeEquipement
+        {
+            get
+            {
+                return this.idTypeEquipement;
+            }
+
+            set
+            {
+                this.idTypeEquipement = value;
+            }
+        }
 
         [Required]
         [MaxLength(20, ErrorMessage = "Le nom ne doit pas dépasser 20 caractères.")]
-        [Column("nomtypeequipement", TypeName = "varchar(20)")]
-        public string NomTypeEquipement { get; set; }
+        public string NomTypeEquipement
+        {
+            get
+            {
+                return this.nomTypeEquipement;
+            }
 
-        [InverseProperty(nameof(Equipement.TypeEquipementNavigation))]
-        public ICollection<EquipementSansNavigationDTO> Equipements { get => equipements; set => equipements = value; }
+            set
+            {
+                this.nomTypeEquipement = value;
+            }
+        }
+
+        public ICollection<EquipementSansNavigationDTO> Equipements
+        {
+            get
+            {
+                return this.equipements;
+            }
+
+            set
+            {
+                this.equipements = value;
+            }
+        }
     }
 }

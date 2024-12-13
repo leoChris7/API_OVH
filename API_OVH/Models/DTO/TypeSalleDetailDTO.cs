@@ -6,12 +6,17 @@ namespace API_OVH.Models.DTO
 {
     public class TypeSalleDetailDTO
     {
-        private ICollection<SalleSansNavigationDTO> salles = new List<SalleSansNavigationDTO>();
+        private ICollection<SalleSansNavigationDTO> salles = [];
         private int idTypeSalle;
         private string nomTypeSalle;
 
-        public ICollection<SalleSansNavigationDTO> Salles { get => salles; set => salles = value; }
+        [Required]
         public int IdTypeSalle { get => idTypeSalle; set => idTypeSalle = value; }
+
+        [Required]
+        [MaxLength(20, ErrorMessage = "Le nom ne doit pas dépasser 20 caractères.")]
         public string NomTypeSalle { get => nomTypeSalle; set => nomTypeSalle = value; }
+
+        public ICollection<SalleSansNavigationDTO> Salles { get => salles; set => salles = value; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using API_OVH.Models.EntityFramework;
-using Humanizer;
-using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace API_OVH.Models.DTO
 {
@@ -14,12 +12,20 @@ namespace API_OVH.Models.DTO
         private List<EquipementSansNavigationDTO> equipements;
         private List<MurSansNavigationDTO> murs;
 
-        public string NomSalle { get => nomSalle; set => nomSalle = value; }
+        [Required]
         public int IdSalle { get => idSalle; set => idSalle = value; }
+
+        [Required]
+        public string NomSalle { get => nomSalle; set => nomSalle = value; }
+        
         public TypeSalleDTO TypeSalle { get => typeSalle; set => typeSalle = value; }
+        
         public BatimentSansNavigationDTO Batiment { get => batiment; set => batiment = value; }
+        
         public List<CapteurSansNavigationDTO> Capteurs { get => capteurs; set => capteurs = value; }
+        
         public List<EquipementSansNavigationDTO> Equipements { get => equipements; set => equipements = value; }
+        
         public List<MurSansNavigationDTO> Murs { get => murs; set => murs = value; }
     }
 }

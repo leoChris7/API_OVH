@@ -27,14 +27,14 @@ namespace API_OVH.Controllers.Tests
         public async Task GetCapteurs_ReturnsListOfCapteurs()
         {
             // Arrange
-            var lesCapteurs = new List<CapteurDTO>
-                {
+            List<CapteurDTO> lesCapteurs =
+                [
                     new() { IdCapteur = 1, NomCapteur = "Termomètre 3000C", NomSalle = "D101" },
                     new() { IdCapteur = 2, NomCapteur = "Humidiman", NomSalle = "D21002-A" },
                     new() { IdCapteur = 3, NomCapteur = "Takors", NomSalle = "A1020"},
                     new() { IdCapteur = 4, NomCapteur = "Polite", NomSalle = "b1002"},
                     new() { IdCapteur = 5, NomCapteur = "Le Capteur Avec rien", NomSalle="C-300"}
-                };
+                ];
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(lesCapteurs);
 
@@ -45,13 +45,14 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNotNull(actionResult.Value, "La liste des capteurs est null.");
             Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<CapteurDTO>), "La liste retournée n'est pas une liste de types de capteurs.");
             Assert.AreEqual(5, ((IEnumerable<CapteurDTO>)actionResult.Value).Count(), "Le nombre de capteurs retourné est incorrect.");
+            _mockRepository.Verify(repo => repo.GetAllAsync(), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
 
         [TestMethod]
         public async Task GetCapteurs_ReturnsEmptyList_WhenEmpty()
         {
-            // Arrange
-            List<CapteurDTO> capteurs = new List<CapteurDTO>();
+            // Arrange: Liste vide
+            List<CapteurDTO> capteurs = [];
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(capteurs);
 
             // Act
@@ -63,23 +64,44 @@ namespace API_OVH.Controllers.Tests
             var capteursList = actionResult.Value as List<CapteurDTO>;
             Assert.AreEqual(0, capteursList.Count, "Le nombre de capteurs retourné est incorrect.");
             Assert.IsTrue(!capteursList.Any(), "La liste des capteurs devrait être vide.");
+            _mockRepository.Verify(repo => repo.GetAllAsync(), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
 
         [TestMethod]
         public async Task GetCapteurById_Returns_Capteur()
         {
             // Arrange
-            var expectedCapteur = new CapteurDetailDTO 
+            CapteurDetailDTO expectedCapteur = new () 
             { 
                 IdCapteur = 1, 
                 NomCapteur = "CO2 Maximum Detection",
                 EstActif = "OUI",
-                XCapteur = 0,
+                Mur = new MurSansNavigationDTO
+                {
+                    IdMur=1,
+                    IdDirection=1,
+                    Hauteur=1000,
+                    IdSalle=1,
+                    Longueur=1000,
+                    Orientation=300
+                },
+                Salle = new SalleSansNavigationDTO
+                {
+                    IdSalle=1,
+                    IdBatiment=1,
+                    IdTypeSalle=1,
+                    NomSalle="D101"
+                },
+                Unites = new List<UniteDTO>
+                {
+                    new () {IdUnite=1, NomUnite="cme", SigleUnite="Ce"}
+                },
+                XCapteur = 100,
                 YCapteur = 0,
                 ZCapteur = 0
             };
 
-            _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedCapteur);
+            _mockRepository.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(expectedCapteur);
 
             // Act
             var actionResult = await _capteurController.GetCapteurById(1);
@@ -88,35 +110,59 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNotNull(actionResult, "GetCapteurById: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetCapteurById: valeur retournée null");
             Assert.AreEqual(expectedCapteur, actionResult.Value as CapteurDetailDTO, "GetCapteurById: capteurs non égaux, objet incohérent retourné");
+            _mockRepository.Verify(repo => repo.GetByIdAsync(1), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
-
 
         [TestMethod]
         public async Task GetCapteurById_Returns_NotFound_When_Capteur_NotFound()
         {
+            // Arrange: capteur inconnu
+            _mockRepository.Setup(repo => repo.GetByIdAsync(0));
+
             // Act
             var actionResult = await _capteurController.GetCapteurById(0);
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetCapteurById: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetCapteurById: pas Not Found");
+            _mockRepository.Verify(repo => repo.GetByIdAsync(0), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
 
         [TestMethod]
         public async Task GetCapteurByName_Returns_Capteur()
         {
             // Arrange
-            var expectedCapteur = new CapteurDetailDTO
+            CapteurDetailDTO expectedCapteur = new ()
             {
                 IdCapteur = 1,
                 NomCapteur = "Max Humidico 3000",
                 EstActif = "OUI",
+                Mur = new MurSansNavigationDTO
+                {
+                    IdMur = 1,
+                    IdDirection = 1,
+                    Hauteur = 100,
+                    IdSalle = 1,
+                    Longueur = 1,
+                    Orientation = 100
+                },
+                Salle = new SalleSansNavigationDTO
+                {
+                    IdSalle = 1,
+                    IdBatiment = 1,
+                    IdTypeSalle = 1,
+                    NomSalle = "D10101"
+                },
+                Unites = [
+                    new () { IdUnite=1, NomUnite="Ultraviolets", SigleUnite="UV"},
+                    new () { IdUnite=2, NomUnite="Temperature", SigleUnite="°C"}
+                ],
                 XCapteur = 0,
                 YCapteur = 0,
                 ZCapteur = 0
             };
 
-            _mockRepository.Setup(x => x.GetByStringAsync("Max Humidico 3000")).ReturnsAsync(expectedCapteur);
+            _mockRepository.Setup(repo => repo.GetByStringAsync("Max Humidico 3000")).ReturnsAsync(expectedCapteur);
 
             // Act
             var actionResult = await _capteurController.GetCapteurByName("Max Humidico 3000");
@@ -125,23 +171,45 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNotNull(actionResult, "GetCapteurByName: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetCapteurByName: valeur retournée null");
             Assert.AreEqual(expectedCapteur, actionResult.Value as CapteurDetailDTO, "GetCapteurByName: capteurs non égaux, objet incohérent retourné");
+            _mockRepository.Verify(repo => repo.GetByStringAsync("Max Humidico 3000"), Times.Once, "La méthode n'a pas été appelé qu'une fois");
+
         }
 
         [TestMethod]
         public async Task GetCapteurByNameRandomUppercase_Returns_Capteur()
         {
             // Arrange
-            var expectedCapteur = new CapteurDetailDTO
+            CapteurDetailDTO expectedCapteur = new ()
             {
                 IdCapteur = 1,
                 NomCapteur = "Max Humidico 3000",
                 EstActif = "OUI",
+                Mur = new MurSansNavigationDTO
+                {
+                    IdMur = 1,
+                    IdDirection = 1,
+                    Hauteur = 100,
+                    IdSalle = 1,
+                    Longueur = 1,
+                    Orientation = 100
+                },
+                Salle = new SalleSansNavigationDTO
+                {
+                    IdSalle = 1,
+                    IdBatiment = 1,
+                    IdTypeSalle = 1,
+                    NomSalle = "D10101"
+                },
+                Unites = [
+                    new () { IdUnite=1, NomUnite="Ultraviolets", SigleUnite="UV"},
+                    new () { IdUnite=2, NomUnite="Temperature", SigleUnite="°C"}
+                ],
                 XCapteur = 0,
                 YCapteur = 0,
                 ZCapteur = 0
             };
 
-            _mockRepository.Setup(x => x.GetByStringAsync("MAX HumIDico 3000")).ReturnsAsync(expectedCapteur);
+            _mockRepository.Setup(repo => repo.GetByStringAsync("MAX HumIDico 3000")).ReturnsAsync(expectedCapteur);
 
             // Act
             var actionResult = await _capteurController.GetCapteurByName("MAX HumIDico 3000");
@@ -150,18 +218,22 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNotNull(actionResult, "GetCapteurByName: objet retourné null");
             Assert.IsNotNull(actionResult.Value, "GetCapteurByName: valeur retournée null");
             Assert.AreEqual(expectedCapteur, actionResult.Value as CapteurDetailDTO, "GetCapteurByName: capteurs non égaux, objet incohérent retourné");
+            _mockRepository.Verify(repo => repo.GetByStringAsync("MAX HumIDico 3000"), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
-
 
         [TestMethod]
         public async Task GetCapteurByName_Returns_NotFound_When_Capteur_NotFound()
         {
+            // Arrange: capteur avec non inconnu retourne NotFound
+            _mockRepository.Setup(repo => repo.GetByStringAsync("Capteur inconnu"));
+
             // Act
             var actionResult = await _capteurController.GetCapteurByName("Capteur inconnu");
 
             // Assert
             Assert.IsNull(actionResult.Value, "GetCapteurByName: objet retourné non null");
             Assert.IsInstanceOfType<NotFoundObjectResult>(actionResult.Result, "GetCapteurByName: not found a échoué");
+            _mockRepository.Verify(repo => repo.GetByStringAsync("Capteur inconnu"), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
 
         [TestMethod]
@@ -192,17 +264,18 @@ namespace API_OVH.Controllers.Tests
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(result.Value);
             bool isValid = Validator.TryValidateObject(result.Value, validationContext, validationResults, true);
-            Assert.IsTrue(isValid, validationContext + " + " + validationResults + " => " + isValid);
+            Assert.IsTrue(isValid, "La confirmation du modèle crée a échoué.");
 
             Assert.IsInstanceOfType(result.Value, typeof(CapteurSansNavigationDTO), "PostCapteur: Pas un Capteur");
             Assert.AreEqual(CapteurDTO, (CapteurSansNavigationDTO)result.Value, "PostCapteur: Capteurs non identiques");
+            _mockRepository.Verify(repo => repo.AddAsync(CapteurDTO), Times.Once, "La méthode n'a pas été appelé qu'une fois");
         }
 
         [TestMethod]
         public async Task PostCapteur_ModelInvalid_CapteursPositionsNegative_ReturnsBadRequest()
         {
             // Arrange
-            var invalidDto = new CapteurSansNavigationDTO
+            CapteurSansNavigationDTO invalidDto = new ()
             {
                 IdCapteur = 1,
                 EstActif = "NSP",
@@ -213,8 +286,15 @@ namespace API_OVH.Controllers.Tests
                 ZCapteur = -900
             };
 
-            // Ajout manuel d'une erreur de validation pour le champ "NomCapteur"
-            _capteurController.ModelState.AddModelError("XCapteur", "XCapteur ne peut pas être négatif");
+            // Simuler une validation réelle en appelant explicitement TryValidateModel si nécessaire
+            var validationContext = new ValidationContext(invalidDto);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _capteurController.ModelState.AddModelError(validationResult.MemberNames.FirstOrDefault() ?? string.Empty, validationResult.ErrorMessage);
+            }
 
             // Act
             var result = await _capteurController.PostCapteur(invalidDto);
@@ -223,28 +303,19 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNull(result.Value);
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
 
-            // Vérification des erreurs de validation du modèle
-            _capteurController.ModelState.Clear();
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(invalidDto);
-            bool isValid = Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
-
-            // Assert : Le modèle n'est pas valide
-            Assert.IsFalse(isValid, $"Le modèle doit être invalide. Validation Results: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
-
             // Vérification du nombre d'erreurs dans ModelState
             int expectedErrorCount = 3;
             Assert.AreEqual(expectedErrorCount, validationResults.Count, $"Le nombre d'erreurs de validation attendues est {expectedErrorCount}, mais {validationResults.Count} ont été trouvées.");
 
-            // Vérification du message d'erreur spécifique si nécessaire
-            // Assert.IsTrue(validationResults.Any(v => v.ErrorMessage.Contains("NomCapteur est requis.")), "L'erreur 'NomCapteur est requis.' n'a pas été trouvée.");
+            // Vérification du nombre d'exécutions
+            _mockRepository.Verify(repo => repo.AddAsync(invalidDto), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
         }
 
         [TestMethod]
         public async Task PostCapteur_ModelInvalid_CapteursPositionsTooBig_ReturnsBadRequest()
         {
             // Arrange
-            var invalidDto = new CapteurSansNavigationDTO
+            CapteurSansNavigationDTO invalidDto = new ()
             {
                 IdCapteur = 1,
                 EstActif = "NSP",
@@ -255,8 +326,17 @@ namespace API_OVH.Controllers.Tests
                 ZCapteur = 9999999999
             };
 
-            // Ajout manuel d'une erreur de validation pour le champ "NomCapteur"
-            _capteurController.ModelState.AddModelError("NomCapteur", "NomCapteur est requis.");
+            _mockRepository.Setup(repo => repo.AddAsync(invalidDto));
+
+            // Simuler une validation réelle en appelant explicitement TryValidateModel si nécessaire
+            var validationContext = new ValidationContext(invalidDto);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _capteurController.ModelState.AddModelError(validationResult.MemberNames.FirstOrDefault() ?? string.Empty, validationResult.ErrorMessage);
+            }
 
             // Act
             var result = await _capteurController.PostCapteur(invalidDto);
@@ -265,23 +345,139 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNull(result.Value);
             Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
 
-            // Vérification des erreurs de validation du modèle
-            _capteurController.ModelState.Clear();
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(invalidDto);
-            bool isValid = Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
-
-            // Assert : Le modèle n'est pas valide
-            Assert.IsFalse(isValid, $"Le modèle doit être invalide. Validation Results: {string.Join(", ", validationResults.Select(v => v.ErrorMessage))}");
 
             // Vérification du nombre d'erreurs dans ModelState
             int expectedErrorCount = 3; // Ajustez ce nombre en fonction du nombre d'erreurs attendues
             Assert.AreEqual(expectedErrorCount, validationResults.Count, $"Le nombre d'erreurs de validation attendues est {expectedErrorCount}, mais {validationResults.Count} ont été trouvées.");
 
-            // Vérification du message d'erreur spécifique si nécessaire
-            // Assert.IsTrue(validationResults.Any(v => v.ErrorMessage.Contains("NomCapteur est requis.")), "L'erreur 'NomCapteur est requis.' n'a pas été trouvée.");
+            _mockRepository.Verify(repo => repo.AddAsync(invalidDto), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
         }
 
+        [TestMethod]
+        public async Task PostCapteur_ModelInvalid_EtatInvalideNbLettres_ReturnsBadRequest()
+        {
+            // Arrange
+            CapteurSansNavigationDTO invalidDto = new ()
+            {
+                IdCapteur = 1,
+                EstActif = "AB",
+                NomCapteur = "NomActif",
+                IdMur = 1,
+                XCapteur = 120,
+                YCapteur = 500,
+                ZCapteur = 0
+            };
+
+            _mockRepository.Setup(repo => repo.AddAsync(invalidDto));
+
+            // Simuler une validation réelle en appelant explicitement TryValidateModel si nécessaire
+            var validationContext = new ValidationContext(invalidDto);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _capteurController.ModelState.AddModelError(validationResult.MemberNames.FirstOrDefault() ?? string.Empty, validationResult.ErrorMessage);
+            }
+
+            // Act
+            var result = await _capteurController.PostCapteur(invalidDto);
+
+            // Assert : Vérification de la réponse BadRequest
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
+
+
+            // Vérification du nombre d'erreurs dans ModelState
+            int expectedErrorCount = 2;
+            Assert.AreEqual(expectedErrorCount, validationResults.Count, $"Le nombre d'erreurs de validation attendues est {expectedErrorCount}, mais {validationResults.Count} ont été trouvées.");
+
+            _mockRepository.Verify(repo => repo.AddAsync(invalidDto), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
+        }
+
+        [TestMethod]
+        public async Task PostCapteur_ModelInvalid_EtatInvalideCheck_ReturnsBadRequest()
+        {
+            // Arrange
+            CapteurSansNavigationDTO invalidDto = new ()
+            {
+                IdCapteur = 1,
+                EstActif = "NOO",
+                NomCapteur = "NomActif",
+                IdMur = 1,
+                XCapteur = 120,
+                YCapteur = 500,
+                ZCapteur = 0
+            };
+
+            _mockRepository.Setup(repo => repo.AddAsync(invalidDto));
+
+            // Simuler une validation réelle en appelant explicitement TryValidateModel si nécessaire
+            var validationContext = new ValidationContext(invalidDto);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _capteurController.ModelState.AddModelError(validationResult.MemberNames.FirstOrDefault() ?? string.Empty, validationResult.ErrorMessage);
+            }
+
+            // Act
+            var result = await _capteurController.PostCapteur(invalidDto);
+
+            // Assert : Vérification de la réponse BadRequest
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
+
+
+            // Vérification du nombre d'erreurs dans ModelState
+            int expectedErrorCount = 1;
+            Assert.AreEqual(expectedErrorCount, validationResults.Count, $"Le nombre d'erreurs de validation attendues est {expectedErrorCount}, mais {validationResults.Count} ont été trouvées.");
+
+            _mockRepository.Verify(repo => repo.AddAsync(invalidDto), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
+        }
+
+        [TestMethod]
+        public async Task PostCapteur_ModelInvalid_NomCapteurTropLong_ReturnsBadRequest()
+        {
+            // Arrange
+            CapteurSansNavigationDTO invalidDto = new ()
+            {
+                IdCapteur = 1,
+                EstActif = "OUI",
+                NomCapteur = "Nom Capteur Beaucoup Trop Long, Invalide",
+                IdMur = 1,
+                XCapteur = 120,
+                YCapteur = 500,
+                ZCapteur = 0
+            };
+
+            _mockRepository.Setup(repo => repo.AddAsync(invalidDto));
+
+            // Simuler une validation réelle en appelant explicitement TryValidateModel si nécessaire
+            var validationContext = new ValidationContext(invalidDto);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(invalidDto, validationContext, validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                _capteurController.ModelState.AddModelError(validationResult.MemberNames.FirstOrDefault() ?? string.Empty, validationResult.ErrorMessage);
+            }
+
+            // Act
+            var result = await _capteurController.PostCapteur(invalidDto);
+
+            // Assert : Vérification de la réponse BadRequest
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestObjectResult));
+
+
+            // Vérification du nombre d'erreurs dans ModelState
+            int expectedErrorCount = 1;
+            Assert.AreEqual(expectedErrorCount, validationResults.Count, $"Le nombre d'erreurs de validation attendues est {expectedErrorCount}, mais {validationResults.Count} ont été trouvées.");
+
+            _mockRepository.Verify(repo => repo.AddAsync(invalidDto), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
+        }
 
         [TestMethod]
         public async Task PutCapteur_ModelValidated_UpdateOK()
@@ -309,21 +505,32 @@ namespace API_OVH.Controllers.Tests
                 ZCapteur = 0
             };
 
-            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Capteur);
+            _mockRepository.Setup(repo => repo.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Capteur);
+            _mockRepository.Setup(repo => repo.GetByIdAsync(1)).ReturnsAsync(new CapteurDetailDTO { IdCapteur = Capteur.IdCapteur , EstActif = newCapteur.EstActif, XCapteur = Capteur.XCapteur, YCapteur = Capteur.YCapteur, ZCapteur = Capteur.ZCapteur, NomCapteur = Capteur.NomCapteur, Mur=new MurSansNavigationDTO{IdMur=1}, Salle = new SalleSansNavigationDTO(), Unites = new List<UniteDTO>() });
+            _mockRepository.Setup(repo => repo.UpdateAsync(Capteur, newCapteur));
 
             // Act
             var actionResult = await _capteurController.PutCapteur(newCapteur.IdCapteur, newCapteur);
 
             // Assert
+            var changedObject = await _capteurController.GetCapteurById(1);
             Assert.IsNotNull(actionResult);
+            Assert.AreEqual(changedObject.Value.IdCapteur, newCapteur.IdCapteur, "Id de l'objet incohérent après changement");
+            Assert.AreEqual(changedObject.Value.NomCapteur, newCapteur.NomCapteur, "Nom de l'objet incohérent après changement");
+            Assert.AreEqual(changedObject.Value.XCapteur, newCapteur.XCapteur, "Position X de l'objet incohérent après changement");
+            Assert.AreEqual(changedObject.Value.YCapteur, newCapteur.YCapteur, "Position Y de l'objet incohérent après changement");
+            Assert.AreEqual(changedObject.Value.ZCapteur, newCapteur.ZCapteur, "Position Z de l'objet incohérent après changement");
+            Assert.AreEqual(changedObject.Value.Mur.IdMur, newCapteur.IdMur, "Id du mur de l'objet incohérent après changement");
+            Assert.AreEqual(changedObject.Value.EstActif, newCapteur.EstActif, "Etat de l'objet incohérent après changement");
             Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
+            _mockRepository.Verify(repo => repo.UpdateAsync(Capteur, newCapteur), Times.Once, "La méthode n'a pas été appelé alors qu'elle aurait dû.");
         }
 
         [TestMethod]
         public async Task PutCapteur_ModelValidated_ReturnsBadRequest()
         {
-            // Act
-            var actionResult = await _capteurController.PutCapteur(3, new CapteurSansNavigationDTO
+            // Arrange
+            CapteurSansNavigationDTO capteurBadRequest = new ()
             {
                 IdCapteur = 1,
                 NomCapteur = "Type échoué",
@@ -331,17 +538,21 @@ namespace API_OVH.Controllers.Tests
                 IdMur = 2,
                 XCapteur = 10,
                 YCapteur = 10
-            });
+            };
+
+            // Act
+            var actionResult = await _capteurController.PutCapteur(3, capteurBadRequest);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(BadRequestObjectResult), "Pas un Badrequest");
+            _mockRepository.Verify(repo => repo.UpdateAsync(It.IsAny<Capteur>(), It.IsAny<CapteurSansNavigationDTO>()), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
         }
 
         [TestMethod]
         public async Task PutCapteur_ModelValidated_ReturnsNotFound()
         {
-            // Act
-            var actionResult = await _capteurController.PutCapteur(3, new CapteurSansNavigationDTO
+            // Arrange
+            CapteurSansNavigationDTO capteurNonTrouve = new()
             {
                 IdCapteur = 3,
                 NomCapteur = "Type non trouvé",
@@ -349,10 +560,14 @@ namespace API_OVH.Controllers.Tests
                 IdMur = 2,
                 XCapteur = 10,
                 YCapteur = 10
-            });
+            };
+
+            // Act
+            var actionResult = await _capteurController.PutCapteur(3, capteurNonTrouve);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFound");
+            _mockRepository.Verify(repo => repo.UpdateAsync(It.IsAny<Capteur>(), It.IsAny<CapteurSansNavigationDTO>()), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
         }
 
         [TestMethod]
@@ -370,30 +585,28 @@ namespace API_OVH.Controllers.Tests
                 IdMur = 10
             };
 
-            // Simuler la validation du modèle manuellement
-            _capteurController.ModelState.Clear();
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(Capteur);
-            bool isValid = Validator.TryValidateObject(Capteur, validationContext, validationResults, true);
-            Assert.IsTrue(isValid, validationContext + " + " + validationResults + " => " + isValid);
-
-            _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Capteur);
+            _mockRepository.Setup(repo => repo.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Capteur);
+            _mockRepository.Setup(repo => repo.DeleteAsync(Capteur));
 
             // Act
             var actionResult = await _capteurController.DeleteCapteur(1);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); 
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult");
+            _mockRepository.Verify(repo => repo.DeleteAsync(It.IsAny<Capteur>()), Times.Once, "La méthode n'a pas été appelé alors qu'elle aurait dû.");
         }
 
         [TestMethod]
         public async Task DeleteCapteurTest_Returns_NotFound()
         {
+            // Arrange: Le capteur n'existe pas
+
             // Act
             var actionResult = await _capteurController.DeleteCapteur(1);
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundObjectResult), "Pas un NotFoundResult");
+            _mockRepository.Verify(repo => repo.DeleteAsync(It.IsAny<Capteur>()), Times.Never, "La méthode a été appelé alors qu'elle n'aurait pas dû.");
         }
     }
 }
