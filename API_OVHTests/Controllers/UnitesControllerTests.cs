@@ -44,6 +44,24 @@ namespace API_OVH.Controllers.Tests
         }
 
         [TestMethod]
+        public async Task GetUnites_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<UniteDTO> Unites = new List<UniteDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(Unites);
+
+            // Act
+            var actionResult = await _uniteController.GetUnites();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des Unites est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<UniteDTO>), "La liste retournée n'est pas une liste de types de Unites.");
+            var UnitesList = actionResult.Value as List<UniteDTO>;
+            Assert.AreEqual(0, UnitesList.Count, "Le nombre de Unites retourné est incorrect.");
+            Assert.IsTrue(!UnitesList.Any(), "La liste des Unites devrait être vide.");
+        }
+
+        [TestMethod]
         public async Task GetUniteById_Returns_Unite()
         {
             // Arrange
@@ -89,6 +107,23 @@ namespace API_OVH.Controllers.Tests
             Assert.AreEqual(expectedUnite, actionResult.Value as UniteDetailDTO, "GetUniteByName: unités non égaux, objet incohérent retourné");
         }
 
+        [TestMethod]
+        public async Task GetUniteByNameRandomUppercase_Returns_Unite()
+        {
+            // Arrange
+            var expectedUnite = new UniteDetailDTO { IdUnite = 1, NomUnite = "Ultraviolets", SigleUnite = "UV", Capteurs = [] };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("ULTRAVIOLETS")).ReturnsAsync(expectedUnite);
+
+            // Act
+            var actionResult = await _uniteController.GetUniteByName("ULTRAVIOLETS");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetUniteByName: objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetUniteByName: valeur retournée null");
+            Assert.AreEqual(expectedUnite, actionResult.Value as UniteDetailDTO, "GetUniteByName: unités non égaux, objet incohérent retourné");
+        }
+
 
         [TestMethod]
         public async Task GetUniteByName_Returns_NotFound_When_Unite_NotFound()
@@ -111,6 +146,23 @@ namespace API_OVH.Controllers.Tests
 
             // Act
             var actionResult = await _uniteController.GetUniteByName("UV");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetUniteBySigle: objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetUniteBySigle: valeur retournée null");
+            Assert.AreEqual(expectedUnite, actionResult.Value as UniteDetailDTO, "GetUniteBySigle: unités non égaux, objet incohérent retourné");
+        }
+
+        [TestMethod]
+        public async Task GetUniteBySigleRandomUppercase_Returns_Unite()
+        {
+            // Arrange
+            var expectedUnite = new UniteDetailDTO { IdUnite = 1, NomUnite = "Ultraviolets", SigleUnite = "UV", Capteurs = [] };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("uV")).ReturnsAsync(expectedUnite);
+
+            // Act
+            var actionResult = await _uniteController.GetUniteByName("uV");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetUniteBySigle: objet retourné null");

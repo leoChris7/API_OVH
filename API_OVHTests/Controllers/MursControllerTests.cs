@@ -43,6 +43,24 @@ namespace API_OVH.Controllers.Tests
         }
 
         [TestMethod]
+        public async Task GetMurs_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<MurDTO> Murs = new List<MurDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(Murs);
+
+            // Act
+            var actionResult = await _murController.GetMurs();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des Murs est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<MurDTO>), "La liste retournée n'est pas une liste de types de Murs.");
+            var MursList = actionResult.Value as List<MurDTO>;
+            Assert.AreEqual(0, MursList.Count, "Le nombre de Murs retourné est incorrect.");
+            Assert.IsTrue(!MursList.Any(), "La liste des Murs devrait être vide.");
+        }
+
+        [TestMethod]
         public async Task GetMurById_Returns_Mur()
         {
             // Arrange

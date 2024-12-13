@@ -27,8 +27,8 @@ namespace API_OVH.Controllers.Tests
             // Arrange
             var equipementsDTO = new List<EquipementDTO>
                 {
-                    new EquipementDTO { IdEquipement = 1, NomEquipement = "Fenêtre" },
-                    new EquipementDTO { IdEquipement = 2, NomEquipement = "Bureau" }
+                    new () { IdEquipement = 1, NomEquipement = "Fenêtre" },
+                    new () { IdEquipement = 2, NomEquipement = "Bureau" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(equipementsDTO);
@@ -40,6 +40,24 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNotNull(actionResult.Value, "La liste des equipements est null.");
             Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<EquipementDTO>), "La liste retournée n'est pas une liste d'equipement.");
             Assert.AreEqual(2, ((IEnumerable<EquipementDTO>)actionResult.Value).Count(), "Le nombre d'equipements retourné est incorrect.");
+        }
+
+        [TestMethod]
+        public async Task GetEquipements_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<EquipementDTO> Equipements = new List<EquipementDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(Equipements);
+
+            // Act
+            var actionResult = await _equipementController.GetEquipements();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des Equipements est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<EquipementDTO>), "La liste retournée n'est pas une liste de types de Equipements.");
+            var EquipementsList = actionResult.Value as List<EquipementDTO>;
+            Assert.AreEqual(0, EquipementsList.Count, "Le nombre de Equipements retourné est incorrect.");
+            Assert.IsTrue(!EquipementsList.Any(), "La liste des Equipements devrait être vide.");
         }
 
         [TestMethod]
@@ -92,6 +110,23 @@ namespace API_OVH.Controllers.Tests
             Assert.AreEqual(expectedEquipement, actionResult.Value as EquipementDetailDTO, "GetSalleByName: salles non égales, objet incohérent retourné");
         }
 
+        [TestMethod]
+        public async Task GetEquipementByNameRandomUppercase_Returns_Equipement()
+        {
+            // Arrange
+            var expectedEquipement = new EquipementDetailDTO { IdEquipement = 1, NomEquipement = "Radiateur" };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("rADIATEUR")).ReturnsAsync(expectedEquipement);
+
+            // Act
+            var actionResult = await _equipementController.GetEquipementByString("rADIATEUR");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetSalleByName: objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetSalleByName: valeur retournée null");
+            Assert.AreEqual(expectedEquipement, actionResult.Value as EquipementDetailDTO, "GetSalleByName: salles non égales, objet incohérent retourné");
+        }
+
 
         [TestMethod]
         public async Task GetSalleByString_Returns_NotFound_When_Salle_NotFound()
@@ -108,11 +143,11 @@ namespace API_OVH.Controllers.Tests
         public async Task PostEquipementDTO_ModelValidated_CreationOK()
         {
             // Arrange
-            EquipementSansNavigationDTO EquipementAjoute = new EquipementSansNavigationDTO
+            EquipementSansNavigationDTO EquipementAjoute = new ()
             {
                 IdEquipement = 1,
                 NomEquipement = "Bureau",
-                Hauteur = 100,
+                Hauteur = 99999999,
                 Longueur = 100
             };
 

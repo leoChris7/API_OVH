@@ -43,6 +43,24 @@ namespace API_OVH.Controllers.Tests
         }
 
         [TestMethod]
+        public async Task GetTypeSalles_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<TypeSalleDTO> TypeSalles = new List<TypeSalleDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(TypeSalles);
+
+            // Act
+            var actionResult = await _typeSalleController.GetTypesSalle();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des TypeSalles est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<TypeSalleDTO>), "La liste retournée n'est pas une liste de types de TypeSalles.");
+            var TypeSallesList = actionResult.Value as List<TypeSalleDTO>;
+            Assert.AreEqual(0, TypeSallesList.Count, "Le nombre de TypeSalles retourné est incorrect.");
+            Assert.IsTrue(!TypeSallesList.Any(), "La liste des TypeSalles devrait être vide.");
+        }
+
+        [TestMethod]
         public async Task GetTypeSalleById_Returns_TypeSalle()
         {
             // Arrange
@@ -80,6 +98,23 @@ namespace API_OVH.Controllers.Tests
 
             // Act
             var actionResult = await _typeSalleController.GetTypeSalleByName("TD");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetTypeSalleByName objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetTypeSalleByName valeur retournée null");
+            Assert.AreEqual(expectedTypeSalle, actionResult.Value as TypeSalleDetailDTO, "GetTypeSalleByName: types salles non égaux, objet incohérent retourné");
+        }
+
+        [TestMethod]
+        public async Task GetTypeSalleByNameRandomUppercase_Returns_TypeSalle()
+        {
+            // Arrange
+            var expectedTypeSalle = new TypeSalleDetailDTO { IdTypeSalle = 1, NomTypeSalle = "TD" };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("td")).ReturnsAsync(expectedTypeSalle);
+
+            // Act
+            var actionResult = await _typeSalleController.GetTypeSalleByName("td");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeSalleByName objet retourné null");

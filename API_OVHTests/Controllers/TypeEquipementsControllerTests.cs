@@ -43,6 +43,24 @@ namespace API_OVH.Controllers.Tests
         }
 
         [TestMethod]
+        public async Task GetTypesEquipement_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<TypeEquipementDTO> TypeEquipements = new List<TypeEquipementDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(TypeEquipements);
+
+            // Act
+            var actionResult = await _typeEquipementController.GetTypesEquipement();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des TypeEquipements est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<TypeEquipementDTO>), "La liste retournée n'est pas une liste de types de TypeEquipements.");
+            var TypeEquipementsList = actionResult.Value as List<TypeEquipementDTO>;
+            Assert.AreEqual(0, TypeEquipementsList.Count, "Le nombre de TypeEquipements retourné est incorrect.");
+            Assert.IsTrue(!TypeEquipementsList.Any(), "La liste des TypeEquipements devrait être vide.");
+        }
+
+        [TestMethod]
         public async Task GetTypeEquipementById_Returns_TypeEquipement()
         {
             // Arrange
@@ -81,6 +99,23 @@ namespace API_OVH.Controllers.Tests
 
             // Act
             var actionResult = await _typeEquipementController.GetTypeEquipementByName("Fenetre");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetTypeEquipementByName: objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetTypeEquipementByName: valeur retournée null");
+            Assert.AreEqual(expectedTypeEquipement, actionResult.Value as TypeEquipementDetailDTO, "GetTypeEquipementByName: types d'équipements non égaux, objet incohérent retourné");
+        }
+
+        [TestMethod]
+        public async Task GetTypeEquipementByNameRandomUppercase_Returns_TypeEquipement()
+        {
+            // Arrange
+            var expectedTypeEquipement = new TypeEquipementDetailDTO { IdTypeEquipement = 1, NomTypeEquipement = "Fenetre" };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("FeNETRE")).ReturnsAsync(expectedTypeEquipement);
+
+            // Act
+            var actionResult = await _typeEquipementController.GetTypeEquipementByName("FeNETRE");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetTypeEquipementByName: objet retourné null");

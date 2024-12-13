@@ -27,8 +27,8 @@ namespace API_OVH.Controllers.Tests
             // Arrange
             var salles = new List<SalleDTO>
                 {
-                    new SalleDTO { IdSalle = 1, NomSalle = "D101" },
-                    new SalleDTO { IdSalle = 2, NomSalle = "D351" }
+                    new () { IdSalle = 1, NomSalle = "D101" },
+                    new () { IdSalle = 2, NomSalle = "D351" }
                 };
 
             _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(salles);
@@ -40,6 +40,24 @@ namespace API_OVH.Controllers.Tests
             Assert.IsNotNull(actionResult.Value, "GetSalles: La liste des salles est null.");
             Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<SalleDTO>), "GetSalles: La liste retournée n'est pas une liste de salles.");
             Assert.AreEqual(2, ((IEnumerable<SalleDTO>)actionResult.Value).Count(), "GetSalles: Le nombre de salles retournées est incorrect.");
+        }
+
+        [TestMethod]
+        public async Task GetSalles_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<SalleDTO> Salles = new List<SalleDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(Salles);
+
+            // Act
+            var actionResult = await _salleController.GetSalles();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des Salles est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<SalleDTO>), "La liste retournée n'est pas une liste de types de Salles.");
+            var SallesList = actionResult.Value as List<SalleDTO>;
+            Assert.AreEqual(0, SallesList.Count, "Le nombre de Salles retourné est incorrect.");
+            Assert.IsTrue(!SallesList.Any(), "La liste des Salles devrait être vide.");
         }
 
         [TestMethod]
@@ -81,6 +99,23 @@ namespace API_OVH.Controllers.Tests
 
             // Act
             var actionResult = await _salleController.GetSalleByName("D101");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetSalleByName: objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetSalleByName: valeur retournée null");
+            Assert.AreEqual(expectedSalle, actionResult.Value as SalleDetailDTO, "GetSalleByName: salles non égales, objet incohérent retourné");
+        }
+
+        [TestMethod]
+        public async Task GetSalleByNameRandomUppercase_Returns_Salle()
+        {
+            // Arrange
+            var expectedSalle = new SalleDetailDTO { IdSalle = 1, NomSalle = "D101" };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("d101")).ReturnsAsync(expectedSalle);
+
+            // Act
+            var actionResult = await _salleController.GetSalleByName("d101");
 
             // Assert
             Assert.IsNotNull(actionResult, "GetSalleByName: objet retourné null");

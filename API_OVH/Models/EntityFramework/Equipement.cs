@@ -12,7 +12,7 @@ namespace API_OVH.Models.EntityFramework
         private Mur murNavigation;
 
         [Key]
-        [Column("idequipement")] 
+        [Column("idequipement")]
         public int IdEquipement { get; set; }
 
         [Column("idmur")]

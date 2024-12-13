@@ -52,6 +52,24 @@ namespace API_OVH.Controllers.Tests
             Assert.AreEqual(4, ((IEnumerable<DirectionSansNavigationDTO>)actionResult.Value).Count(), "Le nombre de directions retournées est incorrect.");
         }
 
+        [TestMethod]
+        public async Task GetDirections_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<DirectionSansNavigationDTO> directions = new List<DirectionSansNavigationDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(directions);
+
+            // Act
+            var actionResult = await _directionsController.GetDirections();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des directions est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<DirectionSansNavigationDTO>), "La liste retournée n'est pas une liste de types de directions.");
+            var directionsList = actionResult.Value as List<DirectionSansNavigationDTO>;
+            Assert.AreEqual(0, directionsList.Count, "Le nombre de directions retourné est incorrect.");
+            Assert.IsTrue(!directionsList.Any(), "La liste des directions devrait être vide.");
+        }
+
         [TestMethod()]
         public async Task GetDirectionByIdTest_ReturnsDirection_OK()
         {
@@ -62,6 +80,7 @@ namespace API_OVH.Controllers.Tests
                 LettresDirection = "N",
                 Murs = [
                     new() { IdMur = 1 },
+                    new() { IdMur = 2 }
                 ]
             };
 

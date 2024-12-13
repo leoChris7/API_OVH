@@ -25,13 +25,16 @@ namespace API_OVH.Controllers.Tests
         public async Task GetBatiments_ReturnsListOfBatiments()
         {
             // Arrange
-            var typesEquipement = new List<BatimentDTO>
+            var batiments = new List<BatimentDTO>
                 {
                     new() { IdBatiment = 1, NomBatiment = "IUT" },
-                    new() { IdBatiment = 2, NomBatiment = "Tetras" }
+                    new() { IdBatiment = 2, NomBatiment = "Tetras" },
+                    new() { IdBatiment = 3, NomBatiment = "McDonald's"},
+                    new() { IdBatiment = 4, NomBatiment = "Salle de sport"},
+                    new() { IdBatiment = 5, NomBatiment = "Cabane Jardin"}
                 };
 
-            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(typesEquipement);
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(batiments);
 
             // Act
             var actionResult = await _batimentController.GetBatiments();
@@ -39,14 +42,43 @@ namespace API_OVH.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult.Value, "La liste des batiments est null.");
             Assert.IsInstanceOfType(actionResult.Value, typeof(IEnumerable<BatimentDTO>), "La liste retournée n'est pas une liste de types de batiments.");
-            Assert.AreEqual(2, ((IEnumerable<BatimentDTO>)actionResult.Value).Count(), "Le nombre de batiments retourné est incorrect.");
+            Assert.AreEqual(5, ((IEnumerable<BatimentDTO>)actionResult.Value).Count(), "Le nombre de batiments retourné est incorrect.");
         }
+
+        [TestMethod]
+        public async Task GetBatiments_ReturnsEmptyList_WhenEmpty()
+        {
+            // Arrange
+            List<BatimentDTO> batiments = new List<BatimentDTO>();
+            _mockRepository.Setup(repo => repo.GetAllAsync()).ReturnsAsync(batiments);
+
+            // Act
+            var actionResult = await _batimentController.GetBatiments();
+
+            // Assert
+            Assert.IsNotNull(actionResult.Value, "La liste des batiments est null.");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(List<BatimentDTO>), "La liste retournée n'est pas une liste de types de batiments.");
+            var batimentsList = actionResult.Value as List<BatimentDTO>;
+            Assert.AreEqual(0, batimentsList.Count, "Le nombre de batiments retourné est incorrect.");
+            Assert.IsTrue(!batimentsList.Any(), "La liste des batiments devrait être vide.");
+        }
+
 
         [TestMethod]
         public async Task GetBatimentById_Returns_Batiment()
         {
             // Arrange
-            var expectedBatiment = new BatimentDetailDTO { IdBatiment = 1, NomBatiment = "Fenetre" };
+            var expectedBatiment = new BatimentDetailDTO { IdBatiment = 1, 
+                                                            NomBatiment = "Fenetre",
+                                                            Salles = [
+                                                                new SalleSansNavigationDTO {
+                                                                IdSalle = 1,
+                                                                IdBatiment = 1,
+                                                                IdTypeSalle = 1,
+                                                                NomSalle = "D101"
+                                                            }
+                                                            ]
+            };
 
             _mockRepository.Setup(x => x.GetByIdAsync(1)).ReturnsAsync(expectedBatiment);
 
@@ -89,6 +121,23 @@ namespace API_OVH.Controllers.Tests
         }
 
         [TestMethod]
+        public async Task GetBatimentByNameRandomUpperCase_Returns_Batiment()
+        {
+            // Arrange
+            var expectedBatiment = new BatimentDetailDTO { IdBatiment = 1, NomBatiment = "Tetras" };
+
+            _mockRepository.Setup(x => x.GetByStringAsync("TetRaS")).ReturnsAsync(expectedBatiment);
+
+            // Act
+            var actionResult = await _batimentController.GetBatimentByName("TetRaS");
+
+            // Assert
+            Assert.IsNotNull(actionResult, "GetBatimentByName: objet retourné null");
+            Assert.IsNotNull(actionResult.Value, "GetBatimentByName: valeur retournée null");
+            Assert.AreEqual(expectedBatiment, actionResult.Value as BatimentDetailDTO, "GetBatimentByName: batiments non égaux, objet incohérent retourné");
+        }
+
+        [TestMethod]
         public async Task GetBatimentByName_Returns_NotFound_When_Batiment_NotFound()
         {
             // Act
@@ -103,7 +152,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PostBatimentDTO_ModelValidated_CreationOK()
         {
             // Arrange
-            BatimentSansNavigationDTO BatimentDTO = new BatimentSansNavigationDTO
+            BatimentSansNavigationDTO BatimentDTO = new ()
             {
                 IdBatiment = 1,
                 NomBatiment = "Tetras"
@@ -142,7 +191,8 @@ namespace API_OVH.Controllers.Tests
             Batiment Batiment = new Batiment
             {
                 IdBatiment = 1,
-                NomBatiment = "IUT"
+                NomBatiment = "IUT",
+                Salles = []
             };
 
             BatimentSansNavigationDTO newBatiment = new BatimentSansNavigationDTO
@@ -195,7 +245,25 @@ namespace API_OVH.Controllers.Tests
             Batiment Batiment = new Batiment
             {
                 IdBatiment = 1,
-                NomBatiment = "Tetras"
+                NomBatiment = "Tetras",
+                Salles = [
+                    new Salle{
+                        IdBatiment=1,
+                        IdSalle=1,
+                        IdTypeSalle=1,
+                        NomSalle="D10001",
+                        Murs=[
+                            new Mur{
+                                IdMur=1,
+                                Orientation=360,
+                                Hauteur=100,
+                                Longueur=100,
+                                IdDirection=1,
+                                IdSalle=1
+                            }
+                        ],
+                    }
+                ]
             };
 
             _mockRepository.Setup(x => x.GetByIdWithoutDTOAsync(1)).ReturnsAsync(Batiment);

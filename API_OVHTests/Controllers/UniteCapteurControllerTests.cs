@@ -31,7 +31,7 @@ namespace API_OVH.Controllers.Tests
         public async Task PostUniteCapteurSansNavigationDTO_ModelValidated_CreationOK()
         {
             // Arrange
-            UniteCapteurSansNavigationDTO UniteDTO = new UniteCapteurSansNavigationDTO
+            UniteCapteurSansNavigationDTO UniteDTO = new ()
             {
                 IdUnite = 1,
                 IdCapteur = 1
@@ -63,7 +63,7 @@ namespace API_OVH.Controllers.Tests
         public async Task DeleteUniteCapteurTest_OK()
         {
             // Arrange
-            UniteCapteur Unite = new UniteCapteur
+            UniteCapteur Unite = new ()
             {
                 IdUnite = 1,
                 IdCapteur = 2
