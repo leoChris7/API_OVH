@@ -88,7 +88,6 @@ namespace API_OVH.Controllers.Tests
             Assert.AreEqual(expectedBatiment, actionResult.Value as BatimentDetailDTO, "GetBatimentByName: batiments non égaux, objet incohérent retourné");
         }
 
-
         [TestMethod]
         public async Task GetBatimentByName_Returns_NotFound_When_Batiment_NotFound()
         {

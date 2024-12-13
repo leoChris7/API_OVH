@@ -49,10 +49,6 @@ namespace API_OVH.Models.Manager
             var batimentDetailDTO = mapper.Map<BatimentDetailDTO>(batiment);
 
             return batimentDetailDTO;
-            //return await dbContext.Batiments
-            //    .Where(t => t.IdBatiment == id)
-            //    .ProjectTo<BatimentDetailDTO>(mapper.ConfigurationProvider)
-            //    .FirstOrDefaultAsync();
         }
 
         /// <summary>
@@ -74,7 +70,7 @@ namespace API_OVH.Models.Manager
         public async Task<ActionResult<BatimentDetailDTO>> GetByStringAsync(string str)
         {
             return await dbContext.Batiments
-                .Where(t => t.NomBatiment == str)
+                .Where(t => t.NomBatiment.ToUpper() == str.ToUpper())
                 .ProjectTo<BatimentDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
         }

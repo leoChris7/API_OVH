@@ -28,7 +28,7 @@ namespace API_OVH.Models.DataManager
         public async Task<ActionResult<IEnumerable<UniteDTO>>> GetAllAsync()
         {
             var result = await dbContext.Unites
-                .ProjectTo<UniteDTO>(mapper.ConfigurationProvider) // Mapper les entités vers UniteDTO
+                .ProjectTo<UniteDTO>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return new ActionResult<IEnumerable<UniteDTO>>(result);

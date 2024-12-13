@@ -76,7 +76,7 @@ namespace API_OVH.Models.Manager
         public async Task<ActionResult<CapteurDetailDTO>> GetByStringAsync(string nom)
         {
             return await dbContext.Capteurs
-                .Where(t => t.NomCapteur == nom)
+                .Where(t => t.NomCapteur.ToUpper() == nom.ToUpper())
                 .ProjectTo<CapteurDetailDTO>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
         }
